@@ -1,13 +1,46 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="companydomain.visitumea.Search">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Search" />
+    
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <TextView
+
+            android:layout_marginLeft="8dp"
+            android:id="@+id/SökTV"
+            android:text="Sök byggnadsverk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <SearchView
+
+            android:layout_margin="8dp"
+            android:id="@+id/localSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </SearchView>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/listTextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </ListView>
+
+</RelativeLayout>

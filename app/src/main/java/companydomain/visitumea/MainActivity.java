@@ -1,6 +1,7 @@
 package companydomain.visitumea;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -9,7 +10,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.OnMapReadyCallback;
+
 public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
+
 
 
     @Override
@@ -19,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
         ActionBar ab = getSupportActionBar();
         ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+
 
 
         // Three tab to display in actionbar
