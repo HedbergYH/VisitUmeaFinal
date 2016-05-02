@@ -1,4 +1,4 @@
-package companydomain.visitumea;
+package com.example.umyhnystma.matsvisitumea;
 
 
 import android.os.Bundle;
@@ -8,21 +8,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+<<<<<<< HEAD:app/src/main/java/companydomain/visitumea/Sites.java
+import java.util.ArrayList;
+=======
+//import companydomain.visitumea.R;
+>>>>>>> online/MatsGoogleGrejer:app/src/main/java/com/example/umyhnystma/matsvisitumea/Sites.java
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Map extends Fragment {
+public class Sites extends Fragment {
     // Store instance variables
     private String title;
     private int page;
 
-    TextView tvLat, tvLong;
-
+    ArrayList<Site> siteList;
 
     // newInstance constructor for creating fragment with arguments
-    public static Map newInstance(int page, String title) {
-        Map fragmentFirst = new Map();
+    public static Sites newInstance(int page, String title) {
+        Sites fragmentFirst = new Sites();
         Bundle args = new Bundle();
         args.putInt("someInt", page);
         args.putString("someTitle", title);
@@ -36,18 +41,19 @@ public class Map extends Fragment {
         super.onCreate(savedInstanceState);
         page = getArguments().getInt("someInt", 0);
         title = getArguments().getString("someTitle");
+
+        siteList = new ArrayList<>(); // List of sites to connect with adapter
+
+
     }
 
     // Inflate the view for the fragment based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_fragment_sites, container, false);
         TextView tvLabel = (TextView) view.findViewById(R.id.tvLabel);
         tvLabel.setText(page + " -- " + title);
-
-
-
         return view;
     }
 }

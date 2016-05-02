@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="companydomain.visitumea.Search">
+    tools:context="com.example.umyhnystma.matsvisitumea.Search">
 
     <!-- TODO: Update blank fragment layout -->
     
