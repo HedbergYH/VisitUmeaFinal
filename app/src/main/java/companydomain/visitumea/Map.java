@@ -17,6 +17,8 @@ public class Map extends Fragment {
     private String title;
     private int page;
 
+    TextView tvLat, tvLong;
+
 
     // newInstance constructor for creating fragment with arguments
     public static Map newInstance(int page, String title) {
@@ -43,6 +45,9 @@ public class Map extends Fragment {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         TextView tvLabel = (TextView) view.findViewById(R.id.tvLabel);
         tvLabel.setText(page + " -- " + title);
+
+
+
         return view;
     }
 }

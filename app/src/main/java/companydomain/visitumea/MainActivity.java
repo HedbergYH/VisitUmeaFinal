@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         ab.addTab(ab.newTab().setText("Sites").setTabListener(this));
         ab.addTab(ab.newTab().setText("Search").setTabListener(this));
 
-        String string;
-
     }
 
     @Override
