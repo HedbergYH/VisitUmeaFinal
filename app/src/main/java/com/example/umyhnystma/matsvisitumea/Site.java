@@ -1,4 +1,4 @@
-package companydomain.visitumea;
+package com.example.umyhnystma.matsvisitumea;
 
 import android.graphics.Bitmap;
 

@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-<<<<<<< HEAD:app/src/main/java/companydomain/visitumea/Sites.java
+
 import java.util.ArrayList;
-=======
-//import companydomain.visitumea.R;
->>>>>>> online/MatsGoogleGrejer:app/src/main/java/com/example/umyhnystma/matsvisitumea/Sites.java
+
 
 
 /**

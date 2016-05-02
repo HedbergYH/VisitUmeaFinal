@@ -10,11 +10,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-<<<<<<< HEAD:app/src/main/java/companydomain/visitumea/MainActivity.java
-import com.google.android.gms.maps.OnMapReadyCallback;
-=======
-//import companydomain.visitumea.R;
->>>>>>> online/MatsGoogleGrejer:app/src/main/java/com/example/umyhnystma/matsvisitumea/MainActivity.java
 
 public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
 
