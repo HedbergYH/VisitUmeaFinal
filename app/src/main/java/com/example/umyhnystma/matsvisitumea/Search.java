@@ -1,4 +1,4 @@
-package companydomain.visitumea;
+package com.example.umyhnystma.matsvisitumea;
 
 
 import android.os.Bundle;
@@ -8,19 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+//import companydomain.visitumea.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Map extends Fragment {
+public class Search extends Fragment {
     // Store instance variables
     private String title;
     private int page;
 
-
     // newInstance constructor for creating fragment with arguments
-    public static Map newInstance(int page, String title) {
-        Map fragmentFirst = new Map();
+    public static Search newInstance(int page, String title) {
+        Search fragmentFirst = new Search();
         Bundle args = new Bundle();
         args.putInt("someInt", page);
         args.putString("someTitle", title);
@@ -40,7 +41,7 @@ public class Map extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
         TextView tvLabel = (TextView) view.findViewById(R.id.tvLabel);
         tvLabel.setText(page + " -- " + title);
         return view;

@@ -1,4 +1,4 @@
-package companydomain.visitumea;
+package com.example.umyhnystma.matsvisitumea;
 
 
 import android.os.Bundle;
@@ -8,18 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+//import companydomain.visitumea.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Sites extends Fragment {
+public class Map extends Fragment {
     // Store instance variables
     private String title;
     private int page;
 
+
     // newInstance constructor for creating fragment with arguments
-    public static Sites newInstance(int page, String title) {
-        Sites fragmentFirst = new Sites();
+    public static Map newInstance(int page, String title) {
+        Map fragmentFirst = new Map();
         Bundle args = new Bundle();
         args.putInt("someInt", page);
         args.putString("someTitle", title);
@@ -39,7 +42,7 @@ public class Sites extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_fragment_sites, container, false);
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
         TextView tvLabel = (TextView) view.findViewById(R.id.tvLabel);
         tvLabel.setText(page + " -- " + title);
         return view;
