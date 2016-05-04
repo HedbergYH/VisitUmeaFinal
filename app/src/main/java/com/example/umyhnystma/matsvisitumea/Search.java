@@ -19,7 +19,7 @@ public class Search extends Fragment {
     private String title;
     private int page;
 
-    // newInstance constructor for creating fragment with arguments
+    // newInstance constructor for creating fragmentMap with arguments
     public static Search newInstance(int page, String title) {
         Search fragmentFirst = new Search();
         Bundle args = new Bundle();
@@ -37,11 +37,12 @@ public class Search extends Fragment {
         title = getArguments().getString("someTitle");
     }
 
-    // Inflate the view for the fragment based on layout XML
+    // Inflate the view for the fragmentMap based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+
         TextView tvLabel = (TextView) view.findViewById(R.id.tvLabel);
         tvLabel.setText(page + " -- " + title);
         return view;

@@ -23,7 +23,7 @@ public class Sites extends Fragment {
 
     ArrayList<Site> siteList;
 
-    // newInstance constructor for creating fragment with arguments
+    // newInstance constructor for creating fragmentMap with arguments
     public static Sites newInstance(int page, String title) {
         Sites fragmentFirst = new Sites();
         Bundle args = new Bundle();
@@ -45,7 +45,7 @@ public class Sites extends Fragment {
 
     }
 
-    // Inflate the view for the fragment based on layout XML
+    // Inflate the view for the fragmentMap based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
