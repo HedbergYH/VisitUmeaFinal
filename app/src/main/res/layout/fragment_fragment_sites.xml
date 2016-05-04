@@ -7,8 +7,18 @@
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/tvLabel"
+        android:layout_above="@+id/containerListViewSitel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Sites" />
+
+    <ListView
+        android:id="@+id/containerListViewSite"
+        android:layout_below="@+id/tvLabel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+
+
 
 </FrameLayout>

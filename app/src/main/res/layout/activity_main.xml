@@ -9,6 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.umyhnystma.matsvisitumea.MainActivity">
 
+<!--
     <android.support.v4.view.ViewPager
         android:id="@+id/vpPager"
         android:layout_width="match_parent"
@@ -23,6 +24,16 @@
             android:paddingTop="4dp" />
 
     </android.support.v4.view.ViewPager>
+!-->
+
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </RelativeLayout>
+
+
 
 
 </RelativeLayout>

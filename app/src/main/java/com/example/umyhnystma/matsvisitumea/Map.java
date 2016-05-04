@@ -15,6 +15,8 @@ import android.widget.TextView;
  * A simple {@link Fragment} subclass.
  */
 public class Map extends Fragment {
+
+    /************
     // Store instance variables
     private String title;
     private int page;
@@ -29,13 +31,17 @@ public class Map extends Fragment {
         fragmentFirst.setArguments(args);
         return fragmentFirst;
     }
+     *****************/
 
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        /*******************'
         super.onCreate(savedInstanceState);
         page = getArguments().getInt("someInt", 0);
         title = getArguments().getString("someTitle");
+         *******************/
     }
 
     // Inflate the view for the fragment based on layout XML
@@ -43,8 +49,14 @@ public class Map extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-        TextView tvLabel = (TextView) view.findViewById(R.id.tvLabel);
-        tvLabel.setText(page + " -- " + title);
+        /***************
+         *
+         *
+         * TextView tvLabel = (TextView) view.findViewById(R.id.tvLabel);
+         tvLabel.setText(page + " -- " + title);
+         *
+         */
+
         return view;
     }
 }

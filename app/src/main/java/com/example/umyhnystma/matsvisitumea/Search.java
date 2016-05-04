@@ -16,7 +16,8 @@ import android.widget.TextView;
  */
 public class Search extends Fragment {
     // Store instance variables
-    private String title;
+
+    /*******************private String title;
     private int page;
 
     // newInstance constructor for creating fragment with arguments
@@ -29,12 +30,18 @@ public class Search extends Fragment {
         return fragmentFirst;
     }
 
+    **************************/
+
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*
         page = getArguments().getInt("someInt", 0);
         title = getArguments().getString("someTitle");
+
+        */
     }
 
     // Inflate the view for the fragment based on layout XML
@@ -42,8 +49,10 @@ public class Search extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        TextView tvLabel = (TextView) view.findViewById(R.id.tvLabel);
-        tvLabel.setText(page + " -- " + title);
+
+        /*TextView tvLabel = (TextView) view.findViewById(R.id.tvLabel);
+        tvLabel.setText(page + " -- " + title);*/
+
         return view;
     }
 }
