@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     SupportMapFragment mapFragment;
     FragmentManager fm;
     FragmentTransaction trans;
-    Map fragmentMap;
+    Fragment fragmentMap;
 
 
 
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         setContentView(R.layout.activity_main);
 
         fm = getSupportFragmentManager();
-        trans = fm.beginTransaction();
+
 
         ActionBar ab = getSupportActionBar();
         ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -67,21 +67,19 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         switch (nTabSelected) {
             case 0:
 
-
-                /* FUNGERAR EJ -TESTBIT
+                trans = fm.beginTransaction();
+                Log.i("MIN_TAG","case 0:");
 
                 if(fragmentMap==null){
-                    fragmentMap = new Map();
+                    fragmentMap = new MapFragment();
                     trans.replace(R.id.container, fragmentMap).commit();
                 }else{
-                    trans.replace(R.id.container, fragmentMap);
+                    trans.replace(R.id.container, fragmentMap).commit();
                 }
-
-                */
 
                 // FUNGERAR MEN KOPPLAR NOG DÅLIGT MOT FRAGMENT
 
-
+/*
                 if(mapFragment == null){
                     mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
                     mapFragment.getMapAsync(this);
@@ -89,8 +87,11 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                 }else{
                     //trans.replace(R.id.container, mapFragment).commit();
                     mapFragment.getMapAsync(this);
+
+
                 }
-                
+
+                  ******************/
                 break;
             case 1:
 

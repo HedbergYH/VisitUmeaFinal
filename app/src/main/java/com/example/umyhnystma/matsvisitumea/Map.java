@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -28,7 +29,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class Map extends SupportMapFragment implements OnMapReadyCallback {
     // Store instance variables
 
-    private SupportMapFragment mapFragment;
+
     private GoogleMap mMap;
 
     // Store instance variables based on arguments passed
