@@ -1,11 +1,21 @@
 package com.example.umyhnystma.matsvisitumea;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+
+import com.google.android.gms.maps.OnMapReadyCallback;
+
+import java.util.ArrayList;
+
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     FragmentManager fm;
     FragmentTransaction trans;
     Map fragmentMap;
+
 
 
     @Override
@@ -56,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         switch (nTabSelected) {
             case 0:
 
+
                 /* FUNGERAR EJ -TESTBIT
 
                 if(fragmentMap==null){
@@ -69,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
                 // FUNGERAR MEN KOPPLAR NOG DÅLIGT MOT FRAGMENT
 
+
                 if(mapFragment == null){
                     mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
                     mapFragment.getMapAsync(this);
@@ -77,14 +90,16 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                     //trans.replace(R.id.container, mapFragment).commit();
                     mapFragment.getMapAsync(this);
                 }
-
-                //setContentView(R.layout.activity_maps);
+                
                 break;
             case 1:
-                setContentView(R.layout.fragment_fragment_sites);
+
+                tabSiteSelected();
+                Log.i("MIN_TAG","case 1:");
                 break;
-            case 2:
-                setContentView(R.layout.fragment_search);
+            case 2://Search
+                tabSearchSelected();
+
                 break;
         }
 
@@ -100,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     }
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -112,7 +128,31 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         mMap.addMarker(new MarkerOptions().position(umea).title("Marker at Folkuniversitetet"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(umea));
 
+    }
+
+    public void tabSiteSelected(){
+        Fragment siteListFragment = new Sites();
+        FragmentManager fm  = getSupportFragmentManager(); // hanterar fragment
+        FragmentTransaction transaction = fm.beginTransaction(); // transfering av fragment
+
+        transaction.replace(R.id.container, siteListFragment);                                               // fragmentSiteList är det nya fragmentet
+
+        transaction.commit();
+    }
+
+    public void tabSearchSelected(){
+        Fragment siteSearchFragment = new Search();
+        FragmentManager fm  = getSupportFragmentManager(); // hanterar fragment
+        FragmentTransaction transaction = fm.beginTransaction(); // transfering av fragment
+
+         // container ligger i activity_main.xml
+        transaction.replace(R.id.container, siteSearchFragment);                                               // fragmentSiteList är det nya fragmentet
+        transaction.commit();
+
+
+
 
     }
+
 }
 

@@ -18,12 +18,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-//import companydomain.visitumea.R;
+
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
+
 public class Map extends SupportMapFragment implements OnMapReadyCallback {
     // Store instance variables
 
@@ -41,33 +42,36 @@ public class Map extends SupportMapFragment implements OnMapReadyCallback {
 
     }
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
     }
+        // Inflate the view for the fragmentMap based on layout XML
+        @Override
 
-    // Inflate the view for the fragmentMap based on layout XML
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle
+        savedInstanceState) {
 
-        super.onCreateView(inflater, container, savedInstanceState);
+            super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.activity_maps, container, false);
+            View view = inflater.inflate(R.layout.activity_maps, container, false);
 
-        Log.i("MIN_TAG", "MapFragment körs onCreateView");
+            Log.i("MIN_TAG", "MapFragment körs onCreateView");
 
-        return view;
+            return view;
+        }
+
+        @Override
+        public void onMapReady (GoogleMap googleMap){
+            Log.i("MIN_TAG", "onMapReady fragment körs");
+
+            mMap = googleMap;
+
+            LatLng umea = new LatLng(63.826499, 20.2742188);
+
+            mMap.addMarker(new MarkerOptions().position(umea).title("Marker at Folkuniversitetet"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(umea));
+        }
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        Log.i("MIN_TAG","onMapReady fragment körs");
 
-        mMap = googleMap;
-
-        LatLng umea = new LatLng(63.826499, 20.2742188);
-
-        mMap.addMarker(new MarkerOptions().position(umea).title("Marker at Folkuniversitetet"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(umea));
-    }
-}
