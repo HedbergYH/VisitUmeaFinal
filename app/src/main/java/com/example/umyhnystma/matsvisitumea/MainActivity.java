@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
                 // FUNGERAR MEN KOPPLAR NOG DÅLIGT MOT FRAGMENT
 
-
+/*
                 if(mapFragment == null){
                     mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
                     mapFragment.getMapAsync(this);
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                     mapFragment.getMapAsync(this);
                 }
                 
-                break;
+                break;*/
             case 1:
 
                 tabSiteSelected();
