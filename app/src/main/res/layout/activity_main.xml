@@ -10,22 +10,20 @@
     tools:context="com.example.umyhnystma.matsvisitumea.MainActivity">
 
 
-
-
-
         <RelativeLayout
             android:gravity="center"
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-<!---
-            <fragment
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:id="@+id/map"/>
 
-                -->
+            <RelativeLayout
+                android:id="@+id/mapContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="100dp">
+
+            </RelativeLayout>
+
 
         </RelativeLayout>
 

@@ -25,13 +25,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MainActivity extends AppCompatActivity implements ActionBar.TabListener, OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements ActionBar.TabListener, OnMapReadyCallback, ToggleChange {
 
     private GoogleMap mMap;
-    SupportMapFragment mapFragment;
     FragmentManager fm;
     FragmentTransaction trans;
     Fragment fragmentMap;
+    Fragment siteListFragment;
+    Fragment siteSearchFragment;
+    Fragment toggleButtonsMainActivity;
 
 
 
@@ -52,11 +54,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         ab.addTab(ab.newTab().setText("Sites").setTabListener(this));
         ab.addTab(ab.newTab().setText("Search").setTabListener(this));
 
-            /*
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().
-                findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-            */
     }
 
     @Override
@@ -67,38 +64,54 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         switch (nTabSelected) {
             case 0:
 
+                if (siteListFragment!=null){
+                    trans = fm.beginTransaction();
+                    trans.remove(siteListFragment).commit();
+                }else if(siteSearchFragment!=null){
+                    trans = fm.beginTransaction();
+                    trans.remove(siteSearchFragment).commit();
+                }
+
                 trans = fm.beginTransaction();
                 Log.i("MIN_TAG","case 0:");
 
                 if(fragmentMap==null){
                     fragmentMap = new MapFragment();
-                    trans.replace(R.id.container, fragmentMap).commit();
+                    trans.replace(R.id.mapContainer, fragmentMap).addToBackStack(null).commit();
+
                 }else{
-                    trans.replace(R.id.container, fragmentMap).commit();
+                    trans.replace(R.id.mapContainer, fragmentMap).addToBackStack(null).commit();
                 }
 
-                // FUNGERAR MEN KOPPLAR NOG DÅLIGT MOT FRAGMENT
+                //Transaction for ToggleButtons fragment
+                trans = fm.beginTransaction();
 
-/*
-                if(mapFragment == null){
-                    mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
-                    mapFragment.getMapAsync(this);
-                    //trans.add(R.id.container, mapFragment).addToBackStack(null).commit();
+                if(toggleButtonsMainActivity == null){
+                    //Set the toggle buttons below map
+                    toggleButtonsMainActivity = new ToggleButtonsMainActivity();
+                    trans.replace(R.id.container, toggleButtonsMainActivity).commit();
                 }else{
-                    //trans.replace(R.id.container, mapFragment).commit();
-                    mapFragment.getMapAsync(this);
-
-
+                    trans.replace(R.id.container, toggleButtonsMainActivity).commit();
                 }
 
-                  ******************/
                 break;
             case 1:
+
+                if(fragmentMap!=null){
+                    trans = fm.beginTransaction();
+                    trans.remove(fragmentMap).commit();
+                }
 
                 tabSiteSelected();
                 Log.i("MIN_TAG","case 1:");
                 break;
             case 2://Search
+
+                if(fragmentMap!=null){
+                    trans = fm.beginTransaction();
+                    trans.remove(fragmentMap).commit();
+                }
+
                 tabSearchSelected();
 
                 break;
@@ -132,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     }
 
     public void tabSiteSelected(){
-        Fragment siteListFragment = new Sites();
+        siteListFragment = new Sites();
         FragmentManager fm  = getSupportFragmentManager(); // hanterar fragment
         FragmentTransaction transaction = fm.beginTransaction(); // transfering av fragment
 
@@ -142,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     }
 
     public void tabSearchSelected(){
-        Fragment siteSearchFragment = new Search();
+        siteSearchFragment = new Search();
         FragmentManager fm  = getSupportFragmentManager(); // hanterar fragment
         FragmentTransaction transaction = fm.beginTransaction(); // transfering av fragment
 
@@ -155,5 +168,28 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     }
 
+    @Override
+    public void onChangedGPS(int code, Boolean bool) {
+        if(code == 1){
+            //isChecked = false
+
+            ((MapFragment)fragmentMap).GPS = bool;
+
+            ((MapFragment)fragmentMap).checkGPSState();
+
+        }else if(code == 2){
+            //isChecked = true
+
+            ((MapFragment)fragmentMap).GPS = bool;
+
+            ((MapFragment)fragmentMap).checkGPSState();
+
+        }
+    }
+
+    @Override
+    public void onChangedLocationGuide(int code, Boolean bool) {
+
+    }
 }
 
