@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     Fragment toggleButtonsMainActivity;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,89 +63,94 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         switch (nTabSelected) {
             case 0:
 
-                if (siteListFragment!=null){
+                if (siteListFragment != null) {
                     trans = fm.beginTransaction();
                     trans.remove(siteListFragment).commit();
-                }else if(siteSearchFragment!=null){
+                } else if (siteSearchFragment != null) {
                     trans = fm.beginTransaction();
                     trans.remove(siteSearchFragment).commit();
                 }
 
                 trans = fm.beginTransaction();
-                Log.i("MIN_TAG","case 0:");
+                Log.i("MIN_TAG", "case 0:");
 
-                if(fragmentMap==null){
+                if (fragmentMap == null) {
                     fragmentMap = new MapFragment();
                     trans.replace(R.id.mapContainer, fragmentMap).addToBackStack(null).commit();
 
-                }else{
+                } else {
                     trans.replace(R.id.mapContainer, fragmentMap).addToBackStack(null).commit();
                 }
 
                 //Transaction for ToggleButtons fragment
                 trans = fm.beginTransaction();
 
-                if(toggleButtonsMainActivity == null){
+
+                if (toggleButtonsMainActivity == null) {
                     //Set the toggle buttons below map
                     toggleButtonsMainActivity = new ToggleButtonsMainActivity();
                     trans.replace(R.id.container, toggleButtonsMainActivity).commit();
                 }else{
+
                     trans.replace(R.id.container, toggleButtonsMainActivity).commit();
                 }
 
-                break;
-            case 1:
 
-                if(fragmentMap!=null){
-                    trans = fm.beginTransaction();
-                    trans.remove(fragmentMap).commit();
+                    break;
+
+                    case 1:
+
+                        if (fragmentMap != null) {
+                            trans = fm.beginTransaction();
+                            trans.remove(fragmentMap).commit();
+                        }
+
+                        tabSiteSelected();
+                        Log.i("MIN_TAG", "case 1:");
+                        break;
+                    case 2://Search
+
+                        if (fragmentMap != null) {
+                            trans = fm.beginTransaction();
+                            trans.remove(fragmentMap).commit();
+                        }
+
+                        tabSearchSelected();
+
+                        break;
+
                 }
 
-                tabSiteSelected();
-                Log.i("MIN_TAG","case 1:");
-                break;
-            case 2://Search
-
-                if(fragmentMap!=null){
-                    trans = fm.beginTransaction();
-                    trans.remove(fragmentMap).commit();
-                }
-
-                tabSearchSelected();
-
-                break;
         }
 
-    }
+        @Override
+        public void onTabUnselected (ActionBar.Tab tab, FragmentTransaction ft){
 
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+        }
 
-    }
+        @Override
+        public void onTabReselected (ActionBar.Tab tab, FragmentTransaction ft){
 
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-
-    }
+        }
 
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
+        @Override
+        public void onMapReady (GoogleMap googleMap){
 
-        Log.i("MIN_TAG","onMapReady mainactivity körs");
+            Log.i("MIN_TAG", "onMapReady mainactivity körs");
 
-        mMap = googleMap;
+            mMap = googleMap;
 
-        LatLng umea = new LatLng(63.826499, 20.2742188);
+            LatLng umea = new LatLng(63.826499, 20.2742188);
 
-        mMap.addMarker(new MarkerOptions().position(umea).title("Marker at Folkuniversitetet"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(umea));
+            mMap.addMarker(new MarkerOptions().position(umea).title("Marker at Folkuniversitetet"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(umea));
 
-    }
+        }
 
-    public void tabSiteSelected(){
+    public void tabSiteSelected() {
         siteListFragment = new Sites();
-        FragmentManager fm  = getSupportFragmentManager(); // hanterar fragment
+        FragmentManager fm = getSupportFragmentManager(); // hanterar fragment
         FragmentTransaction transaction = fm.beginTransaction(); // transfering av fragment
 
         transaction.replace(R.id.container, siteListFragment);                                               // fragmentSiteList är det nya fragmentet
@@ -154,35 +158,33 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         transaction.commit();
     }
 
-    public void tabSearchSelected(){
+    public void tabSearchSelected() {
         siteSearchFragment = new Search();
-        FragmentManager fm  = getSupportFragmentManager(); // hanterar fragment
+        FragmentManager fm = getSupportFragmentManager(); // hanterar fragment
         FragmentTransaction transaction = fm.beginTransaction(); // transfering av fragment
 
-         // container ligger i activity_main.xml
+        // container ligger i activity_main.xml
         transaction.replace(R.id.container, siteSearchFragment);                                               // fragmentSiteList är det nya fragmentet
         transaction.commit();
-
-
 
 
     }
 
     @Override
     public void onChangedGPS(int code, Boolean bool) {
-        if(code == 1){
+        if (code == 1) {
             //isChecked = false
 
-            ((MapFragment)fragmentMap).GPS = bool;
+            ((MapFragment) fragmentMap).GPS = bool;
 
-            ((MapFragment)fragmentMap).checkGPSState();
+            ((MapFragment) fragmentMap).checkGPSState();
 
-        }else if(code == 2){
+        } else if (code == 2) {
             //isChecked = true
 
-            ((MapFragment)fragmentMap).GPS = bool;
+            ((MapFragment) fragmentMap).GPS = bool;
 
-            ((MapFragment)fragmentMap).checkGPSState();
+            ((MapFragment) fragmentMap).checkGPSState();
 
         }
     }
@@ -192,4 +194,5 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     }
 }
+
 

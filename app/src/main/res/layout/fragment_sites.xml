@@ -1,24 +1,25 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:background="@color/colorLightBlue"
     tools:context="com.example.umyhnystma.matsvisitumea.Sites">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/tvLabel"
-        android:layout_above="@+id/containerListViewSitel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Sites" />
+    android:id="@+id/tvLabel"
+    android:layout_above="@+id/containerListViewSitel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
 
     <ListView
         android:id="@+id/containerListViewSite"
+        android:dividerHeight="10sp"
+        android:divider="@color/colorLightBlue"
         android:layout_below="@+id/tvLabel"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </ListView>
-
-
 
 </FrameLayout>

@@ -7,12 +7,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorLightBlue"
     tools:context="com.example.umyhnystma.matsvisitumea.MainActivity">
 
 
         <RelativeLayout
             android:gravity="center"
             android:id="@+id/container"
+            android:background="@color/colorLightBlue"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
