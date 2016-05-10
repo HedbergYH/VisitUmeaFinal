@@ -2,15 +2,15 @@ package com.example.umyhnystma.matsvisitumea;
 
 
 import android.content.Context;
+
 import android.os.Bundle;
+
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.ToggleButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,6 +19,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -27,10 +28,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class MapFragment extends Fragment {
 
+
     ToggleChange myToggleChange;
     MapView mMapView;
     private GoogleMap googleMap;
     Boolean GPS, GeoLocationBasedGuide;
+
+
+    double latitude, longitude;
+
+    MarkerOptions markerOptions;
+    Marker marker;
 
     @Override
     public void onAttach(Context context){
@@ -45,6 +53,11 @@ public class MapFragment extends Fragment {
         // inflat and return the layout
         View v = inflater.inflate(R.layout.fragment_map, container,
                 false);
+
+        latitude = 63.8266178;
+        longitude = 20.2740246;
+
+
         mMapView = (MapView) v.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
 
@@ -57,27 +70,20 @@ public class MapFragment extends Fragment {
         }
 
         googleMap = mMapView.getMap();
+
+//        googleMap.getMyLocation(); KRASCH
+
         // latitude and longitude
-        double latitude = 63.826499;
-        double longitude = 20.2742188;
+
+        try{
+            getMyLocation();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        setUpMapWithPosition();
 
 
-        // create marker
-        MarkerOptions marker = new MarkerOptions().position(
-                new LatLng(latitude, longitude)).title("Hello Maps");
-
-        // Changing marker icon
-        marker.icon(BitmapDescriptorFactory
-                .defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
-
-        // adding marker
-        googleMap.addMarker(marker);
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(63.826499, 20.2742188)).zoom(12).build();
-        googleMap.animateCamera(CameraUpdateFactory
-                .newCameraPosition(cameraPosition));
-
-        // Perform any camera updates here
         return v;
     }
 
@@ -112,17 +118,73 @@ public class MapFragment extends Fragment {
 
         if(GPS){
             //GPS should be true
-            Log.i("MIN_TAG", "GPS is true, see GPS = " + GPS);
 
+            Log.i("MIN_TAG", "GPS is true, see GPS = " + GPS);
 
         }else{
             //GPS should be false
 
             Log.i("MIN_TAG", "GPS is false, see GPS = " + GPS);
 
-
         }
 
     }
+
+    private void getMyLocation(){
+
+
+        latitude = ((MainActivity)getActivity()).mCurrentLocation.getLatitude();
+        longitude = ((MainActivity)getActivity()).mCurrentLocation.getLongitude();
+
+    }
+
+    public void setMyLocation(){
+
+        setUpMapWithNewPosition();
+
+    }
+
+    public void setUpMapWithNewPosition() {
+
+        marker.remove();
+
+        markerOptions.position(new LatLng(latitude, longitude));
+
+
+        // adding markerOptions
+        marker = googleMap.addMarker(markerOptions);
+        float zoom = googleMap.getCameraPosition().zoom;
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(latitude, longitude)).zoom(zoom).build();
+
+        googleMap.animateCamera(CameraUpdateFactory
+                .newCameraPosition(cameraPosition));
+
+        // Perform any camera updates here
+
+    }
+
+    public void setUpMapWithPosition(){
+
+
+        // create markerOptions
+        markerOptions = new MarkerOptions().position(
+                new LatLng(latitude, longitude)).title("Hello Maps");
+
+        // Changing markerOptions icon
+        markerOptions.icon(BitmapDescriptorFactory
+                .defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+
+        // adding markerOptions
+        marker = googleMap.addMarker(markerOptions);
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(latitude, longitude)).zoom(12).build();
+        googleMap.animateCamera(CameraUpdateFactory
+                .newCameraPosition(cameraPosition));
+
+        // Perform any camera updates here
+
+    }
+
 }
 

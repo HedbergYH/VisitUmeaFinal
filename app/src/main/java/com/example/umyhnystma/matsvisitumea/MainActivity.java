@@ -1,8 +1,15 @@
 package com.example.umyhnystma.matsvisitumea;
 
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +19,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.util.ArrayList;
@@ -25,7 +37,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MainActivity extends AppCompatActivity implements ActionBar.TabListener, OnMapReadyCallback, ToggleChange {
+public class MainActivity extends AppCompatActivity implements ActionBar.TabListener, OnMapReadyCallback, ToggleChange, com.google.android.gms.location.LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     private GoogleMap mMap;
     FragmentManager fm;
@@ -35,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     Fragment siteSearchFragment;
     Fragment toggleButtonsMainActivity;
 
+    GoogleApiClient mGoogleApiClient;
+    LocationRequest mRequest;
+    Location mCurrentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
         ActionBar ab = getSupportActionBar();
         ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        locationGetter();
 
 
         // Three tab to display in actionbar
@@ -90,63 +107,63 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                     //Set the toggle buttons below map
                     toggleButtonsMainActivity = new ToggleButtonsMainActivity();
                     trans.replace(R.id.container, toggleButtonsMainActivity).commit();
-                }else{
+                } else {
 
                     trans.replace(R.id.container, toggleButtonsMainActivity).commit();
                 }
 
 
-                    break;
+                break;
 
-                    case 1:
+            case 1:
 
-                        if (fragmentMap != null) {
-                            trans = fm.beginTransaction();
-                            trans.remove(fragmentMap).commit();
-                        }
-
-                        tabSiteSelected();
-                        Log.i("MIN_TAG", "case 1:");
-                        break;
-                    case 2://Search
-
-                        if (fragmentMap != null) {
-                            trans = fm.beginTransaction();
-                            trans.remove(fragmentMap).commit();
-                        }
-
-                        tabSearchSelected();
-
-                        break;
-
+                if (fragmentMap != null) {
+                    trans = fm.beginTransaction();
+                    trans.remove(fragmentMap).commit();
                 }
 
-        }
+                tabSiteSelected();
+                Log.i("MIN_TAG", "case 1:");
+                break;
+            case 2://Search
 
-        @Override
-        public void onTabUnselected (ActionBar.Tab tab, FragmentTransaction ft){
+                if (fragmentMap != null) {
+                    trans = fm.beginTransaction();
+                    trans.remove(fragmentMap).commit();
+                }
 
-        }
+                tabSearchSelected();
 
-        @Override
-        public void onTabReselected (ActionBar.Tab tab, FragmentTransaction ft){
-
-        }
-
-
-        @Override
-        public void onMapReady (GoogleMap googleMap){
-
-            Log.i("MIN_TAG", "onMapReady mainactivity körs");
-
-            mMap = googleMap;
-
-            LatLng umea = new LatLng(63.826499, 20.2742188);
-
-            mMap.addMarker(new MarkerOptions().position(umea).title("Marker at Folkuniversitetet"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(umea));
+                break;
 
         }
+
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+    }
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        Log.i("MIN_TAG", "onMapReady mainactivity körs");
+
+        mMap = googleMap;
+
+        LatLng umea = new LatLng(63.826499, 20.2742188);
+
+        mMap.addMarker(new MarkerOptions().position(umea).title("Marker at Folkuniversitetet"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(umea));
+
+    }
 
     public void tabSiteSelected() {
         siteListFragment = new Sites();
@@ -193,6 +210,89 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     public void onChangedLocationGuide(int code, Boolean bool) {
 
     }
+
+    public void locationGetter() {
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
+        mRequest = new LocationRequest();
+        mRequest.setInterval(10000);
+        mRequest.setFastestInterval(5000);
+        mRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+    }
+
+
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+        Log.i("MIN_TAG", "onConnected.");
+
+
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+            Log.i("MIN_TAG", "onConnected : if");
+
+        }else {
+            Log.i("MIN_TAG", "onConnected : else");
+            try {
+                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mRequest, this);
+            }catch (SecurityException e){
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        Log.i("MIN_TAG", "onLocationChanged. Location = Lat: " + location.getLatitude() + ", Long:" + location.getLongitude());
+
+        mCurrentLocation = location;
+        locationUpdate();
+
+    }
+
+    public void locationUpdate(){
+
+        ((MapFragment)fragmentMap).latitude = mCurrentLocation.getLatitude();
+        ((MapFragment)fragmentMap).longitude = mCurrentLocation.getLongitude();
+        ((MapFragment)fragmentMap).setMyLocation();
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        Log.i("MIN_TAG", "onStart");
+
+        mGoogleApiClient.connect();
+    }
+    @Override
+    protected void onStop(){
+        super.onStop();
+        Log.i("MIN_TAG", "onStop");
+
+        mGoogleApiClient.disconnect();
+    }
+
 }
 
 
