@@ -1,11 +1,13 @@
 package com.example.umyhnystma.matsvisitumea;
 
+
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -37,15 +39,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MainActivity extends AppCompatActivity implements ActionBar.TabListener, OnMapReadyCallback, ToggleChange, com.google.android.gms.location.LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+public class MainActivity extends AppCompatActivity implements ActionBar.TabListener, ToggleChange, com.google.android.gms.location.LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
-    private GoogleMap mMap;
+    // private GoogleMap mMap; Kanske kan man ta bort det här
     FragmentManager fm;
     FragmentTransaction trans;
     Fragment fragmentMap;
     Fragment siteListFragment;
     Fragment siteSearchFragment;
     Fragment toggleButtonsMainActivity;
+    int tabChoosen;
+    int nTabSelected;
+
+    Intent intent; // intent skapat från InfoDetailActivity
 
     GoogleApiClient mGoogleApiClient;
     LocationRequest mRequest;
@@ -58,6 +64,11 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
         fm = getSupportFragmentManager();
 
+
+        intent = getIntent();
+        tabChoosen = intent.getIntExtra(InfoDetailActivity.INTENT_TAB_NUMBER, 0);
+
+        Log.i("MIN_TAG", "tabChoosen: " + tabChoosen);
 
         ActionBar ab = getSupportActionBar();
         ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -76,7 +87,12 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 
         //Called when a tab is selected
-        int nTabSelected = tab.getPosition();
+        nTabSelected = tab.getPosition();
+        //     if  (tabChoosen != 1)
+        //     else
+        //         nTabSelected = 1;
+
+
         switch (nTabSelected) {
             case 0:
 
@@ -151,21 +167,9 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     }
 
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-        Log.i("MIN_TAG", "onMapReady mainactivity körs");
-
-        mMap = googleMap;
-
-        LatLng umea = new LatLng(63.826499, 20.2742188);
-
-        mMap.addMarker(new MarkerOptions().position(umea).title("Marker at Folkuniversitetet"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(umea));
-
-    }
-
     public void tabSiteSelected() {
+
+        Log.i("MIN_TAG", "i Main, i tabSiteSelected()");
         siteListFragment = new Sites();
         FragmentManager fm = getSupportFragmentManager(); // hanterar fragment
         FragmentTransaction transaction = fm.beginTransaction(); // transfering av fragment
@@ -173,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         transaction.replace(R.id.container, siteListFragment);                                               // fragmentSiteList är det nya fragmentet
 
         transaction.commit();
+
     }
 
     public void tabSearchSelected() {
@@ -228,22 +233,21 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     }
 
 
-
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
         Log.i("MIN_TAG", "onConnected.");
 
 
-        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
             Log.i("MIN_TAG", "onConnected : if");
 
-        }else {
+        } else {
             Log.i("MIN_TAG", "onConnected : else");
             try {
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mRequest, this);
-            }catch (SecurityException e){
+            } catch (SecurityException e) {
                 e.printStackTrace();
             }
         }
@@ -265,11 +269,11 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     }
 
-    public void locationUpdate(){
+    public void locationUpdate() {
 
-        ((MapFragment)fragmentMap).latitude = mCurrentLocation.getLatitude();
-        ((MapFragment)fragmentMap).longitude = mCurrentLocation.getLongitude();
-        ((MapFragment)fragmentMap).setMyLocation();
+        ((MapFragment) fragmentMap).latitude = mCurrentLocation.getLatitude();
+        ((MapFragment) fragmentMap).longitude = mCurrentLocation.getLongitude();
+        ((MapFragment) fragmentMap).setMyLocation();
 
     }
 
@@ -279,20 +283,42 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         Log.i("MIN_TAG", "onStart");
 
         mGoogleApiClient.connect();
     }
+
     @Override
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
         Log.i("MIN_TAG", "onStop");
 
         mGoogleApiClient.disconnect();
+
     }
 
+        @Override
+        public void onResume () {
+            super.onResume();
+            Log.i("MIN_TAG", "onResume i MainActivity");
+
+        }
+        @Override
+        public void onPause() {
+            super.onPause();
+            Log.i("MIN_TAG", "onPause i MainActivity");
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            Log.i("MIN_TAG", "onDestroy i MainActivity");
+
+        }
+
 }
+
 
 
