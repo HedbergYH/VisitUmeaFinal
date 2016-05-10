@@ -16,25 +16,24 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageButton
-                android:id="@+id/button1"
+            <ImageView
+                android:id="@+id/buttonView1"
                 android:layout_weight="1"
                 android:src="@drawable/knappkartbild"
                 android:text="MAP"
                 android:layout_width="100dp"
                 android:layout_height="100dp" />
 
-            <ImageButton
-                android:id="@+id/button2"
-                android:layout_toRightOf="@+id/button1"
+            <ImageView
+                android:id="@+id/buttonView2"
+                android:layout_toRightOf="@+id/buttonView1"
                 android:layout_weight="1"
-                android:src="@drawable/knapplistabild"
+                android:src="@drawable/listfromweb"
                 android:text="LIST"
+
                 android:layout_width="100dp"
                 android:layout_height="100dp" />
                </LinearLayout>
-
-
 
            <RelativeLayout
                android:gravity="center"
