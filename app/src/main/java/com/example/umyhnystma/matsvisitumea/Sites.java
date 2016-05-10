@@ -78,16 +78,46 @@ public class Sites extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 
+
+               // fragmentMap  mMap
+
+             //   MapFragment tmp = (MapFragment)((MainActivity)getActivity()).fragmentMap;
+
+                ((MainActivity)getActivity()).finish(); // Ska döda mainActivity
+
                 String type = itemsInSiteList.get(pos);
                 Log.i("MIN_TAG", "typ: " + type);
 
                 Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen
                 //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle
                 //intent.putExtra(INTENT_POSITON_NUMBER, pos);                           // Position skickas med bundle
-                startActivity(intent);
+                getActivity().startActivity(intent);
 
             }
         });
+
         return view;
     }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        Log.i("MIN_TAG","onResume i SitesFragment");
+
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        Log.i("MIN_TAG","onPause i SitesFragment");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("MIN_TAG", "onDestroy i SitesFragment");
+    }
+
 }

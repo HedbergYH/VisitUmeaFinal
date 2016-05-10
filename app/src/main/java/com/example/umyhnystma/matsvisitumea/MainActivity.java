@@ -1,5 +1,6 @@
 package com.example.umyhnystma.matsvisitumea;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -34,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     Fragment siteListFragment;
     Fragment siteSearchFragment;
     Fragment toggleButtonsMainActivity;
+    int tabChoosen;
+    int nTabSelected;
+
+    Intent intent; // intent skapat från InfoDetailActivity
 
 
     @Override
@@ -43,6 +48,11 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
         fm = getSupportFragmentManager();
 
+
+        intent = getIntent();
+        tabChoosen = intent.getIntExtra(InfoDetailActivity.INTENT_TAB_NUMBER, 0);
+
+        Log.i("MIN_TAG", "tabChoosen: "+tabChoosen);
 
         ActionBar ab = getSupportActionBar();
         ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -59,7 +69,12 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 
         //Called when a tab is selected
-        int nTabSelected = tab.getPosition();
+            nTabSelected = tab.getPosition();
+        //     if  (tabChoosen != 1)
+   //     else
+   //         nTabSelected = 1;
+
+
         switch (nTabSelected) {
             case 0:
 
@@ -142,13 +157,14 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
             mMap = googleMap;
 
             LatLng umea = new LatLng(63.826499, 20.2742188);
-
             mMap.addMarker(new MarkerOptions().position(umea).title("Marker at Folkuniversitetet"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(umea));
 
         }
 
     public void tabSiteSelected() {
+
+        Log.i("MIN_TAG", "i Main, i tabSiteSelected()");
         siteListFragment = new Sites();
         FragmentManager fm = getSupportFragmentManager(); // hanterar fragment
         FragmentTransaction transaction = fm.beginTransaction(); // transfering av fragment
@@ -156,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         transaction.replace(R.id.container, siteListFragment);                                               // fragmentSiteList är det nya fragmentet
 
         transaction.commit();
+
     }
 
     public void tabSearchSelected() {
@@ -193,6 +210,25 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     public void onChangedLocationGuide(int code, Boolean bool) {
 
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.i("MIN_TAG","onResume i MainActivity");
+
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i("MIN_TAG","onPause i MainActivity");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("MIN_TAG", "onDestroy i MainActivity");
+    }
+
 }
 
 

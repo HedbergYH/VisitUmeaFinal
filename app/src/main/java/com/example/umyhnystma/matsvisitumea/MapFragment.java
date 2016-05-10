@@ -28,8 +28,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapFragment extends Fragment {
 
     ToggleChange myToggleChange;
-    MapView mMapView;
-    private GoogleMap googleMap;
+    protected MapView mMapView;
+    protected GoogleMap googleMap;
     Boolean GPS, GeoLocationBasedGuide;
 
     @Override
@@ -85,28 +85,28 @@ public class MapFragment extends Fragment {
     public void onResume(){
         super.onResume();
         mMapView.onResume();
-        Log.i("MIN_TAG","onResume");
+        Log.i("MIN_TAG","onResume i mapFragment");
 
     }
     @Override
     public void onPause() {
         super.onPause();
         mMapView.onPause();
-        Log.i("MIN_TAG","onPause");
+        Log.i("MIN_TAG","onPause i mapFragment");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mMapView.onDestroy();
-        Log.i("MIN_TAG","onDestroy");
+        Log.i("MIN_TAG","onDestroy i mapFragment");
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
-        Log.i("MIN_TAG","onLowMemory");
+        Log.i("MIN_TAG","onLowMemory i mapFragment");
     }
     public void checkGPSState(){
 
