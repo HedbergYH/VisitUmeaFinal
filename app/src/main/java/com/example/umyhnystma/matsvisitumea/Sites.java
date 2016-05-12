@@ -91,6 +91,9 @@ public class Sites extends Fragment {
                 Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen
                 //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle
                 //intent.putExtra(INTENT_POSITON_NUMBER, pos);                           // Position skickas med bundle
+
+                intent.putExtra("KEY", 2);
+
                 getActivity().startActivity(intent);
 
             }

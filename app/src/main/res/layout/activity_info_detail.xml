@@ -9,10 +9,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.umyhnystma.matsvisitumea.InfoDetailActivity">
 
-    <TextView
-        android:id="@+id/textInfoDetailActivity"
-        android:text=" I textInfoDetailActivity "
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/mapOrListContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="340dp"></RelativeLayout>
+
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/messageContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </RelativeLayout>
 
 </RelativeLayout>

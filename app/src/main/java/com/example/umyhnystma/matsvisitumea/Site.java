@@ -2,6 +2,8 @@ package com.example.umyhnystma.matsvisitumea;
 
 import android.graphics.Bitmap;
 
+import com.google.android.gms.maps.model.Marker;
+
 /**
  * Created by umyhhedbjo on 2016-05-02.
  */
@@ -10,6 +12,16 @@ public class Site {
     String name, description;
     Long latitude, longitude;
     Bitmap image;
+
+    public Marker getMarker() {
+        return marker;
+    }
+
+    public void setMarker(Marker marker) {
+        this.marker = marker;
+    }
+
+    Marker marker;
 
     public Site(){
 

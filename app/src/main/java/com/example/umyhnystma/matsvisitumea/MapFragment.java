@@ -22,6 +22,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,8 +40,12 @@ public class MapFragment extends Fragment {
 
     double latitude, longitude;
 
+    private HashMap<Marker, Integer> mHashMap = new HashMap<Marker, Integer>();
+    private ArrayList<Site> sitesArray = new ArrayList<>();
+
     MarkerOptions markerOptions;
     Marker marker;
+    Marker backensKyrka;
 
     @Override
     public void onAttach(Context context){
@@ -70,6 +77,18 @@ public class MapFragment extends Fragment {
         }
 
         googleMap = mMapView.getMap();
+        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+                //Visar LocationMessage
+
+                int pos = mHashMap.get(marker);
+
+                ((InfoDetailActivity)getActivity()).showLocationMessage(sitesArray.get(pos));
+
+            }
+        });
 
 //        googleMap.getMyLocation(); KRASCH
 
@@ -82,6 +101,20 @@ public class MapFragment extends Fragment {
         }
 
         setUpMapWithPosition();
+
+        try{
+            int bundle = getArguments().getInt("KEY");
+
+            if(bundle == 2){
+
+                setOutReligiosMarkers();
+
+            }
+
+        }catch (Exception e){
+            Log.i("TAGGIE", "No bundle");
+            e.printStackTrace();
+        }
 
 
         return v;
@@ -150,7 +183,6 @@ public class MapFragment extends Fragment {
 
         markerOptions.position(new LatLng(latitude, longitude));
 
-
         // adding markerOptions
         marker = googleMap.addMarker(markerOptions);
         float zoom = googleMap.getCameraPosition().zoom;
@@ -165,7 +197,6 @@ public class MapFragment extends Fragment {
     }
 
     public void setUpMapWithPosition(){
-
 
         // create markerOptions
         markerOptions = new MarkerOptions().position(
@@ -183,6 +214,28 @@ public class MapFragment extends Fragment {
                 .newCameraPosition(cameraPosition));
 
         // Perform any camera updates here
+
+    }
+
+    public void setOutReligiosMarkers(){
+
+        //Sätter ut våra religösa platser på kartan
+
+        backensKyrka = googleMap.addMarker(new MarkerOptions().position(new LatLng(63.8380731,20.1563725)).title("Backens kyrka"));
+
+        Site backensKyrka = new Site();
+        backensKyrka.setName("Backens kyrka");
+        backensKyrka.setDescription("Description is a bit longer than title and therefore requires a bit more space");
+
+        sitesArray.add(backensKyrka);
+
+        for (int i = 0; i < sitesArray.size(); i++) {
+            double latitude = sitesArray.get(i).getLatitude();
+            double longitude = sitesArray.get(i).getLongitude();
+            Marker marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude,longitude)).title(sitesArray.get(i).getName()));
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            mHashMap.put(marker, i);
+        }
 
     }
 

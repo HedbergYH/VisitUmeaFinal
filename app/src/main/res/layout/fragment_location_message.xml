@@ -1,0 +1,66 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:elevation="5dp"
+    android:layout_height="125dp"
+    tools:context="com.example.umyhnystma.matsvisitumea.LocationMessage">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:background="@color/colorWhite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:id="@+id/relativeTitle"
+            android:background="@color/colorAccent"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/cancelMessage"
+                android:clickable="true"
+                android:src="@drawable/cancel"
+                android:layout_alignParentRight="true"
+                android:layout_width="32dp"
+                android:layout_height="32dp" />
+
+            <TextView
+
+                android:textAllCaps="true"
+                android:textColor="@color/colorWhite"
+                android:text="Backens kyrka"
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_marginRight="10dp"
+            android:padding="5dp"
+            android:layout_below="@id/relativeTitle"
+            android:text="Description is a bit longer than title and therefore requires a bit more space"
+            android:id="@+id/descriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:clickable="true"
+            android:alpha="0.5"
+            android:scaleType="fitXY"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/cornerarrow"
+            android:id="@+id/visitLogoImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
+
+</FrameLayout>
