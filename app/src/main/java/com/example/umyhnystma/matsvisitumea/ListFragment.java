@@ -106,9 +106,9 @@ public class ListFragment extends Fragment {
 
         itemsInSiteList.add("Backens kyrka");
         itemsInSiteList.add("Sävargården");
-         itemsInSiteList.add("Baggböle Herrgård");
-        itemsInSiteList.add("Umeå Stadskyrka");
-        itemsInSiteList.add("Gammlia");
+        // itemsInSiteList.add("Baggböle Herrgård");
+        //itemsInSiteList.add("Umeå Stadskyrka");
+        //itemsInSiteList.add("Gammlia");
         //itemsInSiteList.add("Smörasken");
 
         containerListViewSite =(ListView)view.findViewById(R.id.containerListViewSite);

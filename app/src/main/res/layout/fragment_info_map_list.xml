@@ -2,12 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.umyhnystma.matsvisitumea.InfoMapListFragment">
+    tools:context="com.example.umyhnystma.matsvisitumea.ListFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
+        android:background="@color/colorWhite"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:textSize="20sp"
+        android:text="DETTA ÄR LISTFRAGMENTET"
+
+        />
 
 </FrameLayout>

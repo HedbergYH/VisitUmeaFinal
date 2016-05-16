@@ -31,14 +31,14 @@ public class Sites extends Fragment {
 
 
      ListView    containerListViewSite;
-     ArrayList<String> itemsInSiteList = new ArrayList<>();
+     ArrayList<String> itemsInCategoryList = new ArrayList<>();
      MyArrayAdapter myArrayAdapter;
 
     ///////////////////////////////////////////////////////////////////
 
     private class MyArrayAdapter extends ArrayAdapter<String> { // Custom Arrayadapter, borde brytas ut
-        public MyArrayAdapter(Context context, int resource, ArrayList<String> itemsInSiteList) {
-            super(context, resource, itemsInSiteList);
+        public MyArrayAdapter(Context context, int resource, ArrayList<String> itemsInCategoryList) {
+            super(context, resource, itemsInCategoryList);
         }
 
         @Override
@@ -50,7 +50,7 @@ public class Sites extends Fragment {
             View blowupmenu = inflater.inflate(R.layout.fragment_in_sitelist_blow_up, containerListViewSite, false);
             TextView textView = (TextView) blowupmenu.findViewById(R.id.siteListText); // siteListText ligger i fragment_in_sitelist_blow_up.xml
 
-            textView.setText(itemsInSiteList.get(position));
+            textView.setText(itemsInCategoryList.get(position));
 
             return blowupmenu;                                                      // Här returnerars menuitemblowup.xmls root-layout
         }
@@ -65,13 +65,13 @@ public class Sites extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sites, container, false);
 
-        itemsInSiteList.add("All");
-        itemsInSiteList.add("Culture");
-        itemsInSiteList.add("Religious");
-        itemsInSiteList.add("Historical");
+        itemsInCategoryList.add("All");
+        itemsInCategoryList.add("Culture");
+        itemsInCategoryList.add("Religious");
+        itemsInCategoryList.add("Historical");
 
         containerListViewSite =(ListView)view.findViewById(R.id.containerListViewSite);
-        myArrayAdapter = new MyArrayAdapter(getActivity(),R.layout.fragment_in_sitelist_blow_up, itemsInSiteList);
+        myArrayAdapter = new MyArrayAdapter(getActivity(),R.layout.fragment_in_sitelist_blow_up, itemsInCategoryList);
         containerListViewSite.setAdapter(myArrayAdapter); //adapter skickas till min ListView som kallas containerListViewSite och ligger i fragment_sites.xml
 
         containerListViewSite.setOnItemClickListener(new AdapterView.OnItemClickListener() {         // Tar hand om klick i list-vyn
@@ -85,7 +85,7 @@ public class Sites extends Fragment {
 
                 ((MainActivity)getActivity()).finish(); // Ska döda mainActivity
 
-                String type = itemsInSiteList.get(pos);
+                String type = itemsInCategoryList.get(pos);
                 Log.i("MIN_TAG", "typ: " + type);
 
                 Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen

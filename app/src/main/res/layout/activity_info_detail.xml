@@ -11,10 +11,21 @@
     tools:context="com.example.umyhnystma.matsvisitumea.InfoDetailActivity">
 
     <RelativeLayout
+        android:layout_alignParentTop="true"
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
         android:layout_alignParentBottom="true"
         android:id="@+id/mapOrListContainer"
         android:layout_width="match_parent"
-        android:layout_height="340dp"></RelativeLayout>
+        android:layout_height="370dp">
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_alignParentBottom="true"
@@ -24,42 +35,7 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:id="@+id/lin1"
-        android:weightSum="2"
-        android:background="@color/colorLightBlue"
-        android:layout_width="match_parent"
-        android:layout_height="73dp">
 
-        <ImageView
-            android:id="@+id/mapImage"
-            android:layout_weight="1"
-            android:layout_marginRight="8dp"
-            android:clickable="true"
-            android:padding="1dp"
-            android:clipToPadding="false"
-            android:elevation="5dp"
-            android:scaleType="fitXY"
-            android:background="@drawable/background_border"
-            android:src="@drawable/knappkartbild"
-            android:layout_width="100dp"
-            android:layout_height="70dp" />
-        <ImageView
-            android:id="@+id/listImage"
-            android:layout_toRightOf="@+id/mapView"
-            android:layout_marginLeft="8dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:clipToPadding="false"
-            android:elevation="5dp"
-            android:src="@drawable/ownlist"
-            android:padding="1dp"
-            android:background="@drawable/background_border"
-            android:scaleType="fitXY"
-            android:layout_width="100dp"
-            android:layout_height="70dp" />
-    </LinearLayout>
 
 
 </RelativeLayout>
