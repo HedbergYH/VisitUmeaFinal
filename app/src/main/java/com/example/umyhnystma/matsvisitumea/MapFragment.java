@@ -200,7 +200,7 @@ public class MapFragment extends Fragment {
 
         // create markerOptions
         markerOptions = new MarkerOptions().position(
-                new LatLng(latitude, longitude)).title("Hello Maps");
+                new LatLng(latitude, longitude)).title("You");
 
         // Changing markerOptions icon
         markerOptions.icon(BitmapDescriptorFactory
