@@ -14,11 +14,11 @@
 
     <TextView
         android:paddingLeft="15dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:id="@+id/siteListText"
         android:text="text i fragment"
-        android:textSize="30sp"
+        android:textSize="10sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <ImageView

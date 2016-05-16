@@ -44,7 +44,7 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
     GoogleApiClient mGoogleApiClient;
     LocationRequest mRequest;
     Location mCurrentLocation;
-    Fragment fragmentMap;
+    Fragment fragmentMap,listFragment,fragmentButton;
 
     public static final String INTENT_TAB_NUMBER = "INTENT_NUMBER";
 
@@ -53,9 +53,14 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_detail);
 
+        // för knappfragment
+        fm = getSupportFragmentManager();
+        trans = fm.beginTransaction();
+        fragmentButton = new ButtonFragment();
+
+        trans.add(R.id.buttonContainer, fragmentButton).commit(); // tar fram knappfragmentet
 
         Intent intent = getIntent();
-
         int extras = intent.getExtras().getInt("KEY");
 
         locationGetter();
@@ -68,34 +73,50 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
         bundle.putInt("KEY", extras);
 
         fragmentMap.setArguments(bundle);
-
         trans.add(R.id.mapOrListContainer, fragmentMap).commit();
 
-        //showLocationMessage();
+        listFragment = new ListFragment();
 
 
-        final ImageView mapImage = (ImageView) findViewById(R.id.mapImage);
-        final ImageView listImage = (ImageView) findViewById(R.id.listImage);
 
-        mapImage.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mapImage.setColorFilter(Color.argb(50, 0, 0, 0));
-                listImage.setColorFilter(Color.argb(0, 0, 0, 0));
-                return false;
-            }
-        });
+/*
+        Intent intent = getIntent();
+        int extras = intent.getExtras().getInt("KEY");
 
-        listImage.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                listImage.setColorFilter(Color.argb(50, 0, 0, 0));
-                mapImage.setColorFilter(Color.argb(0, 0, 0, 0));
-                return false;
-            }
-        });
+        locationGetter();
 
+        fm = getSupportFragmentManager();
+        trans = fm.beginTransaction();
+        fragmentMap = new MapFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("KEY", extras);
+
+        fragmentMap.setArguments(bundle);
+        trans.add(R.id.mapOrListContainer, fragmentMap).commit();
+*/
     }
+
+
+
+    public void invokeMapFragment(){
+        trans = fm.beginTransaction();
+        trans.replace(R.id.mapOrListContainer, fragmentMap).commit();
+    }
+
+
+    public void invokeListFragment(){
+        trans = fm.beginTransaction();
+        trans.replace(R.id.mapOrListContainer, listFragment).commit();
+    }
+
+
+
+
+
+
+
+
 
     public void onBackPressed(){
 
