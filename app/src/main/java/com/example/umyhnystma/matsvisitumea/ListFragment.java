@@ -104,8 +104,12 @@ public class ListFragment extends Fragment {
       //  view = inflater.inflate(R.layout.fragment_list, container, false);
         view = inflater.inflate(R.layout.fragment_sites, container, false);
 
-        itemsInSiteList.add("Backens kyrka");
-        itemsInSiteList.add("Sävargården");
+        for (int i = 0; i < ((InfoDetailActivity)getActivity()).mySites.size(); i ++){
+            itemsInSiteList.add(((InfoDetailActivity)getActivity()).mySites.get(i).getName());
+        }
+
+        //itemsInSiteList.add("Backens kyrka");
+        //itemsInSiteList.add("Sävargården");
         // itemsInSiteList.add("Baggböle Herrgård");
         //itemsInSiteList.add("Umeå Stadskyrka");
         //itemsInSiteList.add("Gammlia");

@@ -19,11 +19,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-import java.util.ArrayList;
-
-
-
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -66,7 +61,7 @@ public class Sites extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sites, container, false);
 
         itemsInCategoryList.add("All");
-        itemsInCategoryList.add("Culture");
+        itemsInCategoryList.add("Cultural");
         itemsInCategoryList.add("Religious");
         itemsInCategoryList.add("Historical");
 
@@ -83,8 +78,6 @@ public class Sites extends Fragment {
 
              //   MapFragment tmp = (MapFragment)((MainActivity)getActivity()).fragmentMap;
 
-                ((MainActivity)getActivity()).finish(); // Ska döda mainActivity
-
                 String type = itemsInCategoryList.get(pos);
                 Log.i("MIN_TAG", "typ: " + type);
 
@@ -92,10 +85,20 @@ public class Sites extends Fragment {
                 //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle
                 //intent.putExtra(INTENT_POSITON_NUMBER, pos);                           // Position skickas med bundle
 
-                intent.putExtra("KEY", 2);
+                if(pos == 0){
+                    intent.putExtra("MySites", ((MainActivity) getActivity()).mySites.allSites);
+                }else if(pos == 1){
+                    intent.putExtra("MySites", ((MainActivity) getActivity()).mySites.culturalSites);
+                }else if(pos == 2){
+                    intent.putExtra("MySites", ((MainActivity) getActivity()).mySites.religiousSites);
+                }else{
+                    intent.putExtra("MySites", ((MainActivity) getActivity()).mySites.historicalSites);
+                }
+
 
                 getActivity().startActivity(intent);
 
+                ((MainActivity)getActivity()).finish(); // Ska döda mainActivity
             }
         });
 

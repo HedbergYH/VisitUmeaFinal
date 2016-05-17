@@ -4,22 +4,19 @@ import android.graphics.Bitmap;
 
 import com.google.android.gms.maps.model.Marker;
 
+import java.util.ArrayList;
+
 /**
  * Created by umyhhedbjo on 2016-05-02.
  */
-public class Site {
+public class Site implements java.io.Serializable {
 
-    String name, description;
-    Long latitude, longitude;
+    String name;
+    String description;
+
+    String category;
+    double latitude, longitude;
     Bitmap image;
-
-    public Marker getMarker() {
-        return marker;
-    }
-
-    public void setMarker(Marker marker) {
-        this.marker = marker;
-    }
 
     Marker marker;
 
@@ -29,6 +26,31 @@ public class Site {
 
     }
 
+    public Site(String name, String description, double latitude, double longitude, String category){
+
+        this.name = name;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.category = category;
+
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Marker getMarker() {
+        return marker;
+    }
+
+    public void setMarker(Marker marker) {
+        this.marker = marker;
+    }
 
     public String getName() {
         return name;
@@ -46,19 +68,19 @@ public class Site {
         this.description = description;
     }
 
-    public Long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public Long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

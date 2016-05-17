@@ -35,10 +35,7 @@ public class LocationMessage extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_location_message, container, false);
 
-        myTestsite = new Site();
-
-        myTestsite.setName("Backens jävla kyrka");
-        myTestsite.setDescription("Backens hela historia och allt som kan vara intressant om Backens jävla kyrka. Fan.");
+        myTestsite = ((InfoDetailActivity)getActivity()).siteShortInfoMessage;
 
         cancelMessage = (ImageView)view.findViewById(R.id.cancelMessage);
         imageView = (ImageView)view.findViewById(R.id.visitLogoImage);

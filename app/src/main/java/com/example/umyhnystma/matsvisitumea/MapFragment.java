@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.fitness.data.Application;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -47,6 +48,8 @@ public class MapFragment extends Fragment {
     Marker marker;
     Marker backensKyrka;
 
+
+
     @Override
     public void onAttach(Context context){
         //Interface mellan MapFragment och ToggleButtons via MainActivity
@@ -81,16 +84,20 @@ public class MapFragment extends Fragment {
             @Override
             public void onInfoWindowClick(Marker marker) {
 
+                Log.i("TAG", "I onInfoWindowClick mapFragment");
+
                 //Visar LocationMessage
+
+                /*
 
                 int pos = mHashMap.get(marker);
 
                 ((InfoDetailActivity)getActivity()).showLocationMessage(sitesArray.get(pos));
 
+                */
+
             }
         });
-
-//        googleMap.getMyLocation(); KRASCH
 
         // latitude and longitude
 
@@ -100,14 +107,15 @@ public class MapFragment extends Fragment {
             e.printStackTrace();
         }
 
-        setUpMapWithPosition();
+        //setUpMapWithPosition(); Kanske ej nödvändigt. Flyttat till onResume
 
         try{
             int bundle = getArguments().getInt("KEY");
 
             if(bundle == 2){
 
-                setOutReligiosMarkers();
+                //setOutReligiosMarkers(); Gammalt
+
 
             }
 
@@ -120,13 +128,19 @@ public class MapFragment extends Fragment {
         return v;
     }
 
+
+
     @Override
     public void onResume(){
         super.onResume();
+
+        setUpMapWithPosition();
+
         mMapView.onResume();
         Log.i("MIN_TAG","onResume i mapFragment");
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -217,7 +231,7 @@ public class MapFragment extends Fragment {
 
     }
 
-    public void setOutReligiosMarkers(){
+    public void setOutReligiousMarkers(){
 
         //Sätter ut våra religösa platser på kartan
 
@@ -236,6 +250,19 @@ public class MapFragment extends Fragment {
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             mHashMap.put(marker, i);
         }
+
+    }
+    public Marker placeMarker(Site site) {
+
+        //Metoden sköts från InfoDeatailActivity's onCreate. Den sätter ut Site-objekten på kartan.
+
+        Marker m  = googleMap.addMarker(new MarkerOptions()
+
+                .position(new LatLng(site.getLatitude(),site.getLongitude()))
+
+                .title(site.getName()));
+
+        return m;
 
     }
 

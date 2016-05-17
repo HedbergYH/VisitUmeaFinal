@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +33,9 @@ public class ButtonFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    Fragment list;
+    Fragment map;
+
     private OnFragmentInteractionListener mListener;
 
     public ButtonFragment() {
@@ -56,9 +60,17 @@ public class ButtonFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        map = ((InfoDetailActivity)getActivity()).fragmentMap;
+        list = ((InfoDetailActivity)getActivity()).listFragment;
+
+        ((InfoDetailActivity)getActivity()).invokeListFragment();
+
+        getActivity().getSupportFragmentManager().beginTransaction().hide(map).commit();
 
         if (getArguments() != null) {//Används ej
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -80,9 +92,20 @@ public class ButtonFragment extends Fragment {
         mapImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+
+                Log.i("TAG", "Clicked map");
+
                 mapImage.setColorFilter(Color.argb(120, 0, 0, 0));
                 listImage.setColorFilter(Color.argb(0, 0, 0, 0));
-                ((InfoDetailActivity)getActivity()).invokeMapFragment();
+                //((InfoDetailActivity)getActivity()).invokeMapFragment();
+
+                if(list.isVisible()){
+
+                    getActivity().getSupportFragmentManager().beginTransaction().hide(list).commit();
+
+                }
+
+                getActivity().getSupportFragmentManager().beginTransaction().show(map).commit();
                 return false;
             }
         });
@@ -90,9 +113,20 @@ public class ButtonFragment extends Fragment {
         listImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+
+                Log.i("TAG", "Clicked list");
+
+                if(map.isVisible()){
+
+                    getActivity().getSupportFragmentManager().beginTransaction().hide(map).commit();
+
+                }
+
                 listImage.setColorFilter(Color.argb(120, 0, 0, 0));
                 mapImage.setColorFilter(Color.argb(0, 0, 0, 0));
-                ((InfoDetailActivity)getActivity()).invokeListFragment();
+                //((InfoDetailActivity)getActivity()).invokeListFragment();
+
+                getActivity().getSupportFragmentManager().beginTransaction().show(list).commit();
                 return false;
             }
         });

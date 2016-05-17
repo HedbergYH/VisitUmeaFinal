@@ -10,24 +10,30 @@
     android:background="@color/colorLightBlue"
     tools:context="com.example.umyhnystma.matsvisitumea.MainActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container">
+
+
+    </RelativeLayout>
 
         <RelativeLayout
+            android:layout_alignParentBottom="true"
             android:gravity="center"
-            android:id="@+id/container"
+            android:id="@+id/GPScontainer"
             android:background="@color/colorLightBlue"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <RelativeLayout
-                android:id="@+id/mapContainer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="100dp">
-
-            </RelativeLayout>
-
+            android:layout_height="120dp">
 
         </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_above="@id/GPScontainer"
+        android:id="@+id/mapContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -20,14 +20,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class InfoDetailActivity extends AppCompatActivity implements LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, ToggleChange {
 
@@ -36,9 +41,15 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
      * TA BORT ALLT NEDAN FÖR ATT UNDVIKA MERGEKONFLIKTER
      *
      */
+
+    private static final String RELIGIOUS = "Religious";
+    private static final String HISTORICAL = "Historical";
+
     FragmentManager fm;
     FragmentTransaction trans;
     Fragment fragment;
+
+    Site siteShortInfoMessage;
 
 
     GoogleApiClient mGoogleApiClient;
@@ -46,12 +57,21 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
     Location mCurrentLocation;
     Fragment fragmentMap,listFragment,fragmentButton;
 
+    private HashMap <Marker, Site> siteMarkerMap;
+
     public static final String INTENT_TAB_NUMBER = "INTENT_NUMBER";
+
+    ArrayList<Site> mySites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_detail);
+
+
+        Intent intent = getIntent();
+        mySites = (ArrayList<Site>) intent.getSerializableExtra("MySites");
+
 
         // för knappfragment
         fm = getSupportFragmentManager();
@@ -60,8 +80,8 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
 
         trans.add(R.id.buttonContainer, fragmentButton).commit(); // tar fram knappfragmentet
 
-        Intent intent = getIntent();
-        int extras = intent.getExtras().getInt("KEY");
+
+        siteMarkerMap = new HashMap<Marker, Site>();
 
         locationGetter();
 
@@ -69,10 +89,7 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
         trans = fm.beginTransaction();
         fragmentMap = new MapFragment();
 
-        Bundle bundle = new Bundle();
-        bundle.putInt("KEY", extras);
 
-        fragmentMap.setArguments(bundle);
         trans.add(R.id.mapOrListContainer, fragmentMap).commit();
 
         listFragment = new ListFragment();
@@ -101,21 +118,15 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
 
     public void invokeMapFragment(){
         trans = fm.beginTransaction();
-        trans.replace(R.id.mapOrListContainer, fragmentMap).commit();
+        trans.add(R.id.mapOrListContainer, fragmentMap).commit();
+
     }
 
 
     public void invokeListFragment(){
         trans = fm.beginTransaction();
-        trans.replace(R.id.mapOrListContainer, listFragment).commit();
+        trans.add(R.id.mapOrListContainer, listFragment).commit();
     }
-
-
-
-
-
-
-
 
 
     public void onBackPressed(){
@@ -132,6 +143,41 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
         super.onBackPressed();
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        setUpSites();
+    }
+    private void setUpSites() {
+
+        for(int i = 0; i < mySites.size(); i++){
+            Marker m = ((MapFragment)fragmentMap).placeMarker(mySites.get(i));
+            siteMarkerMap.put(m, mySites.get(i));
+        }
+        /*
+        Site backensKyrka = new Site("Backens kyrka", "Backens kyrka är en annan historia än allt annat",63.8380731,20.1563725, RELIGIOUS);
+        Site sävarGården = new Site ("Sävargården", "Information om Sävargården", 63.8284222, 20.290917, HISTORICAL);
+
+        Marker backensMarker = ((MapFragment)fragmentMap).placeMarker(backensKyrka);
+        Marker sävarMarker = ((MapFragment)fragmentMap).placeMarker(sävarGården);
+
+
+        siteMarkerMap.put(backensMarker, backensKyrka);
+        siteMarkerMap.put(sävarMarker, sävarGården);
+
+        */
+
+        ((MapFragment)fragmentMap).googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                siteShortInfoMessage = siteMarkerMap.get(marker);
+                Toast.makeText(InfoDetailActivity.this, "You choose " + siteShortInfoMessage.getName() + ". Description is " + siteShortInfoMessage.getDescription() + ".", Toast.LENGTH_SHORT).show();
+                showLocationMessage(siteShortInfoMessage);
+            }
+        });
+    }
+
 
     @Override
     public void onResume(){
@@ -146,7 +192,6 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
         super.onPause();
         Log.i("MIN_TAG","onPause i infoDetailActivity");
     }
-
 
 
     @Override
