@@ -16,24 +16,25 @@
         android:id="@+id/container">
 
 
-    </RelativeLayout>
-
         <RelativeLayout
             android:layout_alignParentBottom="true"
             android:gravity="center"
             android:id="@+id/GPScontainer"
             android:background="@color/colorLightBlue"
             android:layout_width="match_parent"
-            android:layout_height="120dp">
+            android:layout_height="62dp">
 
         </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_above="@id/GPScontainer"
-        android:id="@+id/mapContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_above="@id/GPScontainer"
+            android:id="@+id/mapContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </RelativeLayout>
 
     </RelativeLayout>
+
 
 </RelativeLayout>
