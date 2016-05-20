@@ -37,14 +37,11 @@ public class ToggleButtonsMainActivity extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-
-
                 if(isChecked){
 
                     Log.i("MIN_TAG", "if-case--> isChecked is:" + isChecked);
 
                     //isChecked = false; Stäng av kod för location guide
-
 
                 }else{
 
@@ -52,11 +49,7 @@ public class ToggleButtonsMainActivity extends Fragment {
 
                     //isChecked = true; Gör kod för location guide
 
-
-
                 }
-
-
 
             }
         });

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,11 @@ public class ListFragment extends Fragment{
     private String mParam2;
     View view;
 
+    FragmentManager fm;
+    FragmentTransaction trans;
+    Fragment detailInfoFragment;
+
+
     ListView    containerListViewSite;
     ArrayList<String> itemsInSiteList = new ArrayList<>();
     MyArrayAdapter myArrayAdapter;
@@ -54,11 +61,11 @@ public class ListFragment extends Fragment{
 
             LayoutInflater inflater = getActivity().getLayoutInflater();
             //Bestämmer vad som ska blåsas upp och vart
-            View blowupmenu = inflater.inflate(R.layout.fragment_in_sitelist_blow_up, containerListViewSite, false);
+            View blowupmenu = inflater.inflate(R.layout.fragment_in_sitelist_blow_up_second, containerListViewSite, false);
             TextView textView = (TextView) blowupmenu.findViewById(R.id.siteListText); // siteListText ligger i fragment_in_sitelist_blow_up.xml
             textView.setText(itemsInSiteList.get(position));
 
-            textView.setText(itemsInSiteList.get(position));
+           // textView.setText(itemsInSiteList.get(position));
 
 
             return blowupmenu;                                                      // Här returnerars menuitemblowup.xmls root-layout
@@ -127,17 +134,33 @@ public class ListFragment extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 
+                Bundle bundle = new Bundle();
+                bundle.putInt("KEY",pos);
 
-                // fragmentMap  mMap
 
-                //   MapFragment tmp = (MapFragment)((MainActivity)getActivity()).fragmentMap;
+                fm = getActivity().getSupportFragmentManager();
+                trans = fm.beginTransaction();
+                detailInfoFragment = new DetailInfoFragment();
 
-            //    ((MainActivity)getActivity()).finish(); // Ska döda mainActivity
+                detailInfoFragment.setArguments(bundle);
+
+                trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment).addToBackStack("MY_TAG").commit(); // tar fram knappfragmentet
+
 
                 String type = itemsInSiteList.get(pos);
                Log.i("MIN_TAG", "typ: " + type);
+ /*
+          Intent intent = getIntent();
+        int extras = intent.getExtras().getInt("KEY");
+
+        locationGetter();
+
+        fm = getSupportFragmentManager();
+        trans = fm.beginTransaction();
+        fragmentMap = new MapFragment();
 
 
+*/
 
                // Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen
                 //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle
@@ -158,34 +181,8 @@ public class ListFragment extends Fragment{
         return view;
 
     }
-/*
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-*/
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

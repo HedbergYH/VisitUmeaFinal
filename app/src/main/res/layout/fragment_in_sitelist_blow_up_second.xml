@@ -13,12 +13,12 @@
         android:background="@color/colorWhite">
 
     <TextView
-        android:paddingLeft="15dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
         android:id="@+id/siteListText"
         android:text="text i fragment"
-        android:textSize="10sp"
+        android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <ImageView

@@ -89,7 +89,6 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
         trans = fm.beginTransaction();
         fragmentMap = new MapFragment();
 
-
         trans.add(R.id.mapOrListContainer, fragmentMap).commit();
 
         listFragment = new ListFragment();
@@ -128,19 +127,24 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
         trans.add(R.id.mapOrListContainer, listFragment).commit();
     }
 
-
+    @Override
     public void onBackPressed(){
-
-      //  Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen
-        Intent intent = new Intent(this, MainActivity.class);
-        //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle
-        intent.putExtra(INTENT_TAB_NUMBER, 1);                         // Position skickas med bundle
-        this.startActivity(intent);
-
-
-
         Log.i("MIN_TAG", "onBackPressed i infoDetailActivity");
-        super.onBackPressed();
+            int count = getSupportFragmentManager().getBackStackEntryCount();
+
+            if (count == 0) {
+
+                //  Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen
+                Intent intent = new Intent(this, MainActivity.class);
+                //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle
+                intent.putExtra(INTENT_TAB_NUMBER, 1);                         // Position skickas med bundle
+                this.startActivity(intent);
+                //onBackPressed();
+
+            } else {
+                getSupportFragmentManager().popBackStack();
+            }
+
     }
 
     @Override
@@ -272,7 +276,6 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
 }
 
 
-
     @Override
     public void onConnectionSuspended(int i) {
 
@@ -282,5 +285,6 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
 
 }
