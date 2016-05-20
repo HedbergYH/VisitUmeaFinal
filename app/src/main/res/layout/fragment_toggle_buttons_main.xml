@@ -7,28 +7,6 @@
     tools:context="com.example.umyhnystma.matsvisitumea.ToggleButtonsMainActivity">
 
     <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
-        android:padding="8dp"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="15dp"
-            android:textSize="25sp"
-            android:text="GPS"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ToggleButton
-            android:layout_alignParentRight="true"
-            android:layout_gravity="end"
-            android:id="@+id/toggleGPS"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </RelativeLayout>
 
     <RelativeLayout
         android:gravity="center_vertical"
@@ -40,11 +18,12 @@
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="15dp"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:text="Location based guide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ToggleButton
+
             android:layout_alignParentRight="true"
             android:layout_gravity="bottom"
             android:id="@+id/toggleLocationGuide"
