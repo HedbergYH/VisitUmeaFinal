@@ -34,7 +34,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class InfoDetailActivity extends AppCompatActivity implements LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, ToggleChange {
+public class InfoDetailActivity extends AppCompatActivity implements LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
     TextView myText;
     /***************************************
@@ -283,15 +283,4 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
 
     }
 
-    @Override
-    public void onChangedGPS(int code, Boolean bool) {
-        //Ett tomt interface som kollar om GPS är på eller av i MainActivity
-        //Finns här för att kunna använda samma MapFragment-klass
-    }
-
-    @Override
-    public void onChangedLocationGuide(int code, Boolean bool) {
-        //Ett tomt interface som kollar om GPS är på eller av i MainActivity
-        //Finns här för att kunna använda samma MapFragment-klass
-    }
 }

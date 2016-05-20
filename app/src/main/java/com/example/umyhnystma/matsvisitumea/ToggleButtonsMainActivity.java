@@ -17,19 +17,12 @@ import android.widget.ToggleButton;
  */
 public class ToggleButtonsMainActivity extends Fragment {
 
-    ToggleChange myToggleChange;
-    ToggleButton toggleGPS, toggleLocationGuide;
+    ToggleButton toggleLocationGuide;
 
     public ToggleButtonsMainActivity() {
         // Required empty public constructor
     }
 
-    @Override
-    public void onAttach(Context context){
-        //Interface mellan MapFragment och ToggleButtons via MainActivity
-        super.onAttach(context);
-        myToggleChange = (ToggleChange)getActivity();
-    }
 
 
     @Override
@@ -38,9 +31,9 @@ public class ToggleButtonsMainActivity extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_toggle_buttons_main, container, false);
 
-        toggleGPS = (ToggleButton)v.findViewById(R.id.toggleGPS);
+        toggleLocationGuide = (ToggleButton)v.findViewById(R.id.toggleLocationGuide);
 
-        toggleGPS.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        toggleLocationGuide.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
@@ -50,17 +43,17 @@ public class ToggleButtonsMainActivity extends Fragment {
 
                     Log.i("MIN_TAG", "if-case--> isChecked is:" + isChecked);
 
-                    //isChecked = false;
+                    //isChecked = false; Stäng av kod för location guide
 
-                    myToggleChange.onChangedGPS(1, isChecked);
 
                 }else{
 
                     Log.i("MIN_TAG", "isChecked is: " + isChecked);
 
-                    //isChecked = true;
+                    //isChecked = true; Gör kod för location guide
 
-                    myToggleChange.onChangedGPS(2, isChecked);
+
+
                 }
 
 

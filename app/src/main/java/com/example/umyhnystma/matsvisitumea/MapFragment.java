@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.fitness.data.Application;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,7 +34,7 @@ import java.util.HashMap;
 public class MapFragment extends Fragment {
 
 
-    ToggleChange myToggleChange;
+
     protected MapView mMapView;
     protected GoogleMap googleMap;
     Boolean GPS, GeoLocationBasedGuide;
@@ -48,14 +49,6 @@ public class MapFragment extends Fragment {
     Marker marker;
     Marker backensKyrka;
 
-
-
-    @Override
-    public void onAttach(Context context){
-        //Interface mellan MapFragment och ToggleButtons via MainActivity
-        super.onAttach(context);
-        myToggleChange = (ToggleChange)getActivity();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -163,17 +156,7 @@ public class MapFragment extends Fragment {
     }
     public void checkGPSState(){
 
-        if(GPS){
-            //GPS should be true
-
-            Log.i("MIN_TAG", "GPS is true, see GPS = " + GPS);
-
-        }else{
-            //GPS should be false
-
-            Log.i("MIN_TAG", "GPS is false, see GPS = " + GPS);
-
-        }
+        ((MainActivity)getActivity()).fragmentCheckGPS();
 
     }
 
@@ -218,7 +201,7 @@ public class MapFragment extends Fragment {
 
         // Changing markerOptions icon
         markerOptions.icon(BitmapDescriptorFactory
-                .defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+                .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
         // adding markerOptions
         marker = googleMap.addMarker(markerOptions);

@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * Use the {@link ListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -136,6 +136,8 @@ public class ListFragment extends Fragment {
 
                 String type = itemsInSiteList.get(pos);
                Log.i("MIN_TAG", "typ: " + type);
+
+
 
                // Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen
                 //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle

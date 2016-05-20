@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -34,7 +35,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 
 
-public class MainActivity extends AppCompatActivity implements ActionBar.TabListener, ToggleChange, com.google.android.gms.location.LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+public class MainActivity extends AppCompatActivity implements ActionBar.TabListener, com.google.android.gms.location.LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     // private GoogleMap mMap; Kanske kan man ta bort det här
     FragmentManager fm;
@@ -99,6 +100,27 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
             Log.i("TAG", "Nätverk tillgängligt");
         }else {
             Toast.makeText(MainActivity.this, "Enable internet connection to use the app.", Toast.LENGTH_LONG).show();
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setMessage("Network is disabled in your device. Would you like to enable it?")
+                    .setCancelable(false)
+                    .setPositiveButton("Go to network settings.",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent callNetworkSettingIntent = new Intent(
+                                            Settings.ACTION_WIRELESS_SETTINGS);
+                                    startActivity(callNetworkSettingIntent);
+                                }
+                            });
+            alertDialogBuilder.setNegativeButton("Cancel",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert = alertDialogBuilder.create();
+            alert.show();
         }
 
     }
@@ -116,8 +138,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
             }
             return false;
         }
-
-
 
     private void checkGPSstate() {
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -263,29 +283,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     }
 
-    @Override
-    public void onChangedGPS(int code, Boolean bool) {
-        if (code == 1) {
-            //isChecked = false
 
-            ((MapFragment) fragmentMap).GPS = bool;
-
-            ((MapFragment) fragmentMap).checkGPSState();
-
-        } else if (code == 2) {
-            //isChecked = true
-
-            ((MapFragment) fragmentMap).GPS = bool;
-
-            ((MapFragment) fragmentMap).checkGPSState();
-
-        }
-    }
-
-    @Override
-    public void onChangedLocationGuide(int code, Boolean bool) {
-
-    }
 
     public void locationGetter() {
         if (mGoogleApiClient == null) {
@@ -473,6 +471,9 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
         }
 
+    }
+    public void fragmentCheckGPS(){
+        checkGPSstate();
     }
 
 }
