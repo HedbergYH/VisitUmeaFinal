@@ -6,34 +6,48 @@
     android:layout_height="match_parent"
     tools:context="com.example.umyhnystma.matsvisitumea.ButtonFragment">
 
+    <!--
+
     <LinearLayout
         android:orientation="horizontal"
         android:id="@+id/lin1"
         android:background="@color/colorLightBlue"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="200dp">
+-->
+
     <LinearLayout
         android:orientation="vertical"
 
-        android:layout_weight="1"
+
         android:id="@+id/lin2"
         android:background="@color/colorLightBlue"
-        android:layout_width="100dp"
-        android:layout_height="100dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/title_in_fragment_detail_info"
             android:textSize="20sp"
             android:textColor="@color/colorPrimary"
             android:background="@color/colorWhite"
-            android:layout_weight="1"
-            android:text="tttt"
             android:gravity="center"
+            android:text="tttt"
+
             android:padding="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/pictureofbuilding"
+            android:layout_toRightOf="@+id/buttonmapwithtext"
+            android:layout_gravity="center"
+            android:clipToPadding="false"
+            android:scaleType="fitXY"
+            android:padding="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
         <TextView
-            android:id="@+id/text_in_fragment_detail_info"
+            android:id="@+id/smalltext_in_fragment_detail_info"
+            android:layout_gravity="bottom"
             android:background="@color/colorWhite"
             android:layout_weight="1"
             android:padding="4dp"
@@ -41,17 +55,11 @@
             android:layout_height="wrap_content" />
      </LinearLayout>
 
-        <ImageView
-            android:id="@+id/pictureofbuilding"
-            android:layout_toRightOf="@+id/buttonmapwithtext"
-            android:layout_weight="1"
-            android:clipToPadding="false"
-            android:scaleType="fitXY"
-            android:padding="1dp"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
 
+     <!--
     </LinearLayout>
+-->
+
     <RelativeLayout
         android:layout_alignParentBottom="true"
         android:background="@color/colorWhite"
@@ -60,17 +68,7 @@
         android:id="@+id/rel2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/smalltext_in_fragment_detail_info"
-        android:paddingTop="8dp"
-        android:paddingLeft="4dp"
-        android:textColor="@color/colorBlack"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/lin1"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorWhite"
-        android:layout_height="wrap_content"
-        android:alpha="0.87"
-        android:text="@string/hello_blank_fragment" />
+
+
 
 </RelativeLayout>

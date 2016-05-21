@@ -33,7 +33,7 @@ public class DetailInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_detail_info, container, false);
-        text_in_fragment_detail_info = (TextView) view.findViewById(R.id.text_in_fragment_detail_info);
+        smalltext_in_fragment_detail_info = (TextView) view.findViewById(R.id.smalltext_in_fragment_detail_info);
         smalltext_in_fragment_detail_info = (TextView) view.findViewById(R.id.smalltext_in_fragment_detail_info);
         title_in_fragment_detail_info = (TextView) view.findViewById(R.id.title_in_fragment_detail_info);
 
@@ -46,12 +46,15 @@ public class DetailInfoFragment extends Fragment {
 
 
         title_in_fragment_detail_info.setText(info);
-        text_in_fragment_detail_info.setText(info);
-        Log.i("TAG", info);
+        smalltext_in_fragment_detail_info.setText(((InfoDetailActivity)getActivity()).mySites.get(position).getDescription());
 
 
          // Skall anropas separat för vaje bild
-        String myPicture = "http://blogg.vk.se/wp-content/uploads/oldblog/1589/images/saratunneln8(1).JPG";
+        String myPicture = ((InfoDetailActivity)getActivity()).mySites.get(position).getPictureURL();
+
+
+      // Log.i("TAG", myPicture);
+        //  String myPicture2 = "http://www.umea.se/images/18.73474df7141ec1b19d15615/1383648352953/Backens_kyrka_h.gif";
         ImageLoader myImageLoader = ImageLoader.getInstance();
         myImageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
         imageview = (ImageView)view.findViewById(R.id.pictureofbuilding);
