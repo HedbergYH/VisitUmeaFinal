@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.io.Serializable;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -37,13 +39,21 @@ public class DetailInfoFragment extends Fragment {
         smalltext_in_fragment_detail_info = (TextView) view.findViewById(R.id.smalltext_in_fragment_detail_info);
         title_in_fragment_detail_info = (TextView) view.findViewById(R.id.title_in_fragment_detail_info);
 
+
+/*
         Bundle bundle = getArguments();
         int position = bundle.getInt("KEY");
+
         String info = ((InfoDetailActivity)getActivity()).mySites.get(position).getName();
+
+*/
+        Bundle bundle = getArguments();
+
+        Site mySite = (Site)bundle.getSerializable("KEY_SERIALIZABLE");
+        String info = mySite.getName();
 
 
         Log.i("TAG", "I FRAGMENTET. Borde synas");
-
 
         title_in_fragment_detail_info.setText(info);
         text_in_fragment_detail_info.setText(info);

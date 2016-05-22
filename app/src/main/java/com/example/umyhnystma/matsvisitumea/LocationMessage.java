@@ -22,7 +22,7 @@ public class LocationMessage extends Fragment {
     FragmentManager fm;
     FragmentTransaction trans;
 
-    Site myTestsite;
+    Site mySite;
 
     public LocationMessage() {
         // Required empty public constructor
@@ -35,20 +35,27 @@ public class LocationMessage extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_location_message, container, false);
 
-        myTestsite = ((InfoDetailActivity)getActivity()).siteShortInfoMessage;
+        mySite = ((InfoDetailActivity)getActivity()).siteShortInfoMessage;
 
         cancelMessage = (ImageView)view.findViewById(R.id.cancelMessage);
         imageView = (ImageView)view.findViewById(R.id.visitLogoImage);
         titleText = (TextView)view.findViewById(R.id.titleTextView);
         descriptionText = (TextView)view.findViewById(R.id.descriptionTextView);
 
-        descriptionText.setText(myTestsite.description);
-        titleText.setText(myTestsite.name);
+        descriptionText.setText(mySite.description);
+        titleText.setText(mySite.name);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fm = getActivity().getSupportFragmentManager();
                 trans = fm.beginTransaction();
+                Fragment detailInfoFragment = new DetailInfoFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("KEY_SERIALIZABLE", mySite);
+                detailInfoFragment.setArguments(bundle);
+                trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment).addToBackStack("MY_TAG").commit();
                 //Byt ut hela fragmentet (InfoMapFragment) till DetailInfo-Fragment och skicka med ett objekt eller en referens till ett objekt
             }
         });

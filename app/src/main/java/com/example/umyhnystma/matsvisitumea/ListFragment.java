@@ -133,9 +133,13 @@ public class ListFragment extends Fragment{
         containerListViewSite.setOnItemClickListener(new AdapterView.OnItemClickListener() {         // Tar hand om klick i list-vyn
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-
+/**************************''''
+ * MATS FUNGERANDE BUNDLE MED POSITION
+ *            Bundle bundle = new Bundle();
+ *            bundle.putInt("KEY",pos);
+ */
                 Bundle bundle = new Bundle();
-                bundle.putInt("KEY",pos);
+                bundle.putSerializable("KEY_SERIALIZABLE", (((InfoDetailActivity) getActivity()).mySites.get(pos)));
 
 
                 fm = getActivity().getSupportFragmentManager();
@@ -145,7 +149,6 @@ public class ListFragment extends Fragment{
                 detailInfoFragment.setArguments(bundle);
 
                 trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment).addToBackStack("MY_TAG").commit(); // tar fram knappfragmentet
-
 
                 String type = itemsInSiteList.get(pos);
                Log.i("MIN_TAG", "typ: " + type);
