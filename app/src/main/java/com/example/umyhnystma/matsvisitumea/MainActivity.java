@@ -40,15 +40,17 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements ResultCallback, ActionBar.TabListener, LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
-    // private GoogleMap mMap; Kanske kan man ta bort det här
+    // med Geofence som kanske funkar/Mats 05-24
     FragmentManager fm;
     FragmentTransaction trans;
     Fragment fragmentMap;
@@ -64,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
     LocationRequest mRequest;
     Location mCurrentLocation;
 
+    protected static MainActivity TARGET_REACHED;
+
     private static final String RELIGIOUS = "Religious";
     private static final String HISTORICAL = "Historical";
     private static final String CULTURAL = "Cultural";
@@ -71,21 +75,66 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
     private static final String SAVED_SITES = "SAVED_SITES";
 
     Gson gson;
+
+    private boolean mGeofencesAdded;
+
+
     SavedSitesGson mySites = new SavedSitesGson();
     List<Geofence> mGeofenceList = new ArrayList<>();
     PendingIntent mGeofencePendingIntent;
+
+
+
+
+    /**
+     * Used to persist application state about whether geofences were added.
+     */
+    //private SharedPreferences mSharedPreferences;
+
+    /**
+     * Used to persist application state about whether geofences were added.
+     */
+    private SharedPreferences mSharedPreferences;
+
+
+
+    // Retrieve an instance of the SharedPreferences object.
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TARGET_REACHED = this;
+      //  GoogleApiClient mGoogleApiClient;
+        mGeofencePendingIntent = null;
+        mSharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME,
+                MODE_PRIVATE);
 
+        // Get the value of mGeofencesAdded from SharedPreferences. Set to false as a default.
+        mGeofencesAdded = mSharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
         checkInternetState();
 
         checkGPSstate();
 
-       // setUpGeofence();
-       // addGeofences();
+///////////////////////////
+
+
+
+
+
+
+ //////////////////////////////////
+
+
+        buildGoogleApiClient(); // Tillagd av Mats
+
+
+
+
 
         fm = getSupportFragmentManager();
 
@@ -108,7 +157,16 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
         ab.addTab(ab.newTab().setText("Search").setTabListener(this));
 
     }
-/*
+//////////////////////////// GeoFences - nedan /////////////////////////////////////////
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+}
+
+
     private void addGeofences() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -127,6 +185,9 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
                 getGeofencePendingIntent()
         ).setResultCallback(this);
     }
+
+
+
     private void removeGeofences(){
         LocationServices.GeofencingApi.removeGeofences(
                 mGoogleApiClient,
@@ -136,22 +197,63 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
     }
 
 
-    private void setUpGeofence() {
+ // Mats: original   private void setUpGeofence() {
+ public void populateGeofenceList() {
+     for (Map.Entry<String, LatLng> entry : Constants.BAY_AREA_LANDMARKS.entrySet()) {
 
-        mGeofenceList.add(new Geofence.Builder()
-                // Set the request ID of the geofence. This is a string to identify this
-                // geofence.
-                .setRequestId(entry.getKey())
+         mGeofenceList.add(new Geofence.Builder()     //mGeofenceList är en arraylist med Geofenceobjekt
+                 // Set the request ID of the geofence. This is a string to identify this
+                 // geofence.
 
-                .setCircularRegion(
-                        entry.getValue().latitude,
-                        entry.getValue().longitude,
-                        100
-                )
-                .setExpirationDuration(SyncStateContract.Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
-                        Geofence.GEOFENCE_TRANSITION_EXIT)
-                .build());
+
+                 .setRequestId(entry.getKey())
+
+                 .setCircularRegion(
+                         entry.getValue().latitude,
+                         entry.getValue().longitude,
+                         300
+                 )
+                 .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
+                 // .setExpirationDuration(SyncStateContract.Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
+                 .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
+                         Geofence.GEOFENCE_TRANSITION_EXIT)
+                 .build());
+
+
+
+
+///////////////////////////////////////////////////////////////////
+
+         Log.i("MIN_TAG", "mGeofenceList.size: "+ mGeofenceList.size());
+     }
+ }
+
+
+
+    public void onResult(Status status) {
+        if (status.isSuccess()) {
+            // Update state and save in shared preferences.
+            mGeofencesAdded = !mGeofencesAdded;
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putBoolean(Constants.GEOFENCES_ADDED_KEY, mGeofencesAdded);
+            editor.apply();
+
+            // Update the UI. Adding geofences enables the Remove Geofences button, and removing
+            // geofences enables the Add Geofences button.
+        //    setButtonsEnabledState();
+
+            Toast.makeText(
+                    this,
+                    getString(mGeofencesAdded ? R.string.geofences_added :
+                            R.string.geofences_removed),
+                    Toast.LENGTH_SHORT
+            ).show();
+        } else {
+            // Get the status code for the error and log it using a user-friendly message.
+            String errorMessage = GeofenceErrorMessages.getErrorString(this,
+                    status.getStatusCode());
+         //   Log.e(TAG, errorMessage);
+        }
     }
 
     private GeofencingRequest getGeofencingRequest() {
@@ -160,6 +262,9 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
         builder.addGeofences(mGeofenceList);
         return builder.build();
     }
+
+
+
 
         private PendingIntent getGeofencePendingIntent() {
             // Reuse the PendingIntent if we already have it.
@@ -173,7 +278,8 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
                     FLAG_UPDATE_CURRENT);
         }
 
-    */
+
+//////////////////////////// GeoFences - ovan /////////////////////////////////////////
 
 
 
@@ -332,6 +438,8 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
 
     }
 
+
+
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
@@ -399,7 +507,10 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
         } else {
             Log.i("MIN_TAG", "onConnected : else");
             try {
+                populateGeofenceList();
+                addGeofences();
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mRequest, this);
+
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
@@ -432,6 +543,8 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+        Log.i("MIN_TAG", "connectionResult" + connectionResult);
 
     }
 

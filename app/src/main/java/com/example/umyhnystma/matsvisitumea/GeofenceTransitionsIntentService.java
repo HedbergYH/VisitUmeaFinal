@@ -23,10 +23,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
@@ -66,6 +68,18 @@ public class GeofenceTransitionsIntentService extends IntentService {
      */
     @Override
     protected void onHandleIntent(Intent intent) {
+
+         handler.post(new Runnable() {
+                @Override
+                public void run() {
+                            Toast.makeText(getApplicationContext(), "Nära målet!!", Toast.LENGTH_LONG).show();
+
+                }
+          });
+
+
+
+
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         if (geofencingEvent.hasError()) {
             String errorMessage = GeofenceErrorMessages.getErrorString(this,
@@ -96,7 +110,14 @@ public class GeofenceTransitionsIntentService extends IntentService {
             Log.i(TAG, geofenceTransitionDetails);
         } else {
             // Log the error.
-            Log.e(TAG, getString(R.string.geofence_transition_invalid_type, geofenceTransition));
+
+
+
+         //   Log.e(TAG, getString(R.string.geofence_transition_invalid_type, geofenceTransition));
+            // SKALL FINNAS
+
+
+
         }
     }
 
@@ -113,7 +134,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
             int geofenceTransition,
             List<Geofence> triggeringGeofences) {
 
-        String geofenceTransitionString = getTransitionString(geofenceTransition);
+       // String geofenceTransitionString = getTransitionString(geofenceTransition);
 
         // Get the Ids of each geofence that was triggered.
         ArrayList triggeringGeofencesIdsList = new ArrayList();
@@ -122,7 +143,8 @@ public class GeofenceTransitionsIntentService extends IntentService {
         }
         String triggeringGeofencesIdsString = TextUtils.join(", ",  triggeringGeofencesIdsList);
         Log.i("TAG", "getGeofenceTransitionDetails har körts");
-        return geofenceTransitionString + ": " + triggeringGeofencesIdsString;
+       // return geofenceTransitionString + ": " + triggeringGeofencesIdsString;
+        return "" + ": " + triggeringGeofencesIdsString;
     }
 
     /**
@@ -149,8 +171,14 @@ public class GeofenceTransitionsIntentService extends IntentService {
         // Get a notification builder that's compatible with platform versions >= 4
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
+
+
+
+        ///////////////////////////////////////Mats - nedan borkommenterat  ////////////////////////////////////
+        /*
+
         // Define the notification settings.
-        builder.setSmallIcon(R.drawable.ic_launcher)
+        builder.setSmallIcon(R.drawable.ic_launcher)        //Mats : Behövs knappas
                 // In a real app, you may want to use a library like Volley
                 // to decode the Bitmap.
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(),
@@ -159,6 +187,14 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 .setContentTitle(notificationDetails)
                 .setContentText(getString(R.string.geofence_transition_notification_text))
                 .setContentIntent(notificationPendingIntent);
+
+
+                */
+        ///////////////////////////////////////Mats - ovan borkommenterat  /////////////////////////////////////
+
+
+
+
 
         // Dismiss notification once the user touches it.
         builder.setAutoCancel(true);
@@ -170,7 +206,10 @@ public class GeofenceTransitionsIntentService extends IntentService {
         // Issue the notification
         mNotificationManager.notify(0, builder.build());
 
-        Log.i("TAG", "sendNotification har körts");
+        Toast.makeText(getApplicationContext(),"Nära målet!!", Toast.LENGTH_SHORT).show();
+
+
+        Log.i("MIN_TAG", "sendNotification har körts!!!!!!!!!!!!!!!!!!!!");
     }
 
     /**
@@ -179,6 +218,10 @@ public class GeofenceTransitionsIntentService extends IntentService {
      * @param transitionType    A transition type constant defined in Geofence
      * @return                  A String indicating the type of transition
      */
+
+
+
+
     private String getTransitionString(int transitionType) {
         switch (transitionType) {
             case Geofence.GEOFENCE_TRANSITION_ENTER:
@@ -189,4 +232,19 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 return getString(R.string.unknown_geofence_transition);
         }
     }
+
+
+    private Handler handler;
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        handler = new Handler();
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+
+
+
+
+
 }

@@ -44,7 +44,6 @@
             android:layout_weight="1"
             android:clipToPadding="false"
             android:scaleType="fitXY"
-            android:src="@drawable/kulturvaven"
             android:padding="1dp"
             android:layout_width="100dp"
             android:layout_height="100dp" />
@@ -65,7 +64,6 @@
         android:layout_below="@+id/lin1"
         android:layout_alignParentBottom="true"
         android:background="@color/colorWhite"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>
