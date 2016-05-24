@@ -16,6 +16,7 @@
 
 package com.example.umyhnystma.matsvisitumea;
 
+
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -72,12 +73,10 @@ public class GeofenceTransitionsIntentService extends IntentService {
          handler.post(new Runnable() {
                 @Override
                 public void run() {
-                            Toast.makeText(getApplicationContext(), "Nära målet!!", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(), "Nära målet!!", Toast.LENGTH_LONG).show();
 
                 }
           });
-
-
 
 
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
@@ -93,13 +92,14 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
         // Test that the reported transition was of interest.
         if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
-                geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
+                geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT ||
+                geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL) {
 
             // Get the geofences that were triggered. A single event can trigger multiple geofences.
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
             // Get the transition details as a String.
-            String geofenceTransitionDetails = getGeofenceTransitionDetails(
+            final String geofenceTransitionDetails = getGeofenceTransitionDetails(
                     this,
                     geofenceTransition,
                     triggeringGeofences
@@ -108,6 +108,16 @@ public class GeofenceTransitionsIntentService extends IntentService {
             // Send notification and log the transition details.
             sendNotification(geofenceTransitionDetails);
             Log.i(TAG, geofenceTransitionDetails);
+
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), geofenceTransitionDetails, Toast.LENGTH_LONG).show();
+
+                }
+            });
+
+
         } else {
             // Log the error.
 
@@ -134,7 +144,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
             int geofenceTransition,
             List<Geofence> triggeringGeofences) {
 
-       // String geofenceTransitionString = getTransitionString(geofenceTransition);
+       String geofenceTransitionString = getTransitionString(geofenceTransition);
 
         // Get the Ids of each geofence that was triggered.
         ArrayList triggeringGeofencesIdsList = new ArrayList();
@@ -144,7 +154,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         String triggeringGeofencesIdsString = TextUtils.join(", ",  triggeringGeofencesIdsList);
         Log.i("TAG", "getGeofenceTransitionDetails har körts");
        // return geofenceTransitionString + ": " + triggeringGeofencesIdsString;
-        return "" + ": " + triggeringGeofencesIdsString;
+        return geofenceTransitionString + ": " + triggeringGeofencesIdsString;
     }
 
     /**
@@ -206,9 +216,6 @@ public class GeofenceTransitionsIntentService extends IntentService {
         // Issue the notification
         mNotificationManager.notify(0, builder.build());
 
-        Toast.makeText(getApplicationContext(),"Nära målet!!", Toast.LENGTH_SHORT).show();
-
-
         Log.i("MIN_TAG", "sendNotification har körts!!!!!!!!!!!!!!!!!!!!");
     }
 
@@ -225,11 +232,13 @@ public class GeofenceTransitionsIntentService extends IntentService {
     private String getTransitionString(int transitionType) {
         switch (transitionType) {
             case Geofence.GEOFENCE_TRANSITION_ENTER:
-                return getString(R.string.geofence_transition_entered);
+                return getResources().getString(com.example.umyhnystma.matsvisitumea.R.string.geofence_transition_entered);
             case Geofence.GEOFENCE_TRANSITION_EXIT:
-                return getString(R.string.geofence_transition_exited);
+                return getResources().getString(com.example.umyhnystma.matsvisitumea.R.string.geofence_transition_exited);
+            case Geofence.GEOFENCE_TRANSITION_DWELL:
+                return getString(R.string.geofence_transition_dwelled);
             default:
-                return getString(R.string.unknown_geofence_transition);
+                return getString(com.example.umyhnystma.matsvisitumea.R.string.unknown_geofence_transition);
         }
     }
 
@@ -241,10 +250,6 @@ public class GeofenceTransitionsIntentService extends IntentService {
         handler = new Handler();
         return super.onStartCommand(intent, flags, startId);
     }
-
-
-
-
 
 
 }

@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
     LocationRequest mRequest;
     Location mCurrentLocation;
 
-    protected static MainActivity TARGET_REACHED;
 
     private static final String RELIGIOUS = "Religious";
     private static final String HISTORICAL = "Historical";
@@ -108,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TARGET_REACHED = this;
+
       //  GoogleApiClient mGoogleApiClient;
         mGeofencePendingIntent = null;
         mSharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME,
@@ -128,11 +127,6 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
 
 
  //////////////////////////////////
-
-
-        buildGoogleApiClient(); // Tillagd av Mats
-
-
 
 
 
@@ -157,14 +151,7 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
         ab.addTab(ab.newTab().setText("Search").setTabListener(this));
 
     }
-//////////////////////////// GeoFences - nedan /////////////////////////////////////////
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-}
+
 
 
     private void addGeofences() {
@@ -211,12 +198,13 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
                  .setCircularRegion(
                          entry.getValue().latitude,
                          entry.getValue().longitude,
-                         300
+                         200
                  )
+                 .setLoiteringDelay(10000)
                  .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
                  // .setExpirationDuration(SyncStateContract.Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
                  .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
-                         Geofence.GEOFENCE_TRANSITION_EXIT)
+                         Geofence.GEOFENCE_TRANSITION_EXIT | Geofence.GEOFENCE_TRANSITION_DWELL)
                  .build());
 
 
@@ -477,7 +465,8 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
 
 
 
-    public void locationGetter() {
+    protected synchronized void locationGetter() {
+        //////////////////////////// APIClient - nedan /////////////////////////////////////////
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -486,8 +475,10 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
                     .build();
         }
 
+        //Hur ofta GPS-koordinaterna ska uppdateras. OnLocationChanged sätter ut platsen på kartan.
+
         mRequest = new LocationRequest();
-        mRequest.setInterval(10000);
+        mRequest.setInterval(20000);
         mRequest.setFastestInterval(5000);
         mRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 

@@ -16,7 +16,12 @@
 -->
 <resources>
 
-    <string name="app_name">Creating and Monitoring Geofences</string>
+    <string name="app_name">VisitUmea</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">Map</string>
+
 
     <!-- Buttons strings -->
     <string name="add_geofences">Add geofences</string>
@@ -42,6 +47,7 @@
     <!-- Transition type strings -->
     <string name="geofence_transition_entered">Entered</string>
     <string name="geofence_transition_exited">Exited</string>
+    <string name="geofence_transition_dwelled">Dwelling</string>
     <string name="unknown_geofence_transition">Unknown Transition</string>
 
     <string name="geofence_transition_notification_text">Click notification to return to app</string>
