@@ -14,7 +14,8 @@ public class Site implements java.io.Serializable {
     String name;
     String description;
 
-    String category;
+    String category,picture_URL;
+
     double latitude, longitude;
     Bitmap image;
 
@@ -26,14 +27,14 @@ public class Site implements java.io.Serializable {
 
     }
 
-    public Site(String name, String description, double latitude, double longitude, String category){
+    public Site(String name, String description, double latitude, double longitude, String category, String picture_URL){
 
         this.name = name;
         this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
         this.category = category;
-
+        this.picture_URL = picture_URL;
     }
 
     public String getCategory() {
@@ -83,13 +84,21 @@ public class Site implements java.io.Serializable {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
-
+/*
     public Bitmap getImage() {
         return image;
     }
 
     public void setImage(Bitmap image) {
         this.image = image;
+    }
+*/
+    public String getPictureURL() {
+        return picture_URL;
+    }
+
+    public void setPictureURL(String picture_URL) {
+        this.picture_URL = picture_URL;
     }
 
 }

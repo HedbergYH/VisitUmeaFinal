@@ -17,6 +17,7 @@
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
         android:id="@+id/siteListText"
+
         android:text="text i fragment"
         android:textSize="30sp"
         android:layout_width="match_parent"

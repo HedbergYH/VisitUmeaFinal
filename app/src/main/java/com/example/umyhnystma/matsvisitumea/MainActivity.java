@@ -580,21 +580,23 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
     private void createAndSaveSitesOnce(){
         //Creating and setting up all site-objects with gson-json;
 
+        // Cultural
+        Site väven = new Site("Väven", "Kulturellt centrum i Umeå med scener, biografer, bibliotek och utsällningar", 63.8244777, 20.259454300000016, CULTURAL,"http://static1.squarespace.com/static/55738760e4b07ff6e5767faa/t/55f88c0be4b0c80742d398c1/1442352163898/" );
+        Site saraLidmanTunneln = new Site("Sara Lidman-tunneln", "Uppförd 2013. Väggarna pryds av citat av västerbottniska Sara Lidman och här hörs fågelsång året om.", 63.82965, 20.265826, CULTURAL,"http://blogg.vk.se/wp-content/uploads/oldblog/1589/images/saratunneln8(1).JPG");
 
-        Site backensKyrka = new Site("Backens kyrka", "Backens kyrka är en annan historia än allt annat",63.8380731,20.1563725, RELIGIOUS);
-        Site umeåStadsKyrka = new Site("Umeå stadskyrka", "Stort och fint hus åt jesus", 63.823552, 20.267803, RELIGIOUS);
-        Site holmsundsKyrka = new Site("Holmsunds kyrka", "Holmsunds största gudsbygge",63.703577, 20.350006, RELIGIOUS);
+       // Religiuos
+        Site backensKyrka = new Site("Backens kyrka", "Backens kyrka är en annan historia än allt annat",63.8380731,20.1563725, RELIGIOUS,"http://www.umea.se/images/18.73474df7141ec1b19d15615/1383648352953/Backens_kyrka_h.gif");
+        Site umeåStadsKyrka = new Site("Umeå stadskyrka", "Stort och fint hus åt jesus", 63.823552, 20.267803, RELIGIOUS,"https://c1.staticflickr.com/5/4046/4613453840_de7b53beeb.jpg");
+        Site holmsundsKyrka = new Site("Holmsunds kyrka", "Holmsunds största gudsbygge",63.703577, 20.350006, RELIGIOUS,"http://www.umea.se/images/18.73474df7141ec1b19d14db7/1383570139256/Holmsunds-kyrka_h.gif");
 
-        Site sävargården = new Site("Sävargården", "Fint hus det här", 63.828462,20.290932, HISTORICAL );
-        Site olofsforsBruk = new Site("Olofsfors bruk", "WOW, just WOW", 63.58058699999999, 19.441219000000046, HISTORICAL);
-        Site cellFängelset = new Site("Gamla Fängelset", "Lätt att klättra över muren", 63.822337, 20.275396, HISTORICAL);
-        Site baggböleHerrgård = new Site("Baggböle herrgård", "Fint och god mat", 63.84032999999999, 20.117009999999937, HISTORICAL);
-        Site rådhuset = new Site("Rådhuset", "Umeås rådhus.", 63.825337, 20.262847, HISTORICAL);
-        Site norrbyskär = new Site("Norrbyskär", "Gammal flottarort ute i skärgården", 63.55271999999999, 19.876070000000027, HISTORICAL);
+        // Historical
+        Site sävargården = new Site("Sävargården", "Fint hus det här", 63.828462,20.290932, HISTORICAL,"http://www.umea.se/images/18.73474df7141ec1b19d14e9f/1383576061560/S%C3%A4varg%C3%A5rden_h.gif" );
+        Site olofsforsBruk = new Site("Olofsfors bruk", "WOW, just WOW", 63.58058699999999, 19.441219000000046, HISTORICAL,"http://olofsforsbruk.nu/wp-content/uploads/2012/06/masugn_web-604x320.jpg");
+        Site cellFängelset = new Site("Gamla Fängelset", "Lätt att klättra över muren", 63.822337, 20.275396, HISTORICAL,"https://exp.cdn-hotels.com/hotels/8000000/7830000/7827400/7827340/7827340_13_y.jpg");
+        Site baggböleHerrgård = new Site("Baggböle herrgård", "Fint och god mat", 63.84032999999999, 20.117009999999937, HISTORICAL,"http://www.umea.se/images/18.73474df7141ec1b19d14d79/1383568853404/Baggb%C3%B6le-Herrg%C3%A5rd_h.jpg");
+        Site rådhuset = new Site("Rådhuset", "Umeås rådhus.", 63.825337, 20.262847, HISTORICAL,"http://www.umea.se/images/18.53d383fe142675f74e6c61/1384780829004/Radhuset_liten_h.gif");
+        Site norrbyskär = new Site("Norrbyskär", "Gammal flottarort ute i skärgården", 63.55271999999999, 19.876070000000027, HISTORICAL,"http://www.umea.se/images/18.73474df7141ec1b19d14e24/1383571793773/Norrbyskar_1_h.jpg");
 
-
-        Site väven = new Site("Väven", "Kulturellt centrum i Umeå med scener, biografer, bibliotek och utsällningar", 63.8244777, 20.259454300000016, CULTURAL );
-        Site saraLidmanTunneln = new Site("Sara Lidman-tunneln", "Uppförd 2013. Väggarna pryds av citat av Västerbottniska Sara Lidman och här hörs fågelsång året om.", 63.82965, 20.265826, CULTURAL);
 
         mySites.allSites.add(backensKyrka);
         mySites.allSites.add(umeåStadsKyrka);

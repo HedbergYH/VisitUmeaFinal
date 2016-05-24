@@ -35,7 +35,7 @@ public class DetailInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_detail_info, container, false);
-        text_in_fragment_detail_info = (TextView) view.findViewById(R.id.text_in_fragment_detail_info);
+        smalltext_in_fragment_detail_info = (TextView) view.findViewById(R.id.smalltext_in_fragment_detail_info);
         smalltext_in_fragment_detail_info = (TextView) view.findViewById(R.id.smalltext_in_fragment_detail_info);
         title_in_fragment_detail_info = (TextView) view.findViewById(R.id.title_in_fragment_detail_info);
 
@@ -47,21 +47,23 @@ public class DetailInfoFragment extends Fragment {
         String info = ((InfoDetailActivity)getActivity()).mySites.get(position).getName();
 
 */
-        Bundle bundle = getArguments();
+        Bundle bundle2 = getArguments();
 
-        Site mySite = (Site)bundle.getSerializable("KEY_SERIALIZABLE");
-        String info = mySite.getName();
+        Site mySite = (Site)bundle2.getSerializable("KEY_SERIALIZABLE");
+        String objectTitle = mySite.getName();
 
 
         Log.i("TAG", "I FRAGMENTET. Borde synas");
 
-        title_in_fragment_detail_info.setText(info);
-        text_in_fragment_detail_info.setText(info);
-        Log.i("TAG", info);
+        title_in_fragment_detail_info.setText(objectTitle);
+        smalltext_in_fragment_detail_info.setText(mySite.getDescription());
 
 
          // Skall anropas separat för vaje bild
-        String myPicture = "http://blogg.vk.se/wp-content/uploads/oldblog/1589/images/saratunneln8(1).JPG";
+        String myPicture = mySite.getPictureURL();
+
+        Log.i("TAG","myPicture = " + myPicture);
+
         ImageLoader myImageLoader = ImageLoader.getInstance();
         myImageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
         imageview = (ImageView)view.findViewById(R.id.pictureofbuilding);
