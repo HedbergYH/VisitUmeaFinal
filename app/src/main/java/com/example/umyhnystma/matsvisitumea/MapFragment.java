@@ -214,27 +214,6 @@ public class MapFragment extends Fragment {
 
     }
 
-    public void setOutReligiousMarkers(){
-
-        //Sätter ut våra religösa platser på kartan
-
-        backensKyrka = googleMap.addMarker(new MarkerOptions().position(new LatLng(63.8380731,20.1563725)).title("Backens kyrka"));
-
-        Site backensKyrka = new Site();
-        backensKyrka.setName("Backens kyrka");
-        backensKyrka.setDescription("Description is a bit longer than title and therefore requires a bit more space");
-
-        sitesArray.add(backensKyrka);
-
-        for (int i = 0; i < sitesArray.size(); i++) {
-            double latitude = sitesArray.get(i).getLatitude();
-            double longitude = sitesArray.get(i).getLongitude();
-            Marker marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude,longitude)).title(sitesArray.get(i).getName()));
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-            mHashMap.put(marker, i);
-        }
-
-    }
     public Marker placeMarker(Site site) {
 
         //Metoden sköts från InfoDeatailActivity's onCreate. Den sätter ut Site-objekten på kartan.
