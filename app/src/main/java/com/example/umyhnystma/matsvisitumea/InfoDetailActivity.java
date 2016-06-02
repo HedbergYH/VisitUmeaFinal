@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.graphics.Color;
 import android.graphics.Rect;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class InfoDetailActivity extends AppCompatActivity implements LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
+public class InfoDetailActivity extends AppCompatActivity implements ActionBar.TabListener, LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
     TextView myText;
     /***************************************
@@ -51,6 +52,7 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
 
     Site siteShortInfoMessage;
 
+    int mySelectedTab;
 
     GoogleApiClient mGoogleApiClient;
     LocationRequest mRequest;
@@ -72,13 +74,15 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
         Intent intent = getIntent();
         mySites = (ArrayList<Site>) intent.getSerializableExtra("MySites");
 
-
+/*
         // för knappfragment
         fm = getSupportFragmentManager();
         trans = fm.beginTransaction();
         fragmentButton = new ButtonFragment();
 
         trans.add(R.id.buttonContainer, fragmentButton).commit(); // tar fram knappfragmentet
+
+*/
 
 
         siteMarkerMap = new HashMap<Marker, Site>();
@@ -87,12 +91,20 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
 
         fm = getSupportFragmentManager();
         trans = fm.beginTransaction();
+
         fragmentMap = new MapFragment();
-
-        trans.add(R.id.mapOrListContainer, fragmentMap).commit();
-
         listFragment = new ListFragment();
 
+        invokeMapFragment();
+        invokeListFragment();
+
+        trans = fm.beginTransaction();
+        trans.hide(fragmentMap).commit();
+
+        ActionBar ab = getSupportActionBar();
+        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        ab.addTab(ab.newTab().setText("List").setTabListener(this));
+        ab.addTab(ab.newTab().setText("Map").setTabListener(this));
 
 
 /*
@@ -287,4 +299,49 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
     }
 
 
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+        mySelectedTab = tab.getPosition();
+
+        switch (mySelectedTab){
+
+            case 0:
+
+                if(fragmentMap.isVisible()){
+
+                    Log.i("TAG", "ListFragment is hidden and exists");
+                    trans = fm.beginTransaction();
+                    trans.hide(fragmentMap).commit();
+
+                }
+
+                trans = fm.beginTransaction();
+                trans.show(listFragment).commit();
+
+            case 1:
+
+                if(listFragment.isVisible()){
+
+                    Log.i("TAG", "ListFragment is visible and exists");
+                    trans = fm.beginTransaction();
+                    trans.hide(listFragment).commit();
+
+                }
+
+                trans = fm.beginTransaction();
+                trans.show(fragmentMap).commit();
+        }
+
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+    }
 }
