@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 /**
@@ -51,9 +53,6 @@ public class ListFragment extends Fragment{
         public MyArrayAdapter(Context context, int resource, ArrayList<String> itemsInSiteList) {
             super(context, resource, itemsInSiteList);
         }
-
-
-
 
 
         @Override
@@ -99,16 +98,15 @@ public class ListFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
       //  view = inflater.inflate(R.layout.fragment_list, container, false);
+
+
         view = inflater.inflate(R.layout.fragment_sites, container, false);
 
         for (int i = 0; i < ((InfoDetailActivity)getActivity()).mySites.size(); i ++){
@@ -121,6 +119,8 @@ public class ListFragment extends Fragment{
         //itemsInSiteList.add("Umeå Stadskyrka");
         //itemsInSiteList.add("Gammlia");
         //itemsInSiteList.add("Smörasken");
+
+    //    Collections.sort(itemsInSiteList); // Sorterar byggnaderna i bokstavsordning
 
         containerListViewSite =(ListView)view.findViewById(R.id.containerListViewSite);
 
@@ -186,8 +186,16 @@ public class ListFragment extends Fragment{
     }
 
 
+
+
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
+
+
+
 }

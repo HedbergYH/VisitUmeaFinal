@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,15 +49,14 @@ public class LocationMessage extends Fragment {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fm = getActivity().getSupportFragmentManager();
-                trans = fm.beginTransaction();
-                Fragment detailInfoFragment = new DetailInfoFragment();
+                InfoToDetailInfoFragment();
+            }
+        });
 
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("KEY_SERIALIZABLE", mySite);
-                detailInfoFragment.setArguments(bundle);
-                trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment).addToBackStack("MY_TAG").commit();
-                //Byt ut hela fragmentet (InfoMapFragment) till DetailInfo-Fragment och skicka med ett objekt eller en referens till ett objekt
+        descriptionText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InfoToDetailInfoFragment();
             }
         });
 
@@ -66,9 +66,19 @@ public class LocationMessage extends Fragment {
                 getFragmentManager().popBackStack();
             }
         });
-
-
         return view;
+    }
+
+    public void InfoToDetailInfoFragment()
+    {
+        fm = getActivity().getSupportFragmentManager();
+        trans = fm.beginTransaction();
+        Fragment detailInfoFragment = new DetailInfoFragment();
+        Log.i("MIN_TAG", "descriptionText är klickad på!!!");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("KEY_SERIALIZABLE", mySite);
+        detailInfoFragment.setArguments(bundle);
+        trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment).addToBackStack("MY_TAG").commit();
     }
 
 }

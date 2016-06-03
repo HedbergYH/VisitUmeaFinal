@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class InfoDetailActivity extends AppCompatActivity implements LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
@@ -71,6 +72,8 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
 
         Intent intent = getIntent();
         mySites = (ArrayList<Site>) intent.getSerializableExtra("MySites");
+
+
 
 
         // för knappfragment
@@ -127,24 +130,24 @@ public class InfoDetailActivity extends AppCompatActivity implements LocationLis
         trans.add(R.id.mapOrListContainer, listFragment).commit();
     }
 
+
+
     @Override
     public void onBackPressed(){
         Log.i("MIN_TAG", "onBackPressed i infoDetailActivity");
-            int count = getSupportFragmentManager().getBackStackEntryCount();
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        Log.i("MIN_TAG", "count är: "+ count);
+        if (count == 0) {
+            this.finish();
 
-            if (count == 0) {
-
-                //  Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen
-                Intent intent = new Intent(this, MainActivity.class);
-                //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle
-                intent.putExtra(INTENT_TAB_NUMBER, 1);                         // Position skickas med bundle
-                this.startActivity(intent);
-                //onBackPressed();
-
-            } else {
-                getSupportFragmentManager().popBackStack();
-            }
-
+           /*
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(INTENT_TAB_NUMBER, 1);                         // Position skickas med bundle
+            this.startActivity(intent); */
+            //onBackPressed();
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 
     @Override

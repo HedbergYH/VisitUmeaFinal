@@ -18,6 +18,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -31,7 +34,7 @@ import java.util.HashMap;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MapFragment extends Fragment {
+public class MapFragment extends Fragment implements OnMapReadyCallback{  // onMapReadyCallback för att metoden onMapReady ska finnas
 
 
 
@@ -44,22 +47,24 @@ public class MapFragment extends Fragment {
 
     private HashMap<Marker, Integer> mHashMap = new HashMap<Marker, Integer>();
     private ArrayList<Site> sitesArray = new ArrayList<>();
+    private View v;
 
     MarkerOptions markerOptions;
     Marker marker;
     Marker backensKyrka;
+
+    UiSettings uiSettings;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // inflat and return the layout
-        View v = inflater.inflate(R.layout.fragment_map, container,
+         v = inflater.inflate(R.layout.fragment_map, container,
                 false);
 
         latitude = 63.8266178;
         longitude = 20.2740246;
-
 
         mMapView = (MapView) v.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
@@ -122,6 +127,22 @@ public class MapFragment extends Fragment {
     }
 
 
+    // onViewCreated anropas efter att onCreateView har körts
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        Log.i("MIN_TAG","i onViewCreated i mapFragment");
+        mMapView.onResume();
+        mMapView.getMapAsync(this);     //when you already implement OnMapReadyCallback in your fragment
+    }
+
+    // onMapReady anropas när kartan är klar, onMapReady implementeras med interfacet OnMapReadyCallback
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        Log.i("MIN_TAG","i onMapReady i mapFragment");
+         uiSettings = googleMap.getUiSettings();            // uiSettings hämtas från googleMap-objektet
+         uiSettings.setZoomControlsEnabled(true);           // zoom-knapp sätts på uiSettings-objektet
+    }
+
 
     @Override
     public void onResume(){
@@ -161,8 +182,6 @@ public class MapFragment extends Fragment {
     }
 
     private void getMyLocation(){
-
-
         latitude = ((MainActivity)getActivity()).mCurrentLocation.getLatitude();
         longitude = ((MainActivity)getActivity()).mCurrentLocation.getLongitude();
 
@@ -215,6 +234,8 @@ public class MapFragment extends Fragment {
     }
 
     public Marker placeMarker(Site site) {
+
+
 
         //Metoden sköts från InfoDeatailActivity's onCreate. Den sätter ut Site-objekten på kartan.
 
