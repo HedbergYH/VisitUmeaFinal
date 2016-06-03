@@ -307,20 +307,17 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         switch (mySelectedTab){
 
             case 0:
-
+                Log.i("TAG", "mySelectedTab (case 0) är"+ mySelectedTab);
                 if(fragmentMap.isVisible()){
-
                     Log.i("TAG", "ListFragment is hidden and exists");
                     trans = fm.beginTransaction();
                     trans.hide(fragmentMap).commit();
-
                 }
-
                 trans = fm.beginTransaction();
                 trans.show(listFragment).commit();
-
+            break;
             case 1:
-
+                Log.i("TAG", "mySelectedTab(case 1) är"+ mySelectedTab);
                 if(listFragment.isVisible()){
 
                     Log.i("TAG", "ListFragment is visible and exists");
@@ -328,9 +325,9 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
                     trans.hide(listFragment).commit();
 
                 }
-
                 trans = fm.beginTransaction();
                 trans.show(fragmentMap).commit();
+            break;
         }
 
     }
