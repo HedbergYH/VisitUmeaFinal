@@ -107,9 +107,15 @@ public class MapTrackFragment extends Fragment {
         return view;
     }
 
+
+
+
+
+
     public void onStart(){
         super.onStart();
-       // setUpSelectedSite();
+     //   setUpSelectedSite();
+
 
     }
 

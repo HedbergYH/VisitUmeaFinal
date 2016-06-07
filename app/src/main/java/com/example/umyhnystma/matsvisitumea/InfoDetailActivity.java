@@ -160,6 +160,14 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         if (count == 0) {
             this.finish();
         }
+        else if(mapTrackFragment.isVisible())
+        {
+            Log.i("TAG", "Nu har backknappen klickats när kartan visas");
+
+            getSupportFragmentManager().popBackStack();
+        }
+////////////////////////////////
+
 
         else if(listFragment.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_LIST")!=null&&listFragment.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_LIST").isVisible())
 
@@ -174,14 +182,13 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 
     else if(fragmentLocationMessage.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_MAP")!=null&&fragmentLocationMessage.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_MAP").isVisible())
 
-    {
-        Log.i("TAG", "infoDetailFrag finns ifrån locationMessage");
-        showTabBars();
-        trans = fm.beginTransaction();
-        trans.show(fragmentMap).commit();
-        getSupportFragmentManager().popBackStack();
-
-    }
+        {
+            Log.i("TAG", "infoDetailFrag finns ifrån locationMessage");
+            showTabBars();
+            trans = fm.beginTransaction();
+            trans.show(fragmentMap).commit();
+            getSupportFragmentManager().popBackStack();
+        }
 
     else
     {
@@ -189,6 +196,11 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
     }
 
 }
+
+    public void whenBackIsPressed(){
+        getSupportFragmentManager().popBackStack();
+    }
+
 
  //   @Override
 //  public void onBackPressed(){
@@ -218,7 +230,7 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 
         setUpSites();
 
-        mGoogleApiClient.connect();
+        mGoogleApiClient.connect(); // connectar mot mot Google-maps för att erhålla telefonens position
     }
 
     protected void setUpSites() {
@@ -253,6 +265,16 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         });
     }
 
+
+    public void showMapTracFrag(){
+
+        mapTrackFragment = new MapTrackFragment();
+        fm = getSupportFragmentManager();
+        trans =fm.beginTransaction();
+        trans.add(R.id.activity_info_detail_relroot_container, mapTrackFragment); // funkar
+        trans.addToBackStack("MAP_TRACK_FRAGMENT_MAP");
+        trans.commit();
+    }
 
     @Override
     public void onResume(){

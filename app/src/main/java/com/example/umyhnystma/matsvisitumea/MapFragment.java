@@ -258,12 +258,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{  // onM
 
         //Metoden sköts från InfoDeatailActivity's onCreate. Den sätter ut Site-objekten på kartan.
         if (googleMap==null)
-            Log.i("MIN_TAG", " I MapTrackFragment, placeMarker), googleMap==nulll");
+            Log.i("MIN_TAG", " I MapTrackFragment, placeMarker), googleMap==null");
         Marker m  = googleMap.addMarker(new MarkerOptions()
 
+              //  .position(new LatLng(site.getLatitude(),site.getLongitude()))
                 .position(new LatLng(site.getLatitude(),site.getLongitude()))
 
                 .title(site.getName()));
+               // .title("Sävargården");
+       // "Sävargården"
         return m;
     }
 }

@@ -33,13 +33,14 @@ public class DetailInfoFragment extends Fragment {
     FragmentManager fm;
     FragmentTransaction trans;
     Fragment fragmentMap,fragmentTrackMap;
+    MapTrackFragment mapTrackFragment;
 
     RelativeLayout mainContainerInFragmentDetailInfo,mapOrListContainer;
 
     View view;
     ImageView imageview;
     TextView smalltext_in_fragment_detail_info,text_in_fragment_detail_info, title_in_fragment_detail_info;
-    Button trackInFragmentDetailInfo,backInFragmentDetailInfo;
+
 
     OnClick myClicker;
 
@@ -80,8 +81,6 @@ public class DetailInfoFragment extends Fragment {
 
         title_in_fragment_detail_info = (TextView)view.findViewById(R.id.title_in_fragment_detail_info);
 
-        backInFragmentDetailInfo = (Button) view.findViewById(R.id.backInFragmentDetailInfo);
-        trackInFragmentDetailInfo = (Button) view.findViewById(R.id.trackInFragmentDetailInfo);
 
 
         setHasOptionsMenu(true);
@@ -118,38 +117,6 @@ public class DetailInfoFragment extends Fragment {
         imageview = (ImageView)view.findViewById(R.id.pictureofbuilding);
         myImageLoader.displayImage(myPicture,imageview);
 
-
-        backInFragmentDetailInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("MIN_TAG", "backInFragmentDetailInfo i DetailInfoFragment");
-                int count = getActivity().getSupportFragmentManager().getBackStackEntryCount();
-                Log.i("MIN_TAG", "backInFragmentDetailInfo-count är: "+ count);
-                if (count == 0) {
-                    getActivity().finish();
-                } else {
-                    getActivity().getSupportFragmentManager().popBackStack();
-                }
-            }
-        });
-
-
-        trackInFragmentDetailInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("MIN_TAG", "TRACK är klickat: ");
-
-              //  myClicker.onClick(100); //metoden onClick anropas i kombinerade aktivitets- och onClick-objektet // Mats: kan tas bort
-                fm = getActivity().getSupportFragmentManager();
-                trans = fm.beginTransaction();
-                MapTrackFragment mapTrackFragment = new MapTrackFragment();
-                trans.add(R.id.activity_info_detail_relroot_container, mapTrackFragment); // funkar
-                trans.addToBackStack("TAG");
-                trans.commit();
-            }
-        });
-
-
         return view;
     }
 
@@ -164,16 +131,15 @@ public class DetailInfoFragment extends Fragment {
         int id = item.getItemId();
         if(id == R.id.track){
 
-            //Starta trackfragmentet här
+            //Startar trackfragmentet här
             Toast.makeText(getActivity(), "Clicked on track fragment start.", Toast.LENGTH_SHORT).show();
+
+            ((InfoDetailActivity)getActivity()).showMapTracFrag();
+
 
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
 }
