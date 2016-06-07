@@ -135,7 +135,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{  // onM
         mMapView.getMapAsync(this);     //when you already implement OnMapReadyCallback in your fragment
     }
 
-    // onMapReady anropas när kartan är klar, onMapReady implementeras med interfacet OnMapReadyCallback
+    // Nedan: onMapReady anropas när kartan är klar, onMapReady implementeras med interfacet OnMapReadyCallback
+    // zoom-knapp placeras ut
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.i("MIN_TAG","i onMapReady i mapFragment");
@@ -235,19 +236,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{  // onM
 
     public Marker placeMarker(Site site) {
 
-
-
         //Metoden sköts från InfoDeatailActivity's onCreate. Den sätter ut Site-objekten på kartan.
-
+        if (googleMap==null)
+            Log.i("MIN_TAG", " I MapTrackFragment, placeMarker), googleMap==nulll");
         Marker m  = googleMap.addMarker(new MarkerOptions()
 
                 .position(new LatLng(site.getLatitude(),site.getLongitude()))
 
                 .title(site.getName()));
-
         return m;
-
     }
-
 }
 

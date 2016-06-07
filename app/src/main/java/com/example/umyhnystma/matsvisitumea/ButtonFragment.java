@@ -103,7 +103,6 @@ public class ButtonFragment extends Fragment {
                 //((InfoDetailActivity)getActivity()).invokeMapFragment();
 
                 if(list.isVisible()){
-
                     getActivity().getSupportFragmentManager().beginTransaction().hide(list).commit();
 
                 }

@@ -2,14 +2,18 @@ package com.example.umyhnystma.matsvisitumea;
 
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -21,10 +25,19 @@ import java.io.Serializable;
  */
 public class DetailInfoFragment extends Fragment {
 
+    FragmentManager fm;
+    FragmentTransaction trans;
+    Fragment fragmentMap,fragmentTrackMap;
+
+    RelativeLayout mainContainerInFragmentDetailInfo,mapOrListContainer;
+
     View view;
     ImageView imageview;
     TextView smalltext_in_fragment_detail_info,text_in_fragment_detail_info, title_in_fragment_detail_info;
     Button trackInFragmentDetailInfo,backInFragmentDetailInfo;
+
+    OnClick myClicker;
+
 
     public DetailInfoFragment() {
         // Required empty public constructor
@@ -32,8 +45,21 @@ public class DetailInfoFragment extends Fragment {
 
 
     @Override
+    public void onAttach(Context context) {  // Mats: kan tas bort
+        super.onAttach(context);
+//        myClicker = (OnClick) context;
+    }
+
+
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+     //   fragmentMap = ((InfoDetailActivity)getActivity()).fragmentMap;
+          //  ((InfoDetailActivity)getActivity()).invokeMapFragment();
+          //  getActivity().getSupportFragmentManager().beginTransaction().show(map).commit();
     }
 
 
@@ -42,15 +68,16 @@ public class DetailInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         view = inflater.inflate(R.layout.fragment_detail_info_rev_b, container, false);
 
         smalltext_in_fragment_detail_info = (TextView) view.findViewById(R.id.smalltext_in_fragment_detail_info);
-        title_in_fragment_detail_info = (TextView) view.findViewById(R.id.title_in_fragment_detail_info);
+        title_in_fragment_detail_info = (TextView)view.findViewById(R.id.title_in_fragment_detail_info);
 
         backInFragmentDetailInfo = (Button) view.findViewById(R.id.backInFragmentDetailInfo);
         trackInFragmentDetailInfo = (Button) view.findViewById(R.id.trackInFragmentDetailInfo);
 
+;
 
 /*
         Bundle bundle = getArguments();
@@ -60,7 +87,6 @@ public class DetailInfoFragment extends Fragment {
 
 */
         Bundle bundle2 = getArguments();
-
         Site mySite = (Site)bundle2.getSerializable("KEY_SERIALIZABLE");
         String objectTitle = mySite.getName();
 
@@ -96,10 +122,19 @@ public class DetailInfoFragment extends Fragment {
             }
         });
 
+
         trackInFragmentDetailInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createTrackMapFragment();
+                Log.i("MIN_TAG", "TRACK är klickat: ");
+
+              //  myClicker.onClick(100); //metoden onClick anropas i kombinerade aktivitets- och onClick-objektet // Mats: kan tas bort
+                fm = getActivity().getSupportFragmentManager();
+                trans = fm.beginTransaction();
+                MapTrackFragment mapTrackFragment = new MapTrackFragment();
+                trans.add(R.id.activity_info_detail_relroot_container, mapTrackFragment); // funkar
+                trans.addToBackStack("TAG");
+                trans.commit();
             }
         });
 
@@ -107,14 +142,6 @@ public class DetailInfoFragment extends Fragment {
         return view;
     }
 
-
-    public void  createTrackMapFragment(){
-
-
-        Log.i("MIN_TAG", "createTrackMapFragment() är anropat: ");
-
-
-    }
 
 
 

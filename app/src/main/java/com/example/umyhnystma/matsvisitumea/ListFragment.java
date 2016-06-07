@@ -148,7 +148,9 @@ public class ListFragment extends Fragment{
 
                 detailInfoFragment.setArguments(bundle);
 
-                trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment).addToBackStack("MY_TAG").commit(); // tar fram knappfragmentet
+                trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment).addToBackStack("MY_TAG").commit();
+
+                //  trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment).commit();
 
                 String type = itemsInSiteList.get(pos);
                Log.i("MIN_TAG", "typ: " + type);
