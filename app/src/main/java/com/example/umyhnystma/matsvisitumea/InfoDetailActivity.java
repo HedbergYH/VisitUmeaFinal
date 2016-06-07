@@ -86,14 +86,6 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         Intent intent = getIntent();
         mySites = (ArrayList<Site>) intent.getSerializableExtra("MySites");
 
-/*
-        // för knappfragment
-        fm = getSupportFragmentManager();
-        trans = fm.beginTransaction();
-        fragmentButton = new ButtonFragment();
-        trans.add(R.id.buttonContainer, fragmentButton).commit(); // tar fram knappfragmentet
-
-*/
 
 
         siteMarkerMap = new HashMap<Marker, Site>();
@@ -105,10 +97,6 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 
 
         fragmentMap = new MapFragment();
-
-        fragmentMap = new MapFragment();
-        trans.add(R.id.mapOrListContainer, fragmentMap).commit();
-
         listFragment = new ListFragment();
         fragmentLocationMessage = new LocationMessage();
 
@@ -122,22 +110,7 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 
 
 
-/*
-        Intent intent = getIntent();
-        int extras = intent.getExtras().getInt("KEY");
 
-        locationGetter();
-
-        fm = getSupportFragmentManager();
-        trans = fm.beginTransaction();
-        fragmentMap = new MapFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putInt("KEY", extras);
-
-        fragmentMap.setArguments(bundle);
-        trans.add(R.id.mapOrListContainer, fragmentMap).commit();
-*/
     }
 
     public void setTabBars() {
@@ -169,26 +142,6 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         trans.add(R.id.mapOrListContainer, listFragment).commit();
     }
 
-///////////////////////////// Tillagd av Mats- nedan , kan tas bort !!!
-///////////////////////////// Tillagd av Mats- nedan -- för att ta emot klick från Map TrackFragment //////////
-/*
-    @Override
-    public void onClick(int code) {
-
-
-        Log.i("MIN_TAG", "onClick !!!!!!!");
-//mapTrackFragment
-        if (code==100) { // ska visa mapTrackFragment
-            fm = getSupportFragmentManager();
-            trans = fm.beginTransaction();
-            mapTrackFragment = new MapTrackFragment();
-            trans.add(R.id.activity_info_detail_relroot_container, mapTrackFragment); // funkar
-            trans.addToBackStack("TAG");
-            trans.commit();
-        }
-    }
-    */
-///////////////////////////// Tillagd av Mats- ovan -- för att ta emot klick från Map TrackFragment //////////
 
     @Override
     public void onBackPressed() {
