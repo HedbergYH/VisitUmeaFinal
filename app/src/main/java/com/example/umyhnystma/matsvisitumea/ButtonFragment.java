@@ -15,15 +15,15 @@ import android.widget.ImageView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
+ * Activities that contain this fragmentLocationMessage must implement the
  * {@link ButtonFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link ButtonFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * create an instance of this fragmentLocationMessage.
  */
 public class ButtonFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    // the fragmentLocationMessage initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private View v;
@@ -44,11 +44,11 @@ public class ButtonFragment extends Fragment {
 
     /**
      * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * this fragmentLocationMessage using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ButtonFragment.
+     * @return A new instance of fragmentLocationMessage ButtonFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static ButtonFragment newInstance(String param1, String param2) {
@@ -82,7 +82,7 @@ public class ButtonFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_button, container, false);
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragmentLocationMessage
 
         mapImage = (ImageView) v.findViewById(R.id.buttonmapwithtext);
         listImage = (ImageView) v.findViewById(R.id.buttonlistwithtext);
@@ -164,7 +164,7 @@ public class ButtonFragment extends Fragment {
 
     /**
      * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
+     * fragmentLocationMessage to allow an interaction in this fragmentLocationMessage to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
      * <p/>

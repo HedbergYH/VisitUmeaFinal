@@ -1,5 +1,6 @@
 package com.example.umyhnystma.matsvisitumea;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,15 +21,15 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
+ * Activities that contain this fragmentLocationMessage must implement the
  * {@link ListFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link ListFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * create an instance of this fragmentLocationMessage.
  */
 public class ListFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    // the fragmentLocationMessage initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -80,11 +81,11 @@ public class ListFragment extends Fragment{
 
     /**
      * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * this fragmentLocationMessage using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ListFragment.
+     * @return A new instance of fragmentLocationMessage ListFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static ListFragment newInstance(String param1, String param2) {
@@ -107,7 +108,7 @@ public class ListFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragmentLocationMessage
       //  view = inflater.inflate(R.layout.fragment_list, container, false);
         view = inflater.inflate(R.layout.fragment_sites, container, false);
 
@@ -148,7 +149,15 @@ public class ListFragment extends Fragment{
 
                 detailInfoFragment.setArguments(bundle);
 
-                trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment).addToBackStack("MY_TAG").commit(); // tar fram knappfragmentet
+                trans = fm.beginTransaction();
+
+                trans.hide(((InfoDetailActivity) getActivity()).listFragment).commit();
+
+                ((InfoDetailActivity) getActivity()).hideTabBars();
+
+                trans = fm.beginTransaction();
+
+                trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment, "DETAIL_INFO_FRAGMENT_FROM_LIST").addToBackStack("MY_TAG").commit(); // tar fram knappfragmentet
 
                 String type = itemsInSiteList.get(pos);
                Log.i("MIN_TAG", "typ: " + type);
@@ -180,7 +189,7 @@ public class ListFragment extends Fragment{
 
         //////////////////////////////////////////////////
 
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragmentLocationMessage
         return view;
 
     }

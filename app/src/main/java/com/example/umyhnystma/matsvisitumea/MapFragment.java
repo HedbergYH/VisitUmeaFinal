@@ -73,6 +73,8 @@ public class MapFragment extends Fragment {
         }
 
         googleMap = mMapView.getMap();
+
+        /*
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
@@ -81,16 +83,20 @@ public class MapFragment extends Fragment {
 
                 //Visar LocationMessage
 
-                /*
+
 
                 int pos = mHashMap.get(marker);
 
                 ((InfoDetailActivity)getActivity()).showLocationMessage(sitesArray.get(pos));
 
-                */
+
 
             }
         });
+
+        */
+
+
 
         // latitude and longitude
 
@@ -168,13 +174,15 @@ public class MapFragment extends Fragment {
 
     }
 
-    public void setMyLocation(){
-
-        setUpMapWithNewPosition();
-
+    public void setMyLocationMainMap(){
+        setUpMapWithNewPositionCameraFollow();
     }
 
-    public void setUpMapWithNewPosition() {
+    public void setMyLocationSitesMap(){
+        setUpMapWithNewPositionCameraUnfollow();
+    }
+
+    public void setUpMapWithNewPositionCameraFollow() {
 
         marker.remove();
 
@@ -183,6 +191,9 @@ public class MapFragment extends Fragment {
         // adding markerOptions
         marker = googleMap.addMarker(markerOptions);
         float zoom = googleMap.getCameraPosition().zoom;
+        if (zoom < 8){
+            zoom = 8;
+        }
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(latitude, longitude)).zoom(zoom).build();
 
@@ -190,6 +201,15 @@ public class MapFragment extends Fragment {
                 .newCameraPosition(cameraPosition));
 
         // Perform any camera updates here
+
+    }
+
+    public void setUpMapWithNewPositionCameraUnfollow() {
+
+        marker.remove();
+        markerOptions.position(new LatLng(latitude, longitude));
+        marker = googleMap.addMarker(markerOptions);
+
 
     }
 

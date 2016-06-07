@@ -53,7 +53,7 @@ public class Sites extends Fragment {
 
 /////////////////////////////////////////////////////////////////////
     // Här ska listfragmentet
-    // Inflate the view for the fragment based on layout XML
+    // Inflate the view for the fragmentLocationMessage based on layout XML
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

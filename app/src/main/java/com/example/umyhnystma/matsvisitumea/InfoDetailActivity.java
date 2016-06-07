@@ -10,16 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.graphics.Color;
-import android.graphics.Rect;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +25,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +42,7 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 
     FragmentManager fm;
     FragmentTransaction trans;
-    Fragment fragment;
+    Fragment fragmentLocationMessage;
 
     Site siteShortInfoMessage;
 
@@ -64,6 +58,8 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
     public static final String INTENT_TAB_NUMBER = "INTENT_NUMBER";
 
     ArrayList<Site> mySites;
+
+    ActionBar ab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,17 +90,15 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 
         fragmentMap = new MapFragment();
         listFragment = new ListFragment();
+        fragmentLocationMessage = new LocationMessage();
 
         invokeMapFragment();
         invokeListFragment();
 
         trans = fm.beginTransaction();
         trans.hide(fragmentMap).commit();
-
-        ActionBar ab = getSupportActionBar();
-        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        ab.addTab(ab.newTab().setText("List").setTabListener(this));
-        ab.addTab(ab.newTab().setText("Map").setTabListener(this));
+        ab = getSupportActionBar();
+        setTabBars();
 
 
 /*
@@ -123,6 +117,22 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         fragmentMap.setArguments(bundle);
         trans.add(R.id.mapOrListContainer, fragmentMap).commit();
 */
+    }
+
+    public void setTabBars(){
+
+        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        ab.addTab(ab.newTab().setText("List").setTabListener(this));
+        ab.addTab(ab.newTab().setText("Map").setTabListener(this));
+
+    }
+
+    public void showTabBars(){
+        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+    }
+
+    public void hideTabBars(){
+        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
     }
 
 
@@ -146,14 +156,36 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 
             if (count == 0) {
 
-                //  Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen
-                Intent intent = new Intent(this, MainActivity.class);
-                //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle
-                intent.putExtra(INTENT_TAB_NUMBER, 1);                         // Position skickas med bundle
-                this.startActivity(intent);
-                //onBackPressed();
+            //  Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen
+            Intent intent = new Intent(this, MainActivity.class);
+            //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle
+            intent.putExtra(INTENT_TAB_NUMBER, 1);                         // Position skickas med bundle
+            this.startActivity(intent);
+            //onBackPressed();
 
-            } else {
+            this.finish();
+
+        }
+
+            else if(listFragment.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_LIST") != null && listFragment.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_LIST").isVisible()){
+                Log.i("TAG", "infodetailfrag syns");
+                showTabBars();
+                trans = fm.beginTransaction();
+                trans.show(listFragment).commit();
+                getSupportFragmentManager().popBackStack();
+
+            }
+
+            else if(fragmentLocationMessage.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_MAP") != null && fragmentLocationMessage.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_MAP").isVisible()) {
+                Log.i("TAG", "infoDetailFrag finns ifrån locationMessage");
+                showTabBars();
+                trans = fm.beginTransaction();
+                trans.show(fragmentMap).commit();
+                getSupportFragmentManager().popBackStack();
+
+            }
+
+             else {
                 getSupportFragmentManager().popBackStack();
             }
 
@@ -164,6 +196,8 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         super.onStart();
 
         setUpSites();
+
+        mGoogleApiClient.connect();
     }
     private void setUpSites() {
 
@@ -214,20 +248,15 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
     public void onDestroy() {
         super.onDestroy();
         Log.i("MIN_TAG","onDestroy i infoDetailActivity");
+
+        mGoogleApiClient.disconnect();
     }
 
     public void showLocationMessage(Site s){
 
-
-        /*****************
-         * TESTAR ATT KÖRA MITT MESSAGEFRAGMENT
-         * TA BORT NEDAN
-         */
-
         fm = getSupportFragmentManager();
-        fragment = new LocationMessage();
         trans = fm.beginTransaction();
-        trans.add(R.id.messageContainer, fragment).addToBackStack(null).commit();
+        trans.add(R.id.messageContainer, fragmentLocationMessage).addToBackStack(null).commit();
 
 
     }
@@ -242,7 +271,7 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         }
 
         mRequest = new LocationRequest();
-        mRequest.setInterval(10000);
+        mRequest.setInterval(20000);
         mRequest.setFastestInterval(5000);
         mRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
@@ -263,7 +292,7 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 
         ((MapFragment) fragmentMap).latitude = mCurrentLocation.getLatitude();
         ((MapFragment) fragmentMap).longitude = mCurrentLocation.getLongitude();
-        ((MapFragment) fragmentMap).setMyLocation();
+        ((MapFragment) fragmentMap).setMyLocationSitesMap();
 
     }
 

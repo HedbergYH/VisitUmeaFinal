@@ -381,7 +381,7 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
                     trans.replace(R.id.mapContainer, fragmentMap).addToBackStack(null).commit();
                 }
 
-                //Transaction for ToggleButtons fragment
+                //Transaction for ToggleButtons fragmentLocationMessage
                 trans = fm.beginTransaction();
 
 
@@ -443,8 +443,8 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
 
         Log.i("MIN_TAG", "i Main, i tabSiteSelected()");
         siteListFragment = new Sites();
-        FragmentManager fm = getSupportFragmentManager(); // hanterar fragment
-        FragmentTransaction transaction = fm.beginTransaction(); // transfering av fragment
+        FragmentManager fm = getSupportFragmentManager(); // hanterar fragmentLocationMessage
+        FragmentTransaction transaction = fm.beginTransaction(); // transfering av fragmentLocationMessage
 
         transaction.replace(R.id.container, siteListFragment);                                               // fragmentSiteList är det nya fragmentet
 
@@ -454,8 +454,8 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
 
     public void tabSearchSelected() {
         siteSearchFragment = new Search();
-        FragmentManager fm = getSupportFragmentManager(); // hanterar fragment
-        FragmentTransaction transaction = fm.beginTransaction(); // transfering av fragment
+        FragmentManager fm = getSupportFragmentManager(); // hanterar fragmentLocationMessage
+        FragmentTransaction transaction = fm.beginTransaction(); // transfering av fragmentLocationMessage
 
         // container ligger i activity_main.xml
         transaction.replace(R.id.container, siteSearchFragment);                                               // fragmentSiteList är det nya fragmentet
@@ -528,7 +528,7 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
 
         ((MapFragment) fragmentMap).latitude = mCurrentLocation.getLatitude();
         ((MapFragment) fragmentMap).longitude = mCurrentLocation.getLongitude();
-        ((MapFragment) fragmentMap).setMyLocation();
+        ((MapFragment) fragmentMap).setMyLocationMainMap();
 
     }
 

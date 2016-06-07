@@ -28,7 +28,7 @@ public class ToggleButtonsMainActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragmentLocationMessage
         View v = inflater.inflate(R.layout.fragment_toggle_buttons_main, container, false);
 
         toggleLocationGuide = (ToggleButton)v.findViewById(R.id.toggleLocationGuide);
