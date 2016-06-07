@@ -17,8 +17,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.content.Intent;
+
+//import android.support.v4.app.Fragment;
+//import android.support.v4.app.FragmentManager;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -44,6 +49,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -53,12 +59,14 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
     // med Geofence som kanske funkar/Mats 05-24
     FragmentManager fm;
     FragmentTransaction trans;
+    Fragment currentFragment;
     Fragment fragmentMap;
     Fragment siteListFragment;
     Fragment siteSearchFragment;
     Fragment toggleButtonsMainActivity;
     int tabChoosen;
     int nTabSelected;
+
 
     Intent intent; // intent skapat från InfoDetailActivity
 
@@ -67,11 +75,14 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
     Location mCurrentLocation;
 
 
+
     private static final String RELIGIOUS = "Religious";
     private static final String HISTORICAL = "Historical";
     private static final String CULTURAL = "Cultural";
     private static final String SAVED = "KEY_SAVED_SITES";
     private static final String SAVED_SITES = "SAVED_SITES";
+
+    //public static final String INTENT_TAB_NUMBER = "INTENT_NUMBER";
 
     Gson gson;
 
@@ -119,27 +130,17 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
 
         checkGPSstate();
 
-///////////////////////////
-
-
-
-
-
-
- //////////////////////////////////
-
-
-
         fm = getSupportFragmentManager();
 
         loadSites();
 
-        intent = getIntent();
-        tabChoosen = intent.getIntExtra(InfoDetailActivity.INTENT_TAB_NUMBER, 0);
-
+        //intent = getIntent();
+       // tabChoosen = intent.getIntExtra(InfoDetailActivity.INTENT_TAB_NUMBER, 0);
         Log.i("MIN_TAG", "tabChoosen: " + tabChoosen);
 
         ActionBar ab = getSupportActionBar();
+
+
         ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         locationGetter();
@@ -354,6 +355,7 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
 
         //Called when a tab is selected
         nTabSelected = tab.getPosition();
+
         //     if  (tabChoosen != 1)
         //     else
         //         nTabSelected = 1;
@@ -539,6 +541,7 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
 
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -610,6 +613,9 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
         mySites.allSites.add(väven);
         mySites.allSites.add(saraLidmanTunneln);
 
+        Collections.sort(mySites.allSites, Site.COMPARE_BY_BUILDING_NAME);// Sorterar byggnaderna i bokstavsordning
+
+
         SharedPreferences preferences = getSharedPreferences(SAVED,0);
         SharedPreferences.Editor editor = preferences.edit();
         gson = new Gson();
@@ -671,6 +677,33 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
     public void onResult(@NonNull Result result) {
 
     }
+
+
+
+    @Override
+    public void onBackPressed(){
+        Log.i("MIN_TAG", "onBackPressed i MainActivity");
+
+
+        currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.container);        // Hämtar referens till Sites-fragment
+        if (currentFragment == null)
+            currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.mapContainer);// Hämtar referens till Map-fragment
+
+        Log.i("MIN_TAG", "currentFragment" + currentFragment.toString());
+
+        if (currentFragment instanceof Sites ) {
+            Log.i("MIN_TAG", "onBackPressed i MainActivity, currentFragment instanceof SitesFragment");
+            this.finish();
+        }
+
+        if (currentFragment instanceof MapFragment ){
+            Log.i("MIN_TAG", "onBackPressed i MainActivity, currentFragment instanceof MapFragmen");
+            this.finish();                                               // Dödar mainActivity
+        }
+
+
+    }
+
 
 }
 

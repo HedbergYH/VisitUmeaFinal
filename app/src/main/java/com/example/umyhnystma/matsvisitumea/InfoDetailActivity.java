@@ -15,6 +15,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,14 +33,14 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
-public class InfoDetailActivity extends AppCompatActivity implements ActionBar.TabListener, LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
+public class InfoDetailActivity extends AppCompatActivity implements ActionBar.TabListener, LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     TextView myText;
     /***************************************
      * TA BORT ALLT NEDAN FÖR ATT UNDVIKA MERGEKONFLIKTER
-     *
      */
 
     private static final String RELIGIOUS = "Religious";
@@ -42,7 +48,13 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 
     FragmentManager fm;
     FragmentTransaction trans;
+
     Fragment fragmentLocationMessage;
+
+    Fragment fragment;
+    MapFragment mapFragment;
+    MapTrackFragment mapTrackFragment;
+
 
     Site siteShortInfoMessage;
 
@@ -51,21 +63,25 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
     GoogleApiClient mGoogleApiClient;
     LocationRequest mRequest;
     Location mCurrentLocation;
-    Fragment fragmentMap,listFragment,fragmentButton;
+    Fragment fragmentMap, listFragment, fragmentButton;
 
-    private HashMap <Marker, Site> siteMarkerMap;
+    RelativeLayout mapOrListContainer;
+
+    protected HashMap<Marker, Site> siteMarkerMap;
 
     public static final String INTENT_TAB_NUMBER = "INTENT_NUMBER";
 
     ArrayList<Site> mySites;
 
+
     ActionBar ab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_detail);
-
+        mapOrListContainer = (RelativeLayout) findViewById(R.id.mapOrListContainer);
 
         Intent intent = getIntent();
         mySites = (ArrayList<Site>) intent.getSerializableExtra("MySites");
@@ -75,7 +91,6 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         fm = getSupportFragmentManager();
         trans = fm.beginTransaction();
         fragmentButton = new ButtonFragment();
-
         trans.add(R.id.buttonContainer, fragmentButton).commit(); // tar fram knappfragmentet
 
 */
@@ -88,7 +103,12 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         fm = getSupportFragmentManager();
         trans = fm.beginTransaction();
 
+
         fragmentMap = new MapFragment();
+
+        fragmentMap = new MapFragment();
+        trans.add(R.id.mapOrListContainer, fragmentMap).commit();
+
         listFragment = new ListFragment();
         fragmentLocationMessage = new LocationMessage();
 
@@ -99,6 +119,7 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         trans.hide(fragmentMap).commit();
         ab = getSupportActionBar();
         setTabBars();
+
 
 
 /*
@@ -119,7 +140,7 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 */
     }
 
-    public void setTabBars(){
+    public void setTabBars() {
 
         ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         ab.addTab(ab.newTab().setText("List").setTabListener(this));
@@ -127,69 +148,116 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 
     }
 
-    public void showTabBars(){
+    public void showTabBars() {
         ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     }
 
-    public void hideTabBars(){
+    public void hideTabBars() {
         ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
     }
 
 
-
-    public void invokeMapFragment(){
+    public void invokeMapFragment() {
         trans = fm.beginTransaction();
         trans.add(R.id.mapOrListContainer, fragmentMap).commit();
 
     }
 
 
-    public void invokeListFragment(){
+    public void invokeListFragment() {
         trans = fm.beginTransaction();
         trans.add(R.id.mapOrListContainer, listFragment).commit();
     }
 
+///////////////////////////// Tillagd av Mats- nedan , kan tas bort !!!
+///////////////////////////// Tillagd av Mats- nedan -- för att ta emot klick från Map TrackFragment //////////
+/*
     @Override
-    public void onBackPressed(){
-        Log.i("MIN_TAG", "onBackPressed i infoDetailActivity");
-            int count = getSupportFragmentManager().getBackStackEntryCount();
+    public void onClick(int code) {
 
-            if (count == 0) {
 
-            //  Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen
-            Intent intent = new Intent(this, MainActivity.class);
-            //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle
-            intent.putExtra(INTENT_TAB_NUMBER, 1);                         // Position skickas med bundle
-            this.startActivity(intent);
-            //onBackPressed();
+        Log.i("MIN_TAG", "onClick !!!!!!!");
+//mapTrackFragment
+        if (code==100) { // ska visa mapTrackFragment
+            fm = getSupportFragmentManager();
+            trans = fm.beginTransaction();
+            mapTrackFragment = new MapTrackFragment();
+            trans.add(R.id.activity_info_detail_relroot_container, mapTrackFragment); // funkar
+            trans.addToBackStack("TAG");
+            trans.commit();
+        }
+    }
+    */
+///////////////////////////// Tillagd av Mats- ovan -- för att ta emot klick från Map TrackFragment //////////
 
+    @Override
+    public void onBackPressed() {
+
+        //  Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen
+    //    Intent intent = new Intent(this, MainActivity.class);
+        //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle
+     //   intent.putExtra(INTENT_TAB_NUMBER, 1);                         // Position skickas med bundle
+     //   this.startActivity(intent);
+        //onBackPressed();
+
+  //      this.finish();
+
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
             this.finish();
-
         }
 
-            else if(listFragment.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_LIST") != null && listFragment.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_LIST").isVisible()){
-                Log.i("TAG", "infodetailfrag syns");
-                showTabBars();
-                trans = fm.beginTransaction();
-                trans.show(listFragment).commit();
-                getSupportFragmentManager().popBackStack();
+        else if(listFragment.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_LIST")!=null&&listFragment.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_LIST").isVisible())
 
-            }
-
-            else if(fragmentLocationMessage.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_MAP") != null && fragmentLocationMessage.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_MAP").isVisible()) {
-                Log.i("TAG", "infoDetailFrag finns ifrån locationMessage");
-                showTabBars();
-                trans = fm.beginTransaction();
-                trans.show(fragmentMap).commit();
-                getSupportFragmentManager().popBackStack();
-
-            }
-
-             else {
-                getSupportFragmentManager().popBackStack();
-            }
+    {
+        Log.i("TAG", "infodetailfrag syns");
+        showTabBars();
+        trans = fm.beginTransaction();
+        trans.show(listFragment).commit();
+        getSupportFragmentManager().popBackStack();
 
     }
+
+    else if(fragmentLocationMessage.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_MAP")!=null&&fragmentLocationMessage.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_MAP").isVisible())
+
+    {
+        Log.i("TAG", "infoDetailFrag finns ifrån locationMessage");
+        showTabBars();
+        trans = fm.beginTransaction();
+        trans.show(fragmentMap).commit();
+        getSupportFragmentManager().popBackStack();
+
+    }
+
+    else
+    {
+        getSupportFragmentManager().popBackStack();
+    }
+
+}
+
+ //   @Override
+//  public void onBackPressed(){
+
+/*        Log.i("MIN_TAG", "onBackPressed i infoDetailActivity");
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        Log.i("MIN_TAG", "count är: "+ count);
+        if (count == 0) {
+            this.finish();*/
+
+           /*
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(INTENT_TAB_NUMBER, 1);                         // Position skickas med bundle
+            this.startActivity(intent); */
+            //onBackPressed();
+   /*     } else {
+            getSupportFragmentManager().popBackStack();
+        }*/
+ //   }
+
+
+
 
     @Override
     public void onStart(){
@@ -199,12 +267,16 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 
         mGoogleApiClient.connect();
     }
-    private void setUpSites() {
+
+    protected void setUpSites() {
+        Log.i("MIN_TAG", " I InfoDetailActivity, inne i setUpSites ");
 
         for(int i = 0; i < mySites.size(); i++){
             Marker m = ((MapFragment)fragmentMap).placeMarker(mySites.get(i));
             siteMarkerMap.put(m, mySites.get(i));
         }
+
+
         /*
         Site backensKyrka = new Site("Backens kyrka", "Backens kyrka är en annan historia än allt annat",63.8380731,20.1563725, RELIGIOUS);
         Site sävarGården = new Site ("Sävargården", "Information om Sävargården", 63.8284222, 20.290917, HISTORICAL);

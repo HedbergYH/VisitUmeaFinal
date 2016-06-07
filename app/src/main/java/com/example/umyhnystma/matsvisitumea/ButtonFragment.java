@@ -72,6 +72,9 @@ public class ButtonFragment extends Fragment {
 
         getActivity().getSupportFragmentManager().beginTransaction().hide(map).commit();
 
+
+
+
         if (getArguments() != null) {//Används ej
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -95,12 +98,11 @@ public class ButtonFragment extends Fragment {
 
                 Log.i("TAG", "Clicked map");
 
-                mapImage.setColorFilter(Color.argb(120, 0, 0, 0));
-                listImage.setColorFilter(Color.argb(0, 0, 0, 0));
+                mapImage.setColorFilter(Color.argb(0, 0, 0, 0));
+                listImage.setColorFilter(Color.argb(120, 0, 0, 0));
                 //((InfoDetailActivity)getActivity()).invokeMapFragment();
 
                 if(list.isVisible()){
-
                     getActivity().getSupportFragmentManager().beginTransaction().hide(list).commit();
 
                 }
@@ -122,8 +124,8 @@ public class ButtonFragment extends Fragment {
 
                 }
 
-                listImage.setColorFilter(Color.argb(120, 0, 0, 0));
-                mapImage.setColorFilter(Color.argb(0, 0, 0, 0));
+                listImage.setColorFilter(Color.argb(0, 0, 0, 0));
+                mapImage.setColorFilter(Color.argb(120, 0, 0, 0));
                 //((InfoDetailActivity)getActivity()).invokeListFragment();
 
                 getActivity().getSupportFragmentManager().beginTransaction().show(list).commit();

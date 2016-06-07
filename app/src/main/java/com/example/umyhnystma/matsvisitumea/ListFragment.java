@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 /**
@@ -52,9 +54,6 @@ public class ListFragment extends Fragment{
         public MyArrayAdapter(Context context, int resource, ArrayList<String> itemsInSiteList) {
             super(context, resource, itemsInSiteList);
         }
-
-
-
 
 
         @Override
@@ -100,16 +99,15 @@ public class ListFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragmentLocationMessage
       //  view = inflater.inflate(R.layout.fragment_list, container, false);
+
+
         view = inflater.inflate(R.layout.fragment_sites, container, false);
 
         for (int i = 0; i < ((InfoDetailActivity)getActivity()).mySites.size(); i ++){
@@ -122,6 +120,8 @@ public class ListFragment extends Fragment{
         //itemsInSiteList.add("Umeå Stadskyrka");
         //itemsInSiteList.add("Gammlia");
         //itemsInSiteList.add("Smörasken");
+
+    //    Collections.sort(itemsInSiteList); // Sorterar byggnaderna i bokstavsordning
 
         containerListViewSite =(ListView)view.findViewById(R.id.containerListViewSite);
 
@@ -149,6 +149,7 @@ public class ListFragment extends Fragment{
 
                 detailInfoFragment.setArguments(bundle);
 
+
                 trans = fm.beginTransaction();
 
                 trans.hide(((InfoDetailActivity) getActivity()).listFragment).commit();
@@ -158,6 +159,11 @@ public class ListFragment extends Fragment{
                 trans = fm.beginTransaction();
 
                 trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment, "DETAIL_INFO_FRAGMENT_FROM_LIST").addToBackStack("MY_TAG").commit(); // tar fram knappfragmentet
+
+                trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment).addToBackStack("MY_TAG").commit();
+
+                //  trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment).commit();
+
 
                 String type = itemsInSiteList.get(pos);
                Log.i("MIN_TAG", "typ: " + type);
@@ -195,8 +201,16 @@ public class ListFragment extends Fragment{
     }
 
 
+
+
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
+
+
+
 }

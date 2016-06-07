@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+
+tools:context=".MainActivity">
+
+<!-- Nedan en Linear layout som innehåller en editText där anteckningen skrivs in -->
+<LinearLayout
+    android:id="@+id/firstLinear"
+    android:layout_alignParentTop="true"
+    android:layout_above="@+id/secondLinear"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+</LinearLayout>
+
+<!-- Nedan en Linear layout som innehåller tre ImageButtons med mellanrum-->
+<LinearLayout
+    android:id="@+id/secondLinear"
+    android:layout_centerInParent="true"
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal"
+    android:weightSum="3"
+    android:background="@color/colorAccent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!-- Nedan imagebutton som visar en diskett som representerar spara anteckning-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/backButton"
+        android:text="BACK"/>
+
+</LinearLayout>
+
+</RelativeLayout>

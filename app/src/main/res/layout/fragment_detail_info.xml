@@ -1,7 +1,10 @@
+<merge  xmlns:android="http://schemas.android.com/apk/res/android">
+
 <RelativeLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainContainerInFragmentDetailInfo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.umyhnystma.matsvisitumea.ButtonFragment">
@@ -57,7 +60,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/colorWhite"
         android:layout_below="@+id/lin1"
-        android:layout_marginTop="8dp"
+
         android:id="@+id/rel2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -75,3 +78,5 @@
 
 
 </RelativeLayout>
+
+    </merge>

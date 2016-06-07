@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Created by umyhhedbjo on 2016-05-02.
@@ -100,5 +101,14 @@ public class Site implements java.io.Serializable {
     public void setPictureURL(String picture_URL) {
         this.picture_URL = picture_URL;
     }
+
+    // Metod för att jämföra namnat i två Site-objekt
+    public static Comparator<Site> COMPARE_BY_BUILDING_NAME = new Comparator<Site>() {//Ny anonym inre klass
+        public int compare(Site one, Site other) {
+            return one.name.compareTo(other.name);
+        }
+    };
+
+
 
 }

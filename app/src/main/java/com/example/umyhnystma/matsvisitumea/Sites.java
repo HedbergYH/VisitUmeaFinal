@@ -98,12 +98,19 @@ public class Sites extends Fragment {
 
                 getActivity().startActivity(intent);
 
-                ((MainActivity)getActivity()).finish(); // Ska döda mainActivity
+                //  getActivity().startActivityForResult(intent,1);
+
+
+               // //   ((MainActivity)getActivity()).finish(); // Ska döda mainActivity
+
+
             }
         });
 
         return view;
     }
+
+
 
 
     @Override

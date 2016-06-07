@@ -38,8 +38,13 @@
                 android:layout_height="wrap_content" />
 
         </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
+            android:clickable="true"
+
             android:layout_marginRight="10dp"
             android:padding="5dp"
             android:layout_below="@id/relativeTitle"
@@ -58,7 +63,7 @@
             android:id="@+id/visitLogoImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
+        />
     </RelativeLayout>
 
 
