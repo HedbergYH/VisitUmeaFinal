@@ -39,6 +39,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{  // onM
 
 
     protected MapView mMapView;
+
     protected GoogleMap googleMap;
     Boolean GPS, GeoLocationBasedGuide;
 
@@ -258,7 +259,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{  // onM
 
         //Metoden sköts från InfoDeatailActivity's onCreate. Den sätter ut Site-objekten på kartan.
         if (googleMap==null)
-            Log.i("MIN_TAG", " I MapTrackFragment, placeMarker), googleMap==null");
+            Log.i("MIN_TAG", " I MapFragment, placeMarker, googleMap==null");
         Marker m  = googleMap.addMarker(new MarkerOptions()
 
               //  .position(new LatLng(site.getLatitude(),site.getLongitude()))

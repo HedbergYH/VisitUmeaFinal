@@ -40,20 +40,11 @@ public class DetailInfoFragment extends Fragment {
     View view;
     ImageView imageview;
     TextView smalltext_in_fragment_detail_info,text_in_fragment_detail_info, title_in_fragment_detail_info;
-
-
-    OnClick myClicker;
+    Site mySelectedSite;
 
 
     public DetailInfoFragment() {
         // Required empty public constructor
-    }
-
-
-    @Override
-    public void onAttach(Context context) {  // Mats: kan tas bort
-        super.onAttach(context);
-//        myClicker = (OnClick) context;
     }
 
 
@@ -62,10 +53,6 @@ public class DetailInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-     //   fragmentMap = ((InfoDetailActivity)getActivity()).fragmentMap;
-          //  ((InfoDetailActivity)getActivity()).invokeMapFragment();
-          //  getActivity().getSupportFragmentManager().beginTransaction().show(map).commit();
     }
 
 
@@ -78,39 +65,20 @@ public class DetailInfoFragment extends Fragment {
         // Inflate the layout for this fragmentLocationMessage
 
         smalltext_in_fragment_detail_info = (TextView) view.findViewById(R.id.smalltext_in_fragment_detail_info);
-
         title_in_fragment_detail_info = (TextView)view.findViewById(R.id.title_in_fragment_detail_info);
-
-
 
         setHasOptionsMenu(true);
 
-
-;
-
-
-/*
-        Bundle bundle = getArguments();
-        int position = bundle.getInt("KEY");
-
-        String info = ((InfoDetailActivity)getActivity()).mySites.get(position).getName();
-
-*/
         Bundle bundle2 = getArguments();
-        Site mySite = (Site)bundle2.getSerializable("KEY_SERIALIZABLE");
-        String objectTitle = mySite.getName();
-
-
-        Log.i("TAG", "I FRAGMENTET. Borde synas");
+        mySelectedSite = (Site)bundle2.getSerializable("KEY_SERIALIZABLE");
+        String objectTitle = mySelectedSite.getName();
 
         title_in_fragment_detail_info.setText(objectTitle);
-        smalltext_in_fragment_detail_info.setText(mySite.getDescription());
+        smalltext_in_fragment_detail_info.setText(mySelectedSite.getDescription());
 
 
          // Skall anropas separat för vaje bild
-        String myPicture = mySite.getPictureURL();
-
-        Log.i("TAG","myPicture = " + myPicture);
+        String myPicture = mySelectedSite.getPictureURL();
 
         ImageLoader myImageLoader = ImageLoader.getInstance();
         myImageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
@@ -134,7 +102,7 @@ public class DetailInfoFragment extends Fragment {
             //Startar trackfragmentet här
             Toast.makeText(getActivity(), "Clicked on track fragment start.", Toast.LENGTH_SHORT).show();
 
-            ((InfoDetailActivity)getActivity()).showMapTracFrag();
+            ((InfoDetailActivity)getActivity()).showMapTracFrag(mySelectedSite);
 
 
             return true;

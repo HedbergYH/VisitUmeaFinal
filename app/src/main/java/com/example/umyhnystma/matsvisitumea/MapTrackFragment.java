@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.HashMap;
@@ -30,7 +32,7 @@ import java.util.HashMap;
  * A simple {@link Fragment} subclass.
  */
 
-// Fragmantet ska innehålla en karta med egen position och med posittion av vald byggnad
+// Fragmantet ska innehålla en karta med egen position och med position av vald byggnad
 public class MapTrackFragment extends Fragment {
 
 
@@ -39,39 +41,31 @@ public class MapTrackFragment extends Fragment {
     FragmentManager fm;
     FragmentTransaction trans;
     Fragment fragment;
+    SupportMapFragment map;
 
-    GoogleApiClient mGoogleApiClient;
-    LocationRequest mRequest;
-    Location mCurrentLocation;
 
-     MapFragment mapFragment;
-
+    MapFragment mapFragment;
+    Site mySelectedSite;
     private HashMap <Marker, Site> siteMarkerMap;
 
     View view;
-    TextView textView1_InMapTrackFragment;
     Button backButton,showMapButton;
     RelativeLayout mapContainer;
     LinearLayout  firstLinear;
-
-    //   OnClick myClicker;
 
     public MapTrackFragment() {
         // Required empty public constructor
     }
 
 
-    //   @Override
-    //   public void onAttach(Context context) {  // fragmentets har skapats
-        //       super.onAttach(context);
-    //    myClicker = (OnClick) context;       // myclicker skapas för att
-        //   }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_info_detail);
 
         siteMarkerMap = new HashMap<Marker, Site>();
+
+        Bundle bundle2 = getArguments();
+        mySelectedSite = (Site)bundle2.getSerializable("KEY_SERIALIZABLE");
     }
 
     @Override
@@ -83,13 +77,13 @@ public class MapTrackFragment extends Fragment {
         firstLinear = (LinearLayout) view.findViewById(R.id.firstLinear);
         backButton = (Button)view.findViewById(R.id.backButton);
 
-        // Kartfragmentet(MapFragment)  blåses upp i  "firstLinear" vilken är en container
-        // som ligger i detta fragment(MapTrackFragment)
-        fm = getActivity().getSupportFragmentManager();
-        trans = fm.beginTransaction();
+        trans = getChildFragmentManager().beginTransaction();
         mapFragment = new MapFragment();
         trans.add(R.id.firstLinear, mapFragment);
         trans.commit();
+
+
+
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,28 +108,21 @@ public class MapTrackFragment extends Fragment {
 
     public void onStart(){
         super.onStart();
-     //   setUpSelectedSite();
 
+        setUpSelectedSite();
 
     }
 
     public void setUpSelectedSite(){
-        Site sävargården = new Site("Sävargården", "Fint hus det här", 63.828462,20.290932, HISTORICAL,"http://www.umea.se/images/18.73474df7141ec1b19d14e9f/1383576061560/S%C3%A4varg%C3%A5rden_h.gif" );
-        Marker m = mapFragment.placeMarker(sävargården);
-        ((InfoDetailActivity)getActivity()).siteMarkerMap.put(m, sävargården);
-
-
-        /*
-        ((MapFragment)mapFragment).googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-
-            @Override
-           public void onInfoWindowClick(Marker marker) {
-                siteShortInfoMessage = siteMarkerMap.get(marker);
-                Toast.makeText(InfoDetailActivity.this, "You choose " + siteShortInfoMessage.getName() + ". Description is " + siteShortInfoMessage.getDescription() + ".", Toast.LENGTH_SHORT).show();
-                showLocationMessage(siteShortInfoMessage);
-            }
-        });  */
-
+            Marker m = mapFragment.placeMarker(mySelectedSite);
+            siteMarkerMap.put(m, mySelectedSite);
     }
 
+
+
+    public void onResume(){
+        super.onResume();
+
+
+    }
 }

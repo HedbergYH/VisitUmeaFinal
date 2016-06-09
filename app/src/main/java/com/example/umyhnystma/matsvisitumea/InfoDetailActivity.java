@@ -146,33 +146,19 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
     @Override
     public void onBackPressed() {
 
-        //  Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen
-    //    Intent intent = new Intent(this, MainActivity.class);
-        //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle
-     //   intent.putExtra(INTENT_TAB_NUMBER, 1);                         // Position skickas med bundle
-     //   this.startActivity(intent);
-        //onBackPressed();
-
-  //      this.finish();
-
         int count = getSupportFragmentManager().getBackStackEntryCount();
 
         if (count == 0) {
             this.finish();
         }
-        else if(mapTrackFragment.isVisible())
+        else if(mapTrackFragment != null && mapTrackFragment.isVisible())
         {
-            Log.i("TAG", "Nu har backknappen klickats när kartan visas");
-
             getSupportFragmentManager().popBackStack();
         }
-////////////////////////////////
 
-
-        else if(listFragment.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_LIST")!=null&&listFragment.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_LIST").isVisible())
-
+    else if(listFragment.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_LIST")!=null&&listFragment.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_LIST").isVisible())
     {
-        Log.i("TAG", "infodetailfrag syns");
+        Log.i("MIN_TAG", "infodetailfrag syns");
         showTabBars();
         trans = fm.beginTransaction();
         trans.show(listFragment).commit();
@@ -183,7 +169,7 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
     else if(fragmentLocationMessage.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_MAP")!=null&&fragmentLocationMessage.getFragmentManager().findFragmentByTag("DETAIL_INFO_FRAGMENT_FROM_MAP").isVisible())
 
         {
-            Log.i("TAG", "infoDetailFrag finns ifrån locationMessage");
+            Log.i("MIN_TAG", "infoDetailFrag finns ifrån locationMessage");
             showTabBars();
             trans = fm.beginTransaction();
             trans.show(fragmentMap).commit();
@@ -192,34 +178,12 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 
     else
     {
+        Log.i("MIN_TAG", "sista else, popBackStack()ska köras");
         getSupportFragmentManager().popBackStack();
     }
 
 }
 
-    public void whenBackIsPressed(){
-        getSupportFragmentManager().popBackStack();
-    }
-
-
- //   @Override
-//  public void onBackPressed(){
-
-/*        Log.i("MIN_TAG", "onBackPressed i infoDetailActivity");
-        int count = getSupportFragmentManager().getBackStackEntryCount();
-        Log.i("MIN_TAG", "count är: "+ count);
-        if (count == 0) {
-            this.finish();*/
-
-           /*
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(INTENT_TAB_NUMBER, 1);                         // Position skickas med bundle
-            this.startActivity(intent); */
-            //onBackPressed();
-   /*     } else {
-            getSupportFragmentManager().popBackStack();
-        }*/
- //   }
 
 
 
@@ -229,31 +193,14 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         super.onStart();
 
         setUpSites();
-
         mGoogleApiClient.connect(); // connectar mot mot Google-maps för att erhålla telefonens position
     }
 
     protected void setUpSites() {
-        Log.i("MIN_TAG", " I InfoDetailActivity, inne i setUpSites ");
-
         for(int i = 0; i < mySites.size(); i++){
             Marker m = ((MapFragment)fragmentMap).placeMarker(mySites.get(i));
             siteMarkerMap.put(m, mySites.get(i));
         }
-
-
-        /*
-        Site backensKyrka = new Site("Backens kyrka", "Backens kyrka är en annan historia än allt annat",63.8380731,20.1563725, RELIGIOUS);
-        Site sävarGården = new Site ("Sävargården", "Information om Sävargården", 63.8284222, 20.290917, HISTORICAL);
-
-        Marker backensMarker = ((MapFragment)fragmentMap).placeMarker(backensKyrka);
-        Marker sävarMarker = ((MapFragment)fragmentMap).placeMarker(sävarGården);
-
-
-        siteMarkerMap.put(backensMarker, backensKyrka);
-        siteMarkerMap.put(sävarMarker, sävarGården);
-
-        */
 
         ((MapFragment)fragmentMap).googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -265,12 +212,14 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         });
     }
 
-
-    public void showMapTracFrag(){
+    public void showMapTracFrag(Site mySelectedSite){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("KEY_SERIALIZABLE", mySelectedSite );
 
         mapTrackFragment = new MapTrackFragment();
         fm = getSupportFragmentManager();
         trans =fm.beginTransaction();
+        mapTrackFragment.setArguments(bundle);
         trans.add(R.id.activity_info_detail_relroot_container, mapTrackFragment); // funkar
         trans.addToBackStack("MAP_TRACK_FRAGMENT_MAP");
         trans.commit();
@@ -280,22 +229,17 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
     public void onResume(){
         super.onResume();
 
-        Log.i("MIN_TAG","onResume i infoDetailActivity");
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.i("MIN_TAG","onPause i infoDetailActivity");
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i("MIN_TAG","onDestroy i infoDetailActivity");
-
         mGoogleApiClient.disconnect();
     }
 
@@ -328,8 +272,6 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
     @Override
     public void onLocationChanged(Location location) {
 
-        Log.i("MIN_TAG", "onLocationChanged. Location = Lat: " + location.getLatitude() + ", Long:" + location.getLongitude());
-
         mCurrentLocation = location;
         locationUpdate();
 
@@ -346,14 +288,10 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
     @Override
     public void onConnected(@Nullable Bundle bundle){
 
-        Log.i("MIN_TAG", "onConnected. I InfoDetailActivity");
-
     if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-        Log.i("MIN_TAG", "onConnected : if");
 
     } else {
-        Log.i("MIN_TAG", "onConnected : else");
         try {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mRequest, this);
         } catch (SecurityException e) {
