@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.support.design.widget.FloatingActionButton;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,11 @@ public class DetailInfoFragment extends Fragment {
     ImageView imageview;
     TextView smalltext_in_fragment_detail_info, title_in_fragment_detail_info;
     Site mySelectedSite;
+    Context context;
+    double startLatitude;
+    double startLongitude;
+
+    protected FloatingActionButton FAB;
 
 
     public DetailInfoFragment() {
@@ -47,7 +53,11 @@ public class DetailInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        context = getActivity();
+
     }
+
 
 
     @Override
@@ -58,8 +68,6 @@ public class DetailInfoFragment extends Fragment {
 
         smalltext_in_fragment_detail_info = (TextView) view.findViewById(R.id.smalltext_in_fragment_detail_info);
         title_in_fragment_detail_info = (TextView)view.findViewById(R.id.title_in_fragment_detail_info);
-
-        setHasOptionsMenu(true);
 
         Bundle bundle2 = getArguments();
         mySelectedSite = (Site)bundle2.getSerializable("KEY_SERIALIZABLE");
@@ -76,7 +84,39 @@ public class DetailInfoFragment extends Fragment {
         imageview = (ImageView)view.findViewById(R.id.pictureofbuilding);
         myImageLoader.displayImage(myPicture,imageview);
 
+        FAB = (FloatingActionButton)view.findViewById(R.id.navigateFAB);
+
+
+        FAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                double targetLatitude = mySelectedSite.latitude;
+                double targetLongitude = mySelectedSite.longitude;
+
+                if(context instanceof MainActivity){
+
+                    startLatitude = ((MainActivity)getActivity()).mCurrentLocation.getLatitude();
+                    startLongitude = ((MainActivity)getActivity()).mCurrentLocation.getLongitude();
+
+                }else if(context instanceof InfoDetailActivity){
+
+                    startLatitude = ((InfoDetailActivity)getActivity()).mCurrentLocation.getLatitude();
+                    startLongitude = ((InfoDetailActivity)getActivity()).mCurrentLocation.getLongitude();
+                }
+
+                //((InfoDetailActivity)getActivity()).showMapTracFrag(mySelectedSite);
+
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr="+startLatitude+","+startLongitude+"&daddr="+targetLatitude+","+targetLongitude));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+            }
+        });
+
         return view;
+
     }
 
     @Override
@@ -85,23 +125,6 @@ public class DetailInfoFragment extends Fragment {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
-        if(id == R.id.track){
 
-            double targetLatitude = mySelectedSite.latitude;
-            double targetLongitude = mySelectedSite.longitude;
-
-            double startLatitude = ((InfoDetailActivity)getActivity()).mCurrentLocation.getLatitude();
-            double startLongitude = ((InfoDetailActivity)getActivity()).mCurrentLocation.getLongitude();
-
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr="+startLatitude+","+startLongitude+"&daddr="+targetLatitude+","+targetLongitude));
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
+

@@ -63,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
     Fragment fragmentMap;
     Fragment siteListFragment;
     Fragment siteSearchFragment;
-    Fragment toggleButtonsMainActivity;
+   // Fragment toggleButtonsMainActivity; BORTTAGET TILLS VIDARE
+    DetailInfoFragment detailInfoFragment;
     int tabChoosen;
     int nTabSelected;
 
@@ -137,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
         checkGPSstate();
 
         fm = getSupportFragmentManager();
+        detailInfoFragment = new DetailInfoFragment();
 
         loadSites();
 
@@ -386,6 +388,11 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
                     trans.replace(R.id.mapContainer, fragmentMap).addToBackStack(null).commit();
                 }
 
+
+                /*
+
+                TOGGLEBUTTON FÖR PUSH NOTIS OCH LIKNANDE
+
                 //Transaction for ToggleButtons fragmentLocationMessage
                 trans = fm.beginTransaction();
 
@@ -399,6 +406,8 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
                     trans.replace(R.id.GPScontainer, toggleButtonsMainActivity).commit();
                 }
 
+                */
+
 
                 break;
 
@@ -407,8 +416,14 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
                 if (fragmentMap != null) {
                     trans = fm.beginTransaction();
                     trans.remove(fragmentMap).commit();
+
+                    /*
+
+                    TOGGLE BUTTON PUSH NOTIS
                     trans = fm.beginTransaction();
                     trans.remove(toggleButtonsMainActivity).commit();
+
+                    */
                 }
 
                 tabSiteSelected();
@@ -419,8 +434,15 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
                 if (fragmentMap != null) {
                     trans = fm.beginTransaction();
                     trans.remove(fragmentMap).commit();
+
+                    /*
+
+                    TOGGLE BUTTON PUSH NOTIS
+
                     trans = fm.beginTransaction();
                     trans.remove(toggleButtonsMainActivity).commit();
+
+                    */
                 }
 
                 tabSearchSelected();
@@ -704,7 +726,33 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
             Log.i("MIN_TAG", "onBackPressed i MainActivity, currentFragment instanceof MapFragmen");
             this.finish();                                               // Dödar mainActivity
         }
+
+        if(currentFragment instanceof Search){
+            this.finish();
+        }
+
+        if(currentFragment instanceof DetailInfoFragment){
+            getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+            getSupportFragmentManager().popBackStack();
+            trans = fm.beginTransaction();
+            trans.show(siteSearchFragment).commit();
+
+        }
+
     }
+
+    public void showInfoDetailFragmentForSite(Site site){
+
+        trans = fm.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("KEY_SERIALIZABLE",site);
+        detailInfoFragment.setArguments(bundle);
+        trans.add(R.id.container, detailInfoFragment).addToBackStack(null).commit();
+        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        trans = fm.beginTransaction();
+        trans.hide(siteSearchFragment).commit();
+    }
+
 
 
 }

@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.example.umyhnystma.matsvisitumea.ButtonFragment">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/navigateFAB"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:layout_margin="4dp"
+        android:layout_gravity="end"
+        android:src="@drawable/tracky"
+        android:layout_width="56dp"
+        android:layout_height="56dp" />
+
     <!--
 
     <LinearLayout
@@ -28,19 +39,20 @@
             android:textSize="20sp"
             android:textColor="@color/colorPrimary"
             android:background="@color/colorWhite"
-            android:gravity="center"
+            android:gravity="start"
             android:text="tttt"
-
             android:padding="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+
         <ImageView
+
             android:id="@+id/pictureofbuilding"
             android:layout_toRightOf="@+id/buttonmapwithtext"
             android:layout_gravity="center"
             android:clipToPadding="false"
             android:scaleType="fitXY"
-            android:padding="1dp"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
         <TextView
@@ -50,8 +62,12 @@
             android:layout_weight="1"
             android:padding="4dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            />
+
      </LinearLayout>
+
+
 
 
      <!--
