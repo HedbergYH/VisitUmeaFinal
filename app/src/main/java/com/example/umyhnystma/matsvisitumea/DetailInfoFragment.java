@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.support.design.widget.FloatingActionButton;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,8 @@ public class DetailInfoFragment extends Fragment {
     ImageView imageview;
     TextView smalltext_in_fragment_detail_info,text_in_fragment_detail_info, title_in_fragment_detail_info;
     Site mySelectedSite;
+
+    protected FloatingActionButton FAB;
 
 
     public DetailInfoFragment() {
@@ -85,7 +88,20 @@ public class DetailInfoFragment extends Fragment {
         imageview = (ImageView)view.findViewById(R.id.pictureofbuilding);
         myImageLoader.displayImage(myPicture,imageview);
 
+        FAB = (FloatingActionButton)view.findViewById(R.id.navigateFAB);
+
+
+        FAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //HÄR GÖR MATS SIN GREJ
+
+            }
+        });
+
         return view;
+
     }
 
     @Override
@@ -102,7 +118,7 @@ public class DetailInfoFragment extends Fragment {
             //Startar trackfragmentet här
             Toast.makeText(getActivity(), "Clicked on track fragment start.", Toast.LENGTH_SHORT).show();
 
-            ((InfoDetailActivity)getActivity()).showMapTracFrag(mySelectedSite);
+            //((InfoDetailActivity)getActivity()).showMapTracFrag(mySelectedSite);
 
 
             return true;
@@ -110,4 +126,6 @@ public class DetailInfoFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
+

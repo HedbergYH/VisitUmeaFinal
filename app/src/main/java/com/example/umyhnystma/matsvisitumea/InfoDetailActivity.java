@@ -72,10 +72,7 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
     public static final String INTENT_TAB_NUMBER = "INTENT_NUMBER";
 
     ArrayList<Site> mySites;
-
-
     ActionBar ab;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +82,6 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 
         Intent intent = getIntent();
         mySites = (ArrayList<Site>) intent.getSerializableExtra("MySites");
-
-
 
         siteMarkerMap = new HashMap<Marker, Site>();
 

@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:id="@+id/container">
 
-
+<!--
         <RelativeLayout
             android:layout_alignParentBottom="true"
             android:gravity="center"
@@ -24,10 +24,13 @@
             android:layout_width="match_parent"
             android:layout_height="62dp">
 
-        </RelativeLayout>
+            </RelativeLayout>
+
+            -->
+
+
 
         <RelativeLayout
-            android:layout_above="@id/GPScontainer"
             android:id="@+id/mapContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
