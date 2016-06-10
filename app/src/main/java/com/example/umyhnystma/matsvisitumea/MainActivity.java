@@ -74,8 +74,6 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
     LocationRequest mRequest;
     Location mCurrentLocation;
 
-
-
     private static final String RELIGIOUS = "Religious";
     private static final String HISTORICAL = "Historical";
     private static final String CULTURAL = "Cultural";
@@ -86,15 +84,16 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
 
     Gson gson;
 
+
+///////////////////för Geofence - nedan /////////////////////////////
     private boolean mGeofencesAdded;
+
+    List<Geofence> mGeofenceList = new ArrayList<>();
+    PendingIntent mGeofencePendingIntent;
+///////////////////för Geofence - ovan /////////////////////////////
 
 
     SavedSitesGson mySites = new SavedSitesGson();
-    List<Geofence> mGeofenceList = new ArrayList<>();
-    PendingIntent mGeofencePendingIntent;
-
-
-
 
     /**
      * Used to persist application state about whether geofences were added.
@@ -119,13 +118,20 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-      //  GoogleApiClient mGoogleApiClient;
-        mGeofencePendingIntent = null;
+///////////////////för Geofence - nedan /////////////////////////////
+//        mGeofencePendingIntent = null;
+///////////////////för Geofence - ovan /////////////////////////////
+
         mSharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME,
                 MODE_PRIVATE);
 
         // Get the value of mGeofencesAdded from SharedPreferences. Set to false as a default.
-        mGeofencesAdded = mSharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
+///////////////////för Geofence - nedan /////////////////////////////
+//       mGeofencesAdded = mSharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
+///////////////////för Geofence - ovan /////////////////////////////
+
+
+
         checkInternetState();
 
         checkGPSstate();
@@ -153,8 +159,8 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
 
     }
 
-
-
+//////////////////////////// GeoFences - nedan /////////////////////////////////////////
+/*
     private void addGeofences() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -207,12 +213,6 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
                  .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
                          Geofence.GEOFENCE_TRANSITION_EXIT | Geofence.GEOFENCE_TRANSITION_DWELL)
                  .build());
-
-
-
-
-///////////////////////////////////////////////////////////////////
-
          Log.i("MIN_TAG", "mGeofenceList.size: "+ mGeofenceList.size());
      }
  }
@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
                     FLAG_UPDATE_CURRENT);
         }
 
-
+*/
 //////////////////////////// GeoFences - ovan /////////////////////////////////////////
 
 
@@ -377,6 +377,9 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
 
                 if (fragmentMap == null) {
                     fragmentMap = new MapFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("KEY",false); // för att navigationsknapparna INTE ska visas i kart-fragmentet
+                    fragmentMap.setArguments(bundle);
                     trans.replace(R.id.mapContainer, fragmentMap).addToBackStack(null).commit();
 
                 } else {
@@ -500,8 +503,11 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
         } else {
             Log.i("MIN_TAG", "onConnected : else");
             try {
-                populateGeofenceList();
-                addGeofences();
+///////////////////för Geofence - nedan /////////////////////////////
+//          populateGeofenceList();
+//          addGeofences();
+///////////////////för Geofence - ovan /////////////////////////////
+
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mRequest, this);
 
             } catch (SecurityException e) {
@@ -683,8 +689,6 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
     @Override
     public void onBackPressed(){
         Log.i("MIN_TAG", "onBackPressed i MainActivity");
-
-
         currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.container);        // Hämtar referens till Sites-fragment
         if (currentFragment == null)
             currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.mapContainer);// Hämtar referens till Map-fragment
@@ -700,8 +704,6 @@ public class MainActivity extends AppCompatActivity implements ResultCallback, A
             Log.i("MIN_TAG", "onBackPressed i MainActivity, currentFragment instanceof MapFragmen");
             this.finish();                                               // Dödar mainActivity
         }
-
-
     }
 
 

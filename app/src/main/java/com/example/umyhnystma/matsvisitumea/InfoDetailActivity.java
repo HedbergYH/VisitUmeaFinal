@@ -3,6 +3,7 @@ package com.example.umyhnystma.matsvisitumea;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -97,6 +98,10 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
 
 
         fragmentMap = new MapFragment();
+       // Bundle bundle = new Bundle();
+       // bundle.putBoolean("KEY",false); // för att navigationsknapparna INTE ska visas i kart-fragmentet
+        //fragmentMap.setArguments(bundle);
+
         listFragment = new ListFragment();
         fragmentLocationMessage = new LocationMessage();
 
@@ -107,10 +112,6 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         trans.hide(fragmentMap).commit();
         ab = getSupportActionBar();
         setTabBars();
-
-
-
-
     }
 
     public void setTabBars() {
@@ -175,7 +176,6 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
             trans.show(fragmentMap).commit();
             getSupportFragmentManager().popBackStack();
         }
-
     else
     {
         Log.i("MIN_TAG", "sista else, popBackStack()ska köras");
@@ -196,6 +196,8 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         mGoogleApiClient.connect(); // connectar mot mot Google-maps för att erhålla telefonens position
     }
 
+
+
     protected void setUpSites() {
         for(int i = 0; i < mySites.size(); i++){
             Marker m = ((MapFragment)fragmentMap).placeMarker(mySites.get(i));
@@ -206,24 +208,13 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
             @Override
             public void onInfoWindowClick(Marker marker) {
                 siteShortInfoMessage = siteMarkerMap.get(marker);
-                Toast.makeText(InfoDetailActivity.this, "You choose " + siteShortInfoMessage.getName() + ". Description is " + siteShortInfoMessage.getDescription() + ".", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(InfoDetailActivity.this, "You choose " + siteShortInfoMessage.getName() + ". Description is " + siteShortInfoMessage.getDescription() + ".", Toast.LENGTH_SHORT).show();
                 showLocationMessage(siteShortInfoMessage);
             }
         });
     }
 
-    public void showMapTracFrag(Site mySelectedSite){
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("KEY_SERIALIZABLE", mySelectedSite );
 
-        mapTrackFragment = new MapTrackFragment();
-        fm = getSupportFragmentManager();
-        trans =fm.beginTransaction();
-        mapTrackFragment.setArguments(bundle);
-        trans.add(R.id.activity_info_detail_relroot_container, mapTrackFragment); // funkar
-        trans.addToBackStack("MAP_TRACK_FRAGMENT_MAP");
-        trans.commit();
-    }
 
     @Override
     public void onResume(){
@@ -355,4 +346,25 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
     }
+
+    public void showMapTracFrag(Site mySelectedSite){
+        /*
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("KEY_SERIALIZABLE", mySelectedSite );
+        bundle.putBoolean("KEY",true);   // för att navigationsknapparna SKA visas i kart-fragmentet
+
+        mapTrackFragment = new MapTrackFragment();
+        fm = getSupportFragmentManager();
+        trans =fm.beginTransaction();
+        mapTrackFragment.setArguments(bundle);
+
+        trans.add(R.id.activity_info_detail_relroot_container, mapTrackFragment); // funkar
+        trans.addToBackStack("MAP_TRACK_FRAGMENT_MAP");
+        trans.commit(); */
+        //////////////////////////////////////////////////////////////////
+    }
+
+
+
+
 }

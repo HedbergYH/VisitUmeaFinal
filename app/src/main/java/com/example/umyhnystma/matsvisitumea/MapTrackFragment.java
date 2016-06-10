@@ -43,13 +43,14 @@ public class MapTrackFragment extends Fragment {
     Fragment fragment;
     SupportMapFragment map;
 
+    boolean showButtons;
+
 
     MapFragment mapFragment;
     Site mySelectedSite;
     private HashMap <Marker, Site> siteMarkerMap;
 
     View view;
-    Button backButton,showMapButton;
     RelativeLayout mapContainer;
     LinearLayout  firstLinear;
 
@@ -65,6 +66,7 @@ public class MapTrackFragment extends Fragment {
         siteMarkerMap = new HashMap<Marker, Site>();
 
         Bundle bundle2 = getArguments();
+        showButtons = bundle2.getBoolean("KEY");
         mySelectedSite = (Site)bundle2.getSerializable("KEY_SERIALIZABLE");
     }
 
@@ -75,34 +77,18 @@ public class MapTrackFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_map_track, container, false);
         mapContainer = (RelativeLayout) view.findViewById(R.id.mapContainer);
         firstLinear = (LinearLayout) view.findViewById(R.id.firstLinear);
-        backButton = (Button)view.findViewById(R.id.backButton);
 
-        trans = getChildFragmentManager().beginTransaction();
+        trans = getChildFragmentManager().beginTransaction(); // Måste vara getChildFragmentManager() då det är ett fragment i ett fragment
+
+      //  Bundle bundle = new Bundle();
+      //  bundle.putBoolean("KEY",true);
+
         mapFragment = new MapFragment();
+      //  mapFragment.setArguments(bundle);
         trans.add(R.id.firstLinear, mapFragment);
         trans.commit();
-
-
-
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int count = getActivity().getSupportFragmentManager().getBackStackEntryCount();
-
-                if (count == 0) {
-                    getActivity().finish();
-                } else {
-                    getActivity().getSupportFragmentManager().popBackStack();
-                }
-
-            }
-        });
         return view;
     }
-
-
-
 
 
 
@@ -117,8 +103,6 @@ public class MapTrackFragment extends Fragment {
             Marker m = mapFragment.placeMarker(mySelectedSite);
             siteMarkerMap.put(m, mySelectedSite);
     }
-
-
 
     public void onResume(){
         super.onResume();

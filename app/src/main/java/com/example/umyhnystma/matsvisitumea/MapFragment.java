@@ -49,10 +49,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{  // onM
     private HashMap<Marker, Integer> mHashMap = new HashMap<Marker, Integer>();
     private ArrayList<Site> sitesArray = new ArrayList<>();
     private View v;
+    private boolean showNavigationButtons;
 
     MarkerOptions markerOptions;
     Marker marker;
     Marker backensKyrka;
+
+    Bundle bundle;
 
     UiSettings uiSettings;
 
@@ -80,31 +83,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{  // onM
 
         googleMap = mMapView.getMap();
 
-        /*
-        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-
-                Log.i("TAG", "I onInfoWindowClick mapFragment");
-
-                //Visar LocationMessage
-
-
-
-                int pos = mHashMap.get(marker);
-
-                ((InfoDetailActivity)getActivity()).showLocationMessage(sitesArray.get(pos));
-
-
-
-            }
-        });
-
-        */
-
-
-
-        // latitude and longitude
+        bundle = getArguments();
+//        showNavigationButtons = bundle.getBoolean("KEY");
 
         try{
             getMyLocation();
@@ -149,6 +129,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{  // onM
         Log.i("MIN_TAG","i onMapReady i mapFragment");
          uiSettings = googleMap.getUiSettings();            // uiSettings hämtas från googleMap-objektet
          uiSettings.setZoomControlsEnabled(true);           // zoom-knapp sätts på uiSettings-objektet
+        //Disable Map Toolbar:
+        Log.i("MIN_TAG","i onMapReady i mapFragment, showNavigationButtons är:"+ showNavigationButtons);
+   //     if (showNavigationButtons)
+         //   uiSettings.setMapToolbarEnabled(true);
+       // else
+        uiSettings.setMapToolbarEnabled(false);
     }
 
 
@@ -192,7 +178,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{  // onM
     private void getMyLocation(){
         latitude = ((MainActivity)getActivity()).mCurrentLocation.getLatitude();
         longitude = ((MainActivity)getActivity()).mCurrentLocation.getLongitude();
-
     }
 
     public void setMyLocationMainMap(){
@@ -222,7 +207,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{  // onM
                 .newCameraPosition(cameraPosition));
 
         // Perform any camera updates here
-
     }
 
     public void setUpMapWithNewPositionCameraUnfollow() {
@@ -261,13 +245,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{  // onM
         if (googleMap==null)
             Log.i("MIN_TAG", " I MapFragment, placeMarker, googleMap==null");
         Marker m  = googleMap.addMarker(new MarkerOptions()
-
-              //  .position(new LatLng(site.getLatitude(),site.getLongitude()))
                 .position(new LatLng(site.getLatitude(),site.getLongitude()))
-
                 .title(site.getName()));
-               // .title("Sävargården");
-       // "Sävargården"
         return m;
     }
 }

@@ -23,9 +23,7 @@ public class Site implements java.io.Serializable {
     Marker marker;
 
     public Site(){
-
         //Empty constructor
-
     }
 
     public Site(String name, String description, double latitude, double longitude, String category, String picture_URL){
@@ -102,7 +100,7 @@ public class Site implements java.io.Serializable {
         this.picture_URL = picture_URL;
     }
 
-    // Metod för att jämföra namnat i två Site-objekt
+    // Metod för att jämföra namnet i två Site-objekt
     public static Comparator<Site> COMPARE_BY_BUILDING_NAME = new Comparator<Site>() {//Ny anonym inre klass
         public int compare(Site one, Site other) {
             return one.name.compareTo(other.name);

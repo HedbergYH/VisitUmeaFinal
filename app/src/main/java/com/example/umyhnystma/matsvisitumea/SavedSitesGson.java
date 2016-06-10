@@ -12,8 +12,6 @@ public class SavedSitesGson {
     ArrayList<Site> religiousSites = new ArrayList<>();
     ArrayList<Site> historicalSites = new ArrayList<>();
 
-
     public SavedSitesGson(){}
-
 
 }

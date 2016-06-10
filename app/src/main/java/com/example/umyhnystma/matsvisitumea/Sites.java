@@ -29,8 +29,6 @@ public class Sites extends Fragment {
      ArrayList<String> itemsInCategoryList = new ArrayList<>();
      MyArrayAdapter myArrayAdapter;
 
-    ///////////////////////////////////////////////////////////////////
-
     private class MyArrayAdapter extends ArrayAdapter<String> { // Custom Arrayadapter, borde brytas ut
         public MyArrayAdapter(Context context, int resource, ArrayList<String> itemsInCategoryList) {
             super(context, resource, itemsInCategoryList);
@@ -51,10 +49,6 @@ public class Sites extends Fragment {
         }
     }
 
-/////////////////////////////////////////////////////////////////////
-    // Här ska listfragmentet
-    // Inflate the view for the fragmentLocationMessage based on layout XML
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,16 +68,10 @@ public class Sites extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 
 
-               // fragmentMap  mMap
-
-             //   MapFragment tmp = (MapFragment)((MainActivity)getActivity()).fragmentMap;
-
                 String type = itemsInCategoryList.get(pos);
                 Log.i("MIN_TAG", "typ: " + type);
 
                 Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen
-                //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle
-                //intent.putExtra(INTENT_POSITON_NUMBER, pos);                           // Position skickas med bundle
 
                 if(pos == 0){
                     intent.putExtra("MySites", ((MainActivity) getActivity()).mySites.allSites);
@@ -94,16 +82,7 @@ public class Sites extends Fragment {
                 }else{
                     intent.putExtra("MySites", ((MainActivity) getActivity()).mySites.historicalSites);
                 }
-
-
                 getActivity().startActivity(intent);
-
-                //  getActivity().startActivityForResult(intent,1);
-
-
-               // //   ((MainActivity)getActivity()).finish(); // Ska döda mainActivity
-
-
             }
         });
 

@@ -3,6 +3,8 @@ package com.example.umyhnystma.matsvisitumea;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,20 +28,13 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import java.io.Serializable;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragmentet visar bild och text för vald byggnad
  */
 public class DetailInfoFragment extends Fragment {
-
-    FragmentManager fm;
-    FragmentTransaction trans;
-    Fragment fragmentMap,fragmentTrackMap;
-    MapTrackFragment mapTrackFragment;
-
-    RelativeLayout mainContainerInFragmentDetailInfo,mapOrListContainer;
-
+//
     View view;
     ImageView imageview;
-    TextView smalltext_in_fragment_detail_info,text_in_fragment_detail_info, title_in_fragment_detail_info;
+    TextView smalltext_in_fragment_detail_info, title_in_fragment_detail_info;
     Site mySelectedSite;
 
 
@@ -52,10 +47,7 @@ public class DetailInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
-
-
 
 
     @Override
@@ -75,7 +67,6 @@ public class DetailInfoFragment extends Fragment {
 
         title_in_fragment_detail_info.setText(objectTitle);
         smalltext_in_fragment_detail_info.setText(mySelectedSite.getDescription());
-
 
          // Skall anropas separat för vaje bild
         String myPicture = mySelectedSite.getPictureURL();
@@ -99,15 +90,18 @@ public class DetailInfoFragment extends Fragment {
         int id = item.getItemId();
         if(id == R.id.track){
 
-            //Startar trackfragmentet här
-            Toast.makeText(getActivity(), "Clicked on track fragment start.", Toast.LENGTH_SHORT).show();
+            double targetLatitude = mySelectedSite.latitude;
+            double targetLongitude = mySelectedSite.longitude;
 
-            ((InfoDetailActivity)getActivity()).showMapTracFrag(mySelectedSite);
+            double startLatitude = ((InfoDetailActivity)getActivity()).mCurrentLocation.getLatitude();
+            double startLongitude = ((InfoDetailActivity)getActivity()).mCurrentLocation.getLongitude();
 
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr="+startLatitude+","+startLongitude+"&daddr="+targetLatitude+","+targetLongitude));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
 
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

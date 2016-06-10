@@ -89,7 +89,6 @@ public class LocationMessage extends Fragment {
         Fragment detailInfoFragment = new DetailInfoFragment();
         Log.i("MIN_TAG", "descriptionText är klickad på!!!");
         Bundle bundle = new Bundle();
-
         bundle.putSerializable("KEY_SERIALIZABLE", mySite);
 
         detailInfoFragment.setArguments(bundle);

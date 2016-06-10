@@ -64,10 +64,6 @@ public class ListFragment extends Fragment{
             View blowupmenu = inflater.inflate(R.layout.fragment_in_sitelist_blow_up_second, containerListViewSite, false);
             TextView textView = (TextView) blowupmenu.findViewById(R.id.siteListText); // siteListText ligger i fragment_in_sitelist_blow_up.xml
             textView.setText(itemsInSiteList.get(position));
-
-           // textView.setText(itemsInSiteList.get(position));
-
-
             return blowupmenu;                                                      // Här returnerars menuitemblowup.xmls root-layout
         }
     }
@@ -104,109 +100,48 @@ public class ListFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragmentLocationMessage
-      //  view = inflater.inflate(R.layout.fragment_list, container, false);
-
-
         view = inflater.inflate(R.layout.fragment_sites, container, false);
 
         for (int i = 0; i < ((InfoDetailActivity)getActivity()).mySites.size(); i ++){
             itemsInSiteList.add(((InfoDetailActivity)getActivity()).mySites.get(i).getName());
         }
 
-        //itemsInSiteList.add("Backens kyrka");
-        //itemsInSiteList.add("Sävargården");
-        // itemsInSiteList.add("Baggböle Herrgård");
-        //itemsInSiteList.add("Umeå Stadskyrka");
-        //itemsInSiteList.add("Gammlia");
-        //itemsInSiteList.add("Smörasken");
-
-    //    Collections.sort(itemsInSiteList); // Sorterar byggnaderna i bokstavsordning
-
         containerListViewSite =(ListView)view.findViewById(R.id.containerListViewSite);
 
         myArrayAdapter = new MyArrayAdapter(getActivity(),R.layout.fragment_in_sitelist_blow_up_second, itemsInSiteList);
-
-
 
         containerListViewSite.setAdapter(myArrayAdapter); //adapter skickas till min ListView som kallas containerListViewSite och ligger i fragment_sites.xml
 
         containerListViewSite.setOnItemClickListener(new AdapterView.OnItemClickListener() {         // Tar hand om klick i list-vyn
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-/**************************''''
- * MATS FUNGERANDE BUNDLE MED POSITION
- *            Bundle bundle = new Bundle();
- *            bundle.putInt("KEY",pos);
- */
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("KEY_SERIALIZABLE", (((InfoDetailActivity) getActivity()).mySites.get(pos)));
 
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("KEY_SERIALIZABLE", (((InfoDetailActivity) getActivity()).mySites.get(pos)));
 
-                fm = getActivity().getSupportFragmentManager();
-                trans = fm.beginTransaction();
-                detailInfoFragment = new DetailInfoFragment();
-
-                detailInfoFragment.setArguments(bundle);
-
-
-                trans = fm.beginTransaction();
-
-                trans.hide(((InfoDetailActivity) getActivity()).listFragment).commit();
-
-                ((InfoDetailActivity) getActivity()).hideTabBars();
-
-                trans = fm.beginTransaction();
-
-                trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment, "DETAIL_INFO_FRAGMENT_FROM_LIST").addToBackStack("MY_TAG").commit(); // tar fram knappfragmentet
-
-
-                String type = itemsInSiteList.get(pos);
-               Log.i("MIN_TAG", "typ: " + type);
- /*
-          Intent intent = getIntent();
-        int extras = intent.getExtras().getInt("KEY");
-
-        locationGetter();
-
-        fm = getSupportFragmentManager();
+        fm = getActivity().getSupportFragmentManager();
         trans = fm.beginTransaction();
-        fragmentMap = new MapFragment();
+        detailInfoFragment = new DetailInfoFragment();
 
+        detailInfoFragment.setArguments(bundle);
 
-*/
+        trans = fm.beginTransaction();
+        trans.hide(((InfoDetailActivity) getActivity()).listFragment).commit();
 
-               // Intent intent = new Intent(getActivity(), InfoDetailActivity.class);     // Anropar under runtime class-filen
-                //intent.putExtra(INTENT_NOTE_STRING, currentNote.note);                 // Sträng skickas med bundle
-                //intent.putExtra(INTENT_POSITON_NUMBER, pos);                           // Position skickas med bundle
+        ((InfoDetailActivity) getActivity()).hideTabBars();
 
-             //   intent.putExtra("KEY", 2);
+        trans = fm.beginTransaction();
+        trans.add(R.id.activity_info_detail_relroot_container, detailInfoFragment, "DETAIL_INFO_FRAGMENT_FROM_LIST").addToBackStack("MY_TAG").commit(); // tar fram knappfragmentet
 
-             //   getActivity().startActivity(intent);
-
+        String type = itemsInSiteList.get(pos);
             }
         });
-
-
-
-        //////////////////////////////////////////////////
-
-        // Inflate the layout for this fragmentLocationMessage
         return view;
-
     }
-
-
-
 
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
-
-
-
 }
