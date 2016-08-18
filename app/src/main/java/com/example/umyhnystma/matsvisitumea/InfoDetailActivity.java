@@ -202,9 +202,19 @@ public class InfoDetailActivity extends AppCompatActivity implements ActionBar.T
         ((MapFragment)fragmentMap).googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
+
                 siteShortInfoMessage = siteMarkerMap.get(marker);
-             //   Toast.makeText(InfoDetailActivity.this, "You choose " + siteShortInfoMessage.getName() + ". Description is " + siteShortInfoMessage.getDescription() + ".", Toast.LENGTH_SHORT).show();
-                showLocationMessage(siteShortInfoMessage);
+
+                if(fragmentLocationMessage.isVisible()){
+
+                    trans = fm.beginTransaction();
+                    trans.remove(fragmentLocationMessage).commit();
+                }
+                if(siteShortInfoMessage != null){
+
+                    showLocationMessage(siteShortInfoMessage);
+                }
+
             }
         });
     }

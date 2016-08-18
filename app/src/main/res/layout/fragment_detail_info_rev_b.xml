@@ -49,21 +49,28 @@
         <ImageView
 
             android:id="@+id/pictureofbuilding"
-            android:layout_toRightOf="@+id/buttonmapwithtext"
             android:layout_gravity="center"
             android:clipToPadding="false"
             android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
-        <TextView
-            android:id="@+id/smalltext_in_fragment_detail_info"
-            android:layout_gravity="bottom"
-            android:background="@color/colorWhite"
-            android:layout_weight="1"
-            android:padding="4dp"
+
+        <ScrollView
+            android:layout_marginTop="4dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/smalltext_in_fragment_detail_info"
+                android:background="@color/colorWhite"
+                android:padding="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </ScrollView>
+
+
+
 
      </LinearLayout>
 
